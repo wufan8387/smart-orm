@@ -1,8 +1,6 @@
 package org.smart.orm.reflect;
 
 import org.smart.orm.SmartORMException;
-import org.smart.orm.reflect.Getter;
-import org.smart.orm.reflect.Setter;
 
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
@@ -31,7 +29,7 @@ public class LambdaParser {
             prefix = IS;
         }
         if (prefix == null) {
-            throw new SmartORMException("无效的getter方法: " + methodName);
+            throw new SmartORMException(String.format("无效的getter方法: %s ", methodName));
         }
 
         methodName = methodName.substring(0, prefix.length());
@@ -48,7 +46,7 @@ public class LambdaParser {
         SerializedLambda lambda = serialize(fn);
         String methodName = lambda.getImplMethodName();
         if (!methodName.startsWith(SET)) {
-            throw new SmartORMException("无效的setter方法: " + methodName);
+            throw new SmartORMException(String.format("无效的setter方法: %s", methodName));
         }
 
         methodName = methodName.substring(0, SET.length());
