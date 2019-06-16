@@ -1,4 +1,8 @@
-package org.smart.orm;
+package org.smart.orm.reflect;
+
+import org.smart.orm.SmartORMException;
+import org.smart.orm.reflect.Getter;
+import org.smart.orm.reflect.Setter;
 
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
@@ -16,9 +20,10 @@ public class LambdaParser {
 
     private static Map<Class, SerializedLambda> CLASS_LAMDBA_MAP = new HashMap<>();
 
-    public static <T> String getGet(Getter<T> fn) {
+    public static <T> PropertyInfo getGet(Getter<T> fn) {
         SerializedLambda lambda = serialize(fn);
         String methodName = lambda.getImplMethodName();
+        String clsName = lambda.getImplClass();
         String prefix = null;
         if (methodName.startsWith(GET)) {
             prefix = GET;
@@ -26,17 +31,20 @@ public class LambdaParser {
             prefix = IS;
         }
         if (prefix == null) {
-            throw new SmartORMException("无效的getter方法: " + methodName)
+            throw new SmartORMException("无效的getter方法: " + methodName);
         }
 
-        methodName = methodName.substring(0, prefix.length())
+        methodName = methodName.substring(0, prefix.length());
 
         methodName = Character.toLowerCase(methodName.charAt(0)) + methodName.substring(1);
 
-        return methodName;
+        PropertyInfo info = new PropertyInfo();
+        info.setClassName(clsName);
+        info.setPropertyName(methodName);
+        return new PropertyInfo();
     }
 
-    public static <T, R> String getSet(Setter<T, R> fn) {
+    public static <T, R> PropertyInfo getSet(Setter<T, R> fn) {
         SerializedLambda lambda = serialize(fn);
         String methodName = lambda.getImplMethodName();
         if (!methodName.startsWith(SET)) {
@@ -47,7 +55,10 @@ public class LambdaParser {
 
         methodName = Character.toLowerCase(methodName.charAt(0)) + methodName.substring(1);
 
-        return methodName;
+        PropertyInfo info = new PropertyInfo();
+        info.setClassName(lambda.getImplClass());
+        info.setPropertyName(methodName);
+        return new PropertyInfo();
     }
 
     private static SerializedLambda serialize(Serializable fn) {

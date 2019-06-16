@@ -1,4 +1,4 @@
-package org.smart.orm;
+package org.smart.orm.reflect;
 
 import org.junit.Test;
 
@@ -6,15 +6,10 @@ import static org.junit.Assert.*;
 
 public class LambdaParserTest {
 
-
-    private class TestEntity {
-        
-    }
-
     @Test
     public void getGet() {
 
-        LambdaParser.getGet()
+        LambdaParser.getGet(PropertyInfo::getClassName);
 
     }
 

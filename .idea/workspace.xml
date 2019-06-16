@@ -2,17 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f82fb69-d08d-49f4-889f-b955241d8b34" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/smart/orm/Getter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/smart/orm/LambdaParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/smart/orm/Setter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/smart/orm/SmartORMException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/smart/orm/LambdaParserTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/PropertyInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/smart/orm/reflect/LambdaParserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smart-orm.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/smart/orm/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/smart/orm/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/smart/orm/App$X.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/smart/orm/App$X.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/smart/orm/Getter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/Getter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/smart/orm/LambdaParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/LambdaParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/smart/orm/Setter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/Setter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/smart/orm/LambdaParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/smart/orm/App$X.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/smart/orm/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/smart/orm/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/org/smart/orm/AppTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/org/smart/orm/AppTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/org/smart/orm/AppTest.class" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -51,14 +50,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/LambdaParser.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/LambdaParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="8" column="20" lean-forward="true" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+            <state relative-caret-position="208">
+              <caret line="36" column="62" selection-start-line="36" selection-start-column="62" selection-end-line="36" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#convertToFieldName#0;class#LambdaFunction#0" />
-                <element signature="method#convertToFieldName#1;class#LambdaFunction#0" />
                 <element signature="method#getSerializedLambda#0;class#LambdaFunction#0" />
               </folding>
             </state>
@@ -66,28 +63,41 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/LambdaParserTest.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/reflect/LambdaParserTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+            <state relative-caret-position="136">
+              <caret line="11" column="56" selection-start-line="11" selection-start-column="56" selection-end-line="11" selection-end-column="56" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/Setter.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/PropertyInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="6" column="26" lean-forward="true" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+            <state relative-caret-position="50">
+              <caret line="2" column="25" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="25" />
+              <folding>
+                <element signature="e#169#170#0" expanded="true" />
+                <element signature="e#204#205#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/Getter.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/Setter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="8" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="125">
+              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/Getter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="125">
+              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -135,8 +145,11 @@
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/SmartORMException.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/LambdaFunction.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/LambdaProperty.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/LambdaParser.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/LambdaParserTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/LambdaParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/PropertyInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/LambdaParser.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/reflect/LambdaParserTest.java" />
       </list>
     </option>
   </component>
@@ -207,6 +220,15 @@
               <item name="smart-orm" type="b2602c69:ProjectViewProjectNode" />
               <item name="smart-orm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="orm" type="462c0819:PsiDirectoryNode" />
+              <item name="reflect" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="smart-orm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="smart-orm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -223,6 +245,15 @@
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="orm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="smart-orm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="smart-orm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="orm" type="462c0819:PsiDirectoryNode" />
+              <item name="reflect" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -248,6 +279,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="org.smart.orm.reflect" />
       <recent name="org.smart.orm" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -266,7 +298,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.LambdaParserTest.getGet">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.smart.orm.App" />
       <module name="smart-orm" />
@@ -277,6 +309,23 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LambdaParserTest.getGet" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="smart-orm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.smart.orm.reflect.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.smart.orm.reflect" />
+      <option name="MAIN_CLASS_NAME" value="org.smart.orm.reflect.LambdaParserTest" />
+      <option name="METHOD_NAME" value="getGet" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -299,6 +348,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.LambdaParserTest.getGet" />
         <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
@@ -327,7 +377,7 @@
       <window_info id="Image Layers" />
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2533512" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2533512" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -342,7 +392,7 @@
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32969433" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.32969433" />
+      <window_info active="true" anchor="bottom" id="Messages" order="11" visible="true" weight="0.32844576" />
       <window_info anchor="right" id="Palette" />
       <window_info anchor="right" id="Capture Analysis" />
       <window_info anchor="right" id="Theme Preview" />
@@ -357,6 +407,24 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/LambdaParser.java</url>
+          <line>23</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/smart/orm/reflect/LambdaParserTest.java</url>
+          <line>11</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/README.md" />
@@ -381,20 +449,6 @@
             <element signature="e#197#198#0" expanded="true" />
             <element signature="e#247#248#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/Getter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/Setter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="6" column="26" lean-forward="true" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -445,23 +499,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/LambdaParser.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/LambdaParserTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="8" column="20" lean-forward="true" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+        <state relative-caret-position="415">
+          <caret line="24" column="24" lean-forward="true" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+          <folding>
+            <element signature="e#219#220#0" expanded="true" />
+            <element signature="e#254#255#0" expanded="true" />
+            <element signature="e#298#299#0" expanded="true" />
+            <element signature="e#338#339#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/Getter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/Setter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/PropertyInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="25" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="25" />
+          <folding>
+            <element signature="e#169#170#0" expanded="true" />
+            <element signature="e#204#205#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/LambdaParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="36" column="62" selection-start-line="36" selection-start-column="62" selection-end-line="36" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#convertToFieldName#0;class#LambdaFunction#0" />
-            <element signature="method#convertToFieldName#1;class#LambdaFunction#0" />
             <element signature="method#getSerializedLambda#0;class#LambdaFunction#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/LambdaParserTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/reflect/LambdaParserTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+        <state relative-caret-position="136">
+          <caret line="11" column="56" selection-start-line="11" selection-start-column="56" selection-end-line="11" selection-end-column="56" />
         </state>
       </provider>
     </entry>

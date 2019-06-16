@@ -1,4 +1,4 @@
-package org.smart.orm;
+package org.smart.orm.reflect;
 
 import java.io.Serializable;
 
