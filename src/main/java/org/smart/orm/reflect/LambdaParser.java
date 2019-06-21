@@ -4,21 +4,21 @@ import org.smart.orm.SmartORMException;
 
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LambdaParser {
-
+    
     private final static String IS = "is";
-
+    
     private final static String GET = "get";
-
-    private final static String SET = "set";
-
-    private static Map<Class, SerializedLambda> CLASS_LAMDBA_MAP = new HashMap<>();
-
-    public static <T> PropertyInfo getGet(Getter<T> fn) {
+    
+    
+    private static Map<Class, SerializedLambda> lambdaMap = new HashMap<>();
+    
+    public static <T> Field getGet(Getter<T> fn) {
         SerializedLambda lambda = serialize(fn);
         String methodName = lambda.getImplMethodName();
         String clsName = lambda.getImplClass();
@@ -31,51 +31,39 @@ public class LambdaParser {
         if (prefix == null) {
             throw new SmartORMException(String.format("无效的getter方法: %s ", methodName));
         }
-
-        methodName = methodName.substring(0, prefix.length());
-
-        methodName = Character.toLowerCase(methodName.charAt(0)) + methodName.substring(1);
-
-        PropertyInfo info = new PropertyInfo();
-        info.setClassName(clsName);
-        info.setPropertyName(methodName);
-        return new PropertyInfo();
-    }
-
-    public static <T, R> PropertyInfo getSet(Setter<T, R> fn) {
-        SerializedLambda lambda = serialize(fn);
-        String methodName = lambda.getImplMethodName();
-        if (!methodName.startsWith(SET)) {
-            throw new SmartORMException(String.format("无效的setter方法: %s", methodName));
+        
+        String fieldName = methodName.substring(0, prefix.length());
+    
+        fieldName = Character.toLowerCase(fieldName.charAt(0)) + fieldName.substring(1);
+        try {
+            Class cls = Class.forName(clsName);
+            return cls.getDeclaredField(fieldName);
+        } catch (Exception e) {
+            throw new SmartORMException(e);
         }
-
-        methodName = methodName.substring(0, SET.length());
-
-        methodName = Character.toLowerCase(methodName.charAt(0)) + methodName.substring(1);
-
-        PropertyInfo info = new PropertyInfo();
-        info.setClassName(lambda.getImplClass());
-        info.setPropertyName(methodName);
-        return new PropertyInfo();
+        
     }
-
+    
+    
     private static SerializedLambda serialize(Serializable fn) {
-
-        SerializedLambda lambda = CLASS_LAMDBA_MAP.get(fn.getClass());
+        
+        SerializedLambda lambda = lambdaMap.get(fn.getClass());
         if (lambda == null) {
             try {
-
+                
                 Method method = fn.getClass().getDeclaredMethod("writeReplace");
                 method.setAccessible(Boolean.TRUE);
                 lambda = (SerializedLambda) method.invoke(fn);
-                CLASS_LAMDBA_MAP.put(fn.getClass(), lambda);
+                lambdaMap.put(fn.getClass(), lambda);
             } catch (Exception e) {
                 throw new SmartORMException(e);
             }
         }
+        
+        
         return lambda;
     }
-
+    
 }
 
 

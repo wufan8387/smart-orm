@@ -1,25 +1,35 @@
 package org.smart.orm.reflect;
 
+import org.smart.orm.annotations.Column;
+
+import java.lang.reflect.Field;
+
 public class PropertyInfo {
-
-    private String propertyName;
-
-    public String className;
-
-    public String getPropertyName() {
-        return propertyName;
+    
+    private String name;
+    
+    private Field field;
+    
+    private Column column;
+    
+    public String getName() {
+        return name;
     }
-
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
+    
+    public Field getField() {
+        return field;
     }
-
-    public String getClassName() {
-        return className;
+    
+    public void setField(Field field) {
+        this.field = field;
+        this.name = field.getName();
     }
-
-    public void setClassName(String className) {
-        this.className = className;
+    
+    public Column getColumn() {
+        return column;
     }
-
+    
+    public void setColumn(Column column) {
+        this.column = column;
+    }
 }

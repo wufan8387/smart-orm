@@ -9,7 +9,7 @@ public class LambdaParserTest {
     @Test
     public void getGet() {
 
-        LambdaParser.getGet(PropertyInfo::getClassName);
+        LambdaParser.getGet(PropertyInfo::getName);
 
     }
 
