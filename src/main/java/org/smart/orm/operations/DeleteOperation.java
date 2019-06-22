@@ -1,17 +1,21 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Model;
+import org.smart.orm.Operation;
+import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.EntityInfo;
 
-public class DeleteOperation<T> {
+public class DeleteOperation<T> implements Operation {
     
-    public DeleteOperation(T entity) {
+    private OperationContext context;
     
+    public DeleteOperation(OperationContext context, T entity) {
+        this.context = context;
     }
     
-    public DeleteOperation(EntityInfo entityInfo) {
-    
+    public DeleteOperation(OperationContext context, EntityInfo entityInfo) {
+        this.context = context;
     }
+    
     
     public DeleteOperation<T> where(WhereOperation<T>... operations) {
         return this;
@@ -22,8 +26,12 @@ public class DeleteOperation<T> {
     
     }
     
-    public void stage(){
+    public void stage() {
     
     }
     
+    @Override
+    public OperationContext getContext() {
+        return context;
+    }
 }

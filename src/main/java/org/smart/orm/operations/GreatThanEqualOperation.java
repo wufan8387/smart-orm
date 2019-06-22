@@ -1,7 +1,7 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Model;
-import org.smart.orm.reflect.EntityInfo;
+import org.smart.orm.Operation;
+import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.PropertyInfo;
 
@@ -10,8 +10,8 @@ public class GreatThanEqualOperation<T> extends WhereOperation<T> {
     private Object value;
     
     public GreatThanEqualOperation() {
-    
     }
+    
     
     public GreatThanEqualOperation(Getter<T> property, Object value) {
         super(WhereType.NONE, property);

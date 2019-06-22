@@ -1,61 +1,55 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Model;
-import org.smart.orm.SmartORMException;
-import org.smart.orm.reflect.EntityInfo;
+import org.smart.orm.Operation;
+import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.LambdaParser;
-import org.smart.orm.reflect.PropertyInfo;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectOperation<T> {
+
+
+public class SelectOperation<T> implements Operation {
     
     private Integer limit;
     
-    private List<String> columnList = new ArrayList<>();
-    private List<WhereOperation> whereList = new ArrayList<>();
+    private List<SelectColumn> columnList = new ArrayList<>();
     
-    public SelectOperation(EntityInfo entityInfo) {
+    private OperationContext context;
     
+    public SelectOperation(OperationContext context) {
+        this.context = context;
     }
     
-    public SelectOperation<T> include(String... properties) {
+    
+    public SelectOperation<T> alias(String property, String alias) {
+        this.columnList.add(new SelectColumn(property, alias));
         return this;
     }
     
-    public SelectOperation<T> include(Getter<T>... properties) {
+    public SelectOperation<T> alias(Getter<T> property, String alias) {
+        Field field = LambdaParser.getGet(property);
+        this.columnList.add(new SelectColumn(field.getName(), alias));
         return this;
     }
     
-    public SelectOperation<T> where(WhereOperation<T>... operations) {
-        for (WhereOperation<T> operation : operations) {
-            whereList.add(operation);
-        }
+    public SelectOperation<T> column(String property, String alias) {
+        this.columnList.add(new SelectColumn(property, alias));
         return this;
     }
     
-    public SelectOperation<T> limit(Integer count) {
-        this.limit = count;
-        return this;
-    }
-    
-    public SelectOperation<T> orderby(OrderbyType orderbyType, String... properties) {
-        return this;
-    }
-    
-    public SelectOperation<T> orderby(OrderbyType orderbyType, Getter<T>... properties) {
+    public SelectOperation<T> column(Getter<T> property, String alias) {
+        Field field = LambdaParser.getGet(property);
+        this.columnList.add(new SelectColumn(field.getName(), alias));
         return this;
     }
     
     public SelectOperation<T> columns(String... properties) {
         
         for (String property : properties) {
-            this.columnList.add(property);
+            this.columnList.add(new SelectColumn(property));
         }
         
         return this;
@@ -65,64 +59,42 @@ public class SelectOperation<T> {
         
         for (Getter<T> property : properties) {
             Field field = LambdaParser.getGet(property);
-            this.columnList.add(field.getName());
+            this.columnList.add(new SelectColumn(field.getName()));
         }
         
         return this;
     }
     
-    public List<String> columns() {
+    public List<SelectColumn> columns() {
         return columnList;
     }
     
+    @Override
+    public OperationContext getContext() {
+        return context;
+    }
     
-    private String build() {
+    public static class SelectColumn {
         
+        public String property;
         
-        try {
-            ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
-            Class cls = (Class) type.getActualTypeArguments()[0];
-            EntityInfo entityInfo = Model.getMetaMap().get(cls.getName());
-            
-            StringBuilder columnsSb = new StringBuilder();
-            if (columnList.size() > 0) {
-                columnList.forEach(t -> columnsSb.append(String.format(" `%s`, ", t)));
-                columnsSb.delete(columnsSb.length() - 2, columnsSb.length());
-            } else {
-                columnsSb.append(" * ");
-            }
-            
-            String tableName = entityInfo.getTable().name();
-            
-            
-            StringBuilder whereSb = new StringBuilder();
-            if (whereList.size() > 0) {
-            
-            }
-            
-            StringBuilder orderbySb = new StringBuilder();
-            
-            
-            String select = String.format("select %s from %s %s"
-                    , columnsSb.toString()
-                    , tableName
-                    , whereSb.toString()
-                    , orderbySb.toString());
-            
-            return select;
-            
-        } catch (Exception e) {
-            throw new SmartORMException(e);
+        public String alias;
+        
+        public SelectColumn(String property) {
+            this.property = property;
+        }
+        
+        public SelectColumn(String property, String alias) {
+            this.property = property;
+            this.alias = alias;
         }
         
         
     }
     
-    public T execute() {
-        throw new NotImplementedException();
-    }
-    
 }
+
+
 
 
 

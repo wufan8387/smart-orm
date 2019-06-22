@@ -1,6 +1,7 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Model;
+import org.smart.orm.Operation;
+import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.PropertyInfo;
 
@@ -8,32 +9,32 @@ public class NotExistsOperation<T> extends WhereOperation<T> {
     
     private Object[] values;
     
-    public NotExistsOperation(){
-    
+    public NotExistsOperation() {
     }
+    
     
     public NotExistsOperation(Getter<T> property, Object... values) {
         super(WhereType.NONE, property);
         this.values = values;
-    
+        
     }
     
     public NotExistsOperation(String property, Object... values) {
         super(WhereType.NONE, property);
         this.values = values;
-    
+        
     }
     
     public NotExistsOperation(WhereType whereType, Getter<T> property, Object... values) {
         super(whereType, property);
         this.values = values;
-    
+        
     }
     
     public NotExistsOperation(WhereType whereType, String property, Object... values) {
         super(whereType, property);
         this.values = values;
-    
+        
     }
     
     public Object[] getValues() {

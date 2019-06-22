@@ -1,7 +1,7 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Model;
-import org.smart.orm.reflect.EntityInfo;
+import org.smart.orm.Operation;
+import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.PropertyInfo;
 
@@ -17,28 +17,29 @@ public class BetweenOperation<T> extends WhereOperation<T> {
     }
     
     
-    public BetweenOperation(Getter<T> property, Object value1, Object value2) {
-        super(WhereType.NONE, property);
+    
+    public BetweenOperation(  Getter<T> property, Object value1, Object value2) {
+        super( WhereType.NONE, property);
         this.value1 = value1;
         this.value2 = value2;
     }
     
-    public BetweenOperation(String property, Object value1, Object value2) {
-        super(WhereType.NONE, property);
-        this.value1 = value1;
-        this.value2 = value2;
-        
-    }
-    
-    public BetweenOperation(WhereType whereType, Getter<T> property, Object value1, Object value2) {
-        super(whereType, property);
+    public BetweenOperation(  String property, Object value1, Object value2) {
+        super( WhereType.NONE, property);
         this.value1 = value1;
         this.value2 = value2;
         
     }
     
-    public BetweenOperation(WhereType whereType, String property, Object value1, Object value2) {
-        super(whereType, property);
+    public BetweenOperation(  WhereType whereType, Getter<T> property, Object value1, Object value2) {
+        super( whereType, property);
+        this.value1 = value1;
+        this.value2 = value2;
+        
+    }
+    
+    public BetweenOperation(  WhereType whereType, String property, Object value1, Object value2) {
+        super( whereType, property);
         this.value1 = value1;
         this.value2 = value2;
     }

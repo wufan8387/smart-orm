@@ -20,24 +20,37 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
-            <version>3.7.4</version>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.mysema.querydsl</groupId>-->
+            <!--<artifactId>querydsl-apt</artifactId>-->
+            <!--<version>3.7.4</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
 
 
+        <!--<dependency>-->
+            <!--<groupId>com.mysema.querydsl</groupId>-->
+            <!--<artifactId>querydsl-jpa</artifactId>-->
+            <!--<version>3.7.4</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>com.querydsl</groupId>-->
+            <!--<artifactId>querydsl-apt</artifactId>-->
+            <!--<version>4.2.1</version>-->
+        <!--</dependency>-->
+
         <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-jpa</artifactId>
-            <version>3.7.4</version>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-sql</artifactId>
+            <version>4.2.1</version>
         </dependency>
 
         <dependency>
             <groupId>com.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
+            <artifactId>querydsl-sql-codegen</artifactId>
             <version>4.2.1</version>
+            <scope>provided</scope>
         </dependency>
 
 
@@ -54,6 +67,14 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

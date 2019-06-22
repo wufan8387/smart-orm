@@ -1,11 +1,14 @@
 package org.smart.orm.operations;
 
+import org.smart.orm.Operation;
+import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.Getter;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class InsertOperation<T> {
+public class InsertOperation<T> implements Operation {
     
-    public InsertOperation(T entity) {
+    
+    public InsertOperation(OperationContext context, T entity) {
     
     }
     
@@ -21,8 +24,12 @@ public class InsertOperation<T> {
         throw new NotImplementedException();
     }
     
-    public void stage(){
+    public void stage() {
     
     }
     
+    @Override
+    public OperationContext getContext() {
+        return null;
+    }
 }

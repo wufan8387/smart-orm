@@ -1,6 +1,8 @@
 package org.smart.orm.operations;
 
 import org.smart.orm.Model;
+import org.smart.orm.Operation;
+import org.smart.orm.OperationContext;
 import org.smart.orm.SmartORMException;
 import org.smart.orm.reflect.EntityInfo;
 import org.smart.orm.reflect.Getter;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class WhereOperation<T> {
+public abstract class WhereOperation<T> implements Operation {
     
     protected WhereType whereType = WhereType.NONE;
     
@@ -22,9 +24,11 @@ public abstract class WhereOperation<T> {
     
     protected List<Object> params = new ArrayList<>();
     
+    protected OperationContext context;
     
     public WhereOperation() {
     }
+    
     
     public WhereOperation(WhereType whereType) {
         this.whereType = whereType;
@@ -73,13 +77,22 @@ public abstract class WhereOperation<T> {
             Class cls = (Class) type.getActualTypeArguments()[0];
             EntityInfo entityInfo = Model.getMetaMap().get(cls.getName());
             PropertyInfo propertyInfo = entityInfo.getPropertyMap().get(property);
-    
+            
             build(propertyInfo);
         } catch (Exception e) {
             throw new SmartORMException(e);
         }
         
         
+    }
+    
+    @Override
+    public OperationContext getContext() {
+        return context;
+    }
+    
+    public void setContext(OperationContext context) {
+        this.context = context;
     }
     
     protected abstract void build(PropertyInfo propertyInfo);

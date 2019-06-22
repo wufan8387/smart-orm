@@ -1,13 +1,15 @@
 package org.smart.orm.operations;
 
+import org.smart.orm.Operation;
+import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.PropertyInfo;
 
 public class NotNullOperation<T> extends WhereOperation<T> {
     
-    
     public NotNullOperation() {
     }
+    
     
     public NotNullOperation(Getter<T> property) {
         super(WhereType.NONE, property);

@@ -1,6 +1,7 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Model;
+import org.smart.orm.Operation;
+import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.PropertyInfo;
 
@@ -8,8 +9,7 @@ public class NotEqualOperation<T> extends WhereOperation<T> {
     
     private Object value;
     
-    public NotEqualOperation(){
-    
+    public NotEqualOperation() {
     }
     
     public NotEqualOperation(Getter<T> property, Object value) {

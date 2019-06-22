@@ -34,6 +34,8 @@ public abstract class Model<T> {
     
     private EntityInfo entityInfo;
     
+    private OperationContext context;
+    
     public EntityInfo getMeta() {
         if (entityInfo == null) {
             Class cls = this.getClass();
@@ -113,17 +115,17 @@ public abstract class Model<T> {
     
     
     public InsertOperation<T> insert() {
-        InsertOperation<T> insOp = new InsertOperation<>((T) this);
+        InsertOperation<T> insOp = new InsertOperation<>(context, (T) this);
         return insOp;
     }
     
     public DeleteOperation<T> delete() {
-        DeleteOperation<T> delOp = new DeleteOperation<>((T) this);
+        DeleteOperation<T> delOp = new DeleteOperation<>(context, (T) this);
         return delOp;
     }
     
     public UpdateOperation<T> update() {
-        UpdateOperation<T> upOp = new UpdateOperation<>((T) this);
+        UpdateOperation<T> upOp = new UpdateOperation<>(context, (T) this);
         return upOp;
     }
     

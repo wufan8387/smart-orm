@@ -1,5 +1,7 @@
 package org.smart.orm.operations;
 
+import org.smart.orm.Operation;
+import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.PropertyInfo;
 
@@ -8,8 +10,8 @@ public class NotInOperation<T> extends WhereOperation<T> {
     private Object[] values;
     
     public NotInOperation() {
-    
     }
+    
     
     public NotInOperation(Getter<T> property, Object... values) {
         super(WhereType.NONE, property);
