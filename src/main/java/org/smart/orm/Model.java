@@ -5,10 +5,7 @@ import org.smart.orm.annotations.Table;
 import org.smart.orm.operations.DeleteOperation;
 import org.smart.orm.operations.InsertOperation;
 import org.smart.orm.operations.UpdateOperation;
-import org.smart.orm.reflect.EntityInfo;
-import org.smart.orm.reflect.Getter;
-import org.smart.orm.reflect.LambdaParser;
-import org.smart.orm.reflect.PropertyInfo;
+import org.smart.orm.reflect.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
@@ -43,25 +40,34 @@ public abstract class Model<T> {
             synchronized (metaMap) {
                 entityInfo = metaMap.get(clsName);
                 if (entityInfo == null) {
-                    
                     entityInfo = buildEntityInfo(cls);
                     metaMap.put(clsName, entityInfo);
-                    
                 }
-                
             }
         }
-        
-        
         return entityInfo;
     }
     
     
-    private EntityInfo buildEntityInfo(Class cls) {
+    public static EntityInfo getMeta(Class cls) {
+        String clsName = cls.getName();
+        synchronized (metaMap) {
+            EntityInfo entityInfo = metaMap.get(clsName);
+            if (entityInfo == null) {
+                entityInfo = buildEntityInfo(cls);
+                metaMap.put(clsName, entityInfo);
+            }
+            return entityInfo;
+        }
+    }
+    
+    
+    private static EntityInfo buildEntityInfo(Class cls) {
         EntityInfo entityInfo = new EntityInfo();
         
         Table table = (Table) cls.getDeclaredAnnotation(Table.class);
-        entityInfo.setTable(table);
+        TableInfo tableInfo = new TableInfo(table);
+        entityInfo.setTable(tableInfo);
         entityInfo.setEntityClass(cls);
         
         Field[] fieldList = cls.getDeclaredFields();
@@ -71,23 +77,16 @@ public abstract class Model<T> {
             if (column == null)
                 continue;
             
+            PropertyInfo propertyInfo = new PropertyInfo(column);
+            propertyInfo.setField(field);
+            
             String propertyName = field.getName();
             
-            if (!column.name().equals("")) {
-                try {
-                    InvocationHandler invocationHandler = Proxy.getInvocationHandler(column);
-                    Field value = invocationHandler.getClass().getDeclaredField("memberValues");
-                    value.setAccessible(true);
-                    Map<String, Object> memberValues = (Map<String, Object>) value.get(invocationHandler);
-                    memberValues.put("name", propertyName);
-                } catch (Exception e) {
-                    throw new SmartORMException(e);
-                }
+            if (propertyInfo.getColumn().equals("")) {
+                propertyInfo.setColumn(propertyName);
             }
             
             
-            PropertyInfo propertyInfo = new PropertyInfo();
-            propertyInfo.setColumn(column);
             propertyInfo.setField(field);
             entityInfo.getPropertyMap().put(propertyName, propertyInfo);
             

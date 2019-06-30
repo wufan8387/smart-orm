@@ -1,5 +1,6 @@
 package org.smart.orm.reflect;
 
+import org.smart.orm.SmartORMException;
 import org.smart.orm.annotations.Table;
 
 import java.util.HashMap;
@@ -9,7 +10,7 @@ public class EntityInfo {
     
     private Class entityClass;
     
-    private Table table;
+    private TableInfo table;
     
     private Map<String, PropertyInfo> propertyMap = new HashMap<>();
     
@@ -21,16 +22,28 @@ public class EntityInfo {
         this.entityClass = entityClass;
     }
     
-    public Table getTable() {
+    public TableInfo getTable() {
         return table;
     }
     
-    public void setTable(Table table) {
+    public void setTable(TableInfo table) {
         this.table = table;
     }
     
     
     public Map<String, PropertyInfo> getPropertyMap() {
         return propertyMap;
+    }
+    
+    public <T> T newInstance() {
+        
+        try {
+            Object obj = this.entityClass.newInstance();
+            return (T) obj;
+        } catch (Exception ex) {
+            throw new SmartORMException(ex);
+        }
+        
+        
     }
 }

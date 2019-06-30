@@ -1,7 +1,5 @@
 package org.smart.orm;
 
-import org.smart.orm.reflect.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,5 +14,10 @@ public class OperationContext {
     public void add(Operation operation) {
         this.operationList.add(operation);
     }
+    
+    public <T> T execute() {
+        return null;
+    }
+    
     
 }

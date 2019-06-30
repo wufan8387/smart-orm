@@ -6,13 +6,13 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.FIELD)
 public @interface Column {
     
-    String name() default "";
+    String value() default "";
     
-    ColumnFillType[] fillType();
+    ColumnFillType[] fillType() default {};
     
     boolean isPrimaryKey() default false;
     
-    IdType idType();
+    IdType idType() default IdType.Manual;
     
     
 }

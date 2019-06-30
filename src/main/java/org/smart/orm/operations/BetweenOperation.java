@@ -1,7 +1,6 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Operation;
-import org.smart.orm.OperationContext;
+import org.smart.orm.data.WhereType;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.PropertyInfo;
 
@@ -63,7 +62,7 @@ public class BetweenOperation<T> extends WhereOperation<T> {
     
     @Override
     protected void build(PropertyInfo propertyInfo) {
-        this.expression = String.format(EXPRESSION, whereText(), propertyInfo.getColumn().name());
+        this.expression = String.format(EXPRESSION, whereText(), propertyInfo.getColumn());
         this.params.clear();
         this.params.add(value1);
         this.params.add(value2);

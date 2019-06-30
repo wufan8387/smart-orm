@@ -6,6 +6,6 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.TYPE)
 public @interface Table {
     
-    String name();
+    String value();
     
 }

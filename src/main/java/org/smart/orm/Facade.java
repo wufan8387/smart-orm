@@ -1,5 +1,6 @@
 package org.smart.orm;
 
+import org.smart.orm.data.WhereType;
 import org.smart.orm.operations.*;
 import org.smart.orm.reflect.Getter;
 

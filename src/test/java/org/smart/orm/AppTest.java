@@ -5,7 +5,14 @@ import com.querydsl.core.types.PathMetadataFactory;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.sql.*;
+import net.jcip.annotations.Immutable;
 import org.junit.Test;
+import org.smart.orm.annotations.Column;
+import org.smart.orm.annotations.Table;
+import org.smart.orm.operations.EqualOperation;
+import org.smart.orm.operations.FromOperation;
+import org.smart.orm.operations.NotEqualOperation;
+import org.smart.orm.reflect.EntityInfo;
 
 import java.sql.Types;
 
@@ -30,8 +37,8 @@ public class AppTest {
         
         SQLQuery<?> query = new SQLQuery(HSQLDBTemplates.builder().newLineToSingleSpace().build());
         query
-                .from(survey)
                 .select(survey.name, survey.name2)
+                .from(survey)
                 .where(survey.name2.eq("100"))
                 .toString();
         
@@ -69,13 +76,29 @@ public class AppTest {
         
     }
     
+    @Table("test")
     private static class TestEntity extends Model<TestEntity> {
-    
+        
+        @Column
+        private int id;
+        
+        @Column
+        private String name;
+        
     }
     
     @Test
     public void selectTest() {
-    
+        
+        OperationContext context = new OperationContext();
+        FromOperation fromOperation = new FromOperation(context, "test");
+        
+        fromOperation
+                .select("id", "name")
+                .alias("id", "pid")
+                .where(new EqualOperation("id", 100));
+        
+        context.execute();
 //        select(TestEntity.class);
 //
 //        OperationContext<TestEntity> context;

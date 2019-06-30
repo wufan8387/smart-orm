@@ -1,4 +1,4 @@
-package org.smart.orm.operations;
+package org.smart.orm.data;
 
 public enum OrderbyType {
     ASC, DESC

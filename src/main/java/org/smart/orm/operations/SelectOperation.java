@@ -2,18 +2,20 @@ package org.smart.orm.operations;
 
 import org.smart.orm.Operation;
 import org.smart.orm.OperationContext;
+import org.smart.orm.data.OperationPriority;
+import org.smart.orm.data.SelectColumn;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.LambdaParser;
+import org.smart.orm.reflect.TableInfo;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
 
 
 public class SelectOperation<T> implements Operation {
     
-    private Integer limit;
     
     private List<SelectColumn> columnList = new ArrayList<>();
     
@@ -21,6 +23,7 @@ public class SelectOperation<T> implements Operation {
     
     public SelectOperation(OperationContext context) {
         this.context = context;
+        context.add(this);
     }
     
     
@@ -37,6 +40,11 @@ public class SelectOperation<T> implements Operation {
     
     public SelectOperation<T> column(String property, String alias) {
         this.columnList.add(new SelectColumn(property, alias));
+        return this;
+    }
+    
+    public SelectOperation<T> column(Operation operation, String alias) {
+        this.columnList.add(new SelectColumn(operation, alias));
         return this;
     }
     
@@ -65,8 +73,41 @@ public class SelectOperation<T> implements Operation {
         return this;
     }
     
-    public List<SelectColumn> columns() {
+    
+    public Collection<SelectColumn> columns() {
         return columnList;
+    }
+    
+    
+    public FromOperation<T> from() {
+        return new FromOperation<>(context);
+    }
+    
+    public FromOperation<T> from(String table) {
+        return new FromOperation<>(context, table);
+    }
+    
+    public FromOperation<T> from(TableInfo table) {
+        return new FromOperation<>(context, table);
+    }
+    
+    
+    public WhereOperation<T> where(WhereOperation<T> operation) {
+        operation.setContext(context);
+        context.add(operation);
+        return operation;
+    }
+    
+    public SelectOperation<T> join(JoinOperation operation) {
+        operation.setContext(context);
+        context.add(operation);
+        return this;
+    }
+    
+    
+    @Override
+    public int priority() {
+        return OperationPriority.SELECT;
     }
     
     @Override
@@ -74,23 +115,6 @@ public class SelectOperation<T> implements Operation {
         return context;
     }
     
-    public static class SelectColumn {
-        
-        public String property;
-        
-        public String alias;
-        
-        public SelectColumn(String property) {
-            this.property = property;
-        }
-        
-        public SelectColumn(String property, String alias) {
-            this.property = property;
-            this.alias = alias;
-        }
-        
-        
-    }
     
 }
 

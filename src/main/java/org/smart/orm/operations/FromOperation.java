@@ -1,24 +1,22 @@
 package org.smart.orm.operations;
 
-import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.Model;
 import org.smart.orm.Operation;
 import org.smart.orm.OperationContext;
-import org.smart.orm.SmartORMException;
-import org.smart.orm.reflect.EntityInfo;
+import org.smart.orm.data.OperationPriority;
+import org.smart.orm.data.OrderByInfo;
+import org.smart.orm.data.OrderbyType;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.LambdaParser;
-import org.smart.orm.reflect.PropertyInfo;
+import org.smart.orm.reflect.TableInfo;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class FromOperation<T> implements Operation {
     
-    private Integer limit;
+    private TableInfo tableInfo;
     
     private List<WhereOperation> whereList = new ArrayList<>();
     private List<OrderByInfo> orderbyList = new ArrayList<>();
@@ -27,31 +25,54 @@ public class FromOperation<T> implements Operation {
     
     public FromOperation(OperationContext context) {
         this.context = context;
+        context.add(this);
+        this.tableInfo = Model.getMeta(this.getClass()).getTable();
     }
     
-    public FromOperation(OperationContext context, EntityInfo entityInfo) {
-        this(context);
+    public FromOperation(OperationContext context, String table) {
+        this.context = context;
+        context.add(this);
+        this.tableInfo = new TableInfo(table);
+    }
+    
+    public FromOperation(OperationContext context, TableInfo tableInfo) {
+        this.context = context;
+        context.add(this);
+        this.tableInfo = tableInfo;
+    }
+    
+    public SelectOperation<T> select() {
+        return new SelectOperation<>(this.context);
+    }
+    
+    @SafeVarargs
+    public final SelectOperation<T> select(Getter<T>... properteis) {
+        SelectOperation<T> operation = new SelectOperation<>(this.context);
+        operation.columns(properteis);
+        return operation;
+    }
+    
+    public SelectOperation<T> select(String... properteis) {
+        SelectOperation<T> operation = new SelectOperation<>(this.context);
+        operation.columns(properteis);
+        return operation;
     }
     
     
-    public FromOperation<T> include(String... properties) {
+    public FromOperation<T> join(JoinOperation operation) {
+        context.add(operation);
         return this;
     }
     
-    public FromOperation<T> include(Getter<T>... properties) {
-        return this;
+    
+    public WhereOperation<T> where(WhereOperation<T> operation) {
+        operation.setContext(this.context);
+        this.context.add(operation);
+        return operation;
     }
     
-    public FromOperation<T> where(WhereOperation<T>... operations) {
-        for (WhereOperation<T> operation : operations) {
-            whereList.add(operation);
-        }
-        return this;
-    }
-    
-    public FromOperation<T> limit(Integer count) {
-        this.limit = count;
-        return this;
+    public LimitOperation limit(int count) {
+        return new LimitOperation(this.context, count);
     }
     
     public FromOperation<T> orderby(OrderbyType orderbyType, String... properties) {
@@ -65,7 +86,8 @@ public class FromOperation<T> implements Operation {
         return this;
     }
     
-    public FromOperation<T> orderby(OrderbyType orderbyType, Getter<T>... properties) {
+    @SafeVarargs
+    public final FromOperation<T> orderby(OrderbyType orderbyType, Getter<T>... properties) {
         
         for (Getter<T> property : properties) {
             OrderByInfo orderByInfo = new OrderByInfo();
@@ -144,24 +166,10 @@ public class FromOperation<T> implements Operation {
         return null;
     }
     
-    public T execute() {
-        try {
-            
-            ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
-            Class cls = (Class) type.getActualTypeArguments()[0];
-            T obj = (T) cls.newInstance();
-            
-            String sql = buildSql(cls);
-            
-            
-            return obj;
-            
-            
-        } catch (Exception e) {
-            throw new SmartORMException(e);
-        }
-        
-        
+    
+    @Override
+    public int priority() {
+        return OperationPriority.FROM;
     }
     
     @Override
@@ -169,12 +177,7 @@ public class FromOperation<T> implements Operation {
         return context;
     }
     
-    private static class OrderByInfo {
-        
-        public String property;
-        
-        public OrderbyType orderbyType;
+    public TableInfo getTableInfo() {
+        return tableInfo;
     }
-    
-    
 }

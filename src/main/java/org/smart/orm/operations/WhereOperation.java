@@ -1,28 +1,28 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Model;
 import org.smart.orm.Operation;
 import org.smart.orm.OperationContext;
-import org.smart.orm.SmartORMException;
-import org.smart.orm.reflect.EntityInfo;
+import org.smart.orm.data.OperationPriority;
+import org.smart.orm.data.WhereType;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.LambdaParser;
 import org.smart.orm.reflect.PropertyInfo;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 
 public abstract class WhereOperation<T> implements Operation {
     
     protected WhereType whereType = WhereType.NONE;
     
+    protected PropertyInfo propertyInfo;
+    
     protected String property;
     
     protected String expression;
     
-    protected List<Object> params = new ArrayList<>();
+    protected Collection<Object> params = new ArrayList<>();
     
     protected OperationContext context;
     
@@ -30,8 +30,8 @@ public abstract class WhereOperation<T> implements Operation {
     }
     
     
-    public WhereOperation(WhereType whereType) {
-        this.whereType = whereType;
+    public WhereOperation(String property) {
+    
     }
     
     public WhereOperation(WhereType whereType, String property) {
@@ -62,28 +62,19 @@ public abstract class WhereOperation<T> implements Operation {
         this.property = LambdaParser.getGet(property).getName();
     }
     
+    @Override
     public String getExpression() {
         return expression;
     }
     
-    public List<Object> getParams() {
+    @Override
+    public Collection<Object> getParams() {
         return params;
     }
     
+    @Override
     public void build() {
-        
-        try {
-            ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
-            Class cls = (Class) type.getActualTypeArguments()[0];
-            EntityInfo entityInfo = Model.getMetaMap().get(cls.getName());
-            PropertyInfo propertyInfo = entityInfo.getPropertyMap().get(property);
-            
-            build(propertyInfo);
-        } catch (Exception e) {
-            throw new SmartORMException(e);
-        }
-        
-        
+        build(propertyInfo);
     }
     
     @Override
@@ -93,6 +84,27 @@ public abstract class WhereOperation<T> implements Operation {
     
     public void setContext(OperationContext context) {
         this.context = context;
+    }
+    
+    @Override
+    public int getPriority() {
+        return OperationPriority.WHERE;
+    }
+    
+    public <U> WhereOperation<U> and(WhereOperation<U> operation) {
+        operation.setWhereType(WhereType.AND);
+        this.context.add(operation);
+        return operation;
+    }
+    
+    public <U> WhereOperation<U> or(WhereOperation<U> operation) {
+        operation.setWhereType(WhereType.OR);
+        this.context.add(operation);
+        return operation;
+    }
+    
+    public LimitOperation limit(int count) {
+        return new LimitOperation(this.context, count);
     }
     
     protected abstract void build(PropertyInfo propertyInfo);
