@@ -533,7 +533,7 @@
       <workItem from="1561095434093" duration="28618000" />
       <workItem from="1561164641837" duration="14554000" />
       <workItem from="1561465781107" duration="5109000" />
-      <workItem from="1561877175014" duration="10772000" />
+      <workItem from="1561877175014" duration="10827000" />
     </task>
     <servers />
   </component>
@@ -555,11 +555,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68847000" />
+    <option name="totallyTimeSpent" value="68902000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" order="7" weight="0.2871179" />
