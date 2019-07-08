@@ -12,14 +12,20 @@ import org.smart.orm.reflect.TableInfo;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
-public class FromOperation<T> implements Operation {
+public class FromOperation<T> extends AbstractOperation {
+    
+    
+    private final static String EXPRESSION = " FROM %s ";
     
     private TableInfo tableInfo;
+
+//    private List<OrderByInfo> orderbyList = new ArrayList<>();
     
-    private List<WhereOperation> whereList = new ArrayList<>();
-    private List<OrderByInfo> orderbyList = new ArrayList<>();
+    private String expression;
     
     private OperationContext context;
     
@@ -58,12 +64,10 @@ public class FromOperation<T> implements Operation {
         return operation;
     }
     
-    
-    public FromOperation<T> join(JoinOperation operation) {
+    public FromOperation<T> join(JoinOperation<?, ?> operation) {
         context.add(operation);
         return this;
     }
-    
     
     public WhereOperation<T> where(WhereOperation<T> operation) {
         operation.setContext(this.context);
@@ -75,109 +79,110 @@ public class FromOperation<T> implements Operation {
         return new LimitOperation(this.context, count);
     }
     
-    public FromOperation<T> orderby(OrderbyType orderbyType, String... properties) {
-        for (String property : properties) {
-            OrderByInfo orderByInfo = new OrderByInfo();
-            orderByInfo.orderbyType = orderbyType;
-            orderByInfo.property = property;
-            orderbyList.add(orderByInfo);
-        }
-        
+    public FromOperation<T> orderby(OrderbyOperation operation) {
+        operation.setContext(this.context);
+        this.context.add(operation);
         return this;
     }
+
+//    @SafeVarargs
+//    public final FromOperation<T> orderby(OrderbyType orderbyType, Getter<T>... properties) {
+//
+//        for (Getter<T> property : properties) {
+//            OrderByInfo orderByInfo = new OrderByInfo();
+//            orderByInfo.orderbyType = orderbyType;
+//            Field field = LambdaParser.getGet(property);
+//            orderByInfo.property = field.getName();
+//            orderbyList.add(orderByInfo);
+//        }
+//
+//        return this;
+//    }
     
-    @SafeVarargs
-    public final FromOperation<T> orderby(OrderbyType orderbyType, Getter<T>... properties) {
-        
-        for (Getter<T> property : properties) {
-            OrderByInfo orderByInfo = new OrderByInfo();
-            orderByInfo.orderbyType = orderbyType;
-            Field field = LambdaParser.getGet(property);
-            orderByInfo.property = field.getName();
-            orderbyList.add(orderByInfo);
-        }
-        
-        return this;
+    // private String buildSql(Class cls) {
+    
+    //     // EntityInfo entityInfo = Model.getMetaMap().get(cls.getName());
+    //     // Map<String, PropertyInfo> propertyMap = entityInfo.getPropertyMap();
+    //     // StringBuilder columnsSb = new StringBuilder();
+    //     // if (columnList.size() > 0) {
+    //     // columnList.forEach(t -> {
+    //     // String column = propertyMap.get(t.property).getColumn().name();
+    //     // if (StringUtils.isNotEmpty(t.alias)) {
+    //     // columnsSb.append(String.format(" `%s` as `%s`, ", column, t.alias));
+    //     // } else {
+    //     // columnsSb.append(String.format(" `%s`, ", column));
+    //     // }
+    //     //
+    //     // });
+    //     // columnsSb.delete(columnsSb.length() - 2, columnsSb.length());
+    //     // } else {
+    //     // columnsSb.append(" * ");
+    //     // }
+    //     //
+    //     //
+    //     // List<Object> paramList = new ArrayList<>();
+    //     //
+    //     // StringBuilder whereSb = new StringBuilder();
+    //     // if (whereList.size() > 0) {
+    //     // whereSb.append(" where ");
+    //     // whereList.forEach(t -> {
+    //     // t.build();
+    //     // whereSb.append(String.format(" %s, ", t.getExpression()));
+    //     // });
+    //     // }
+    //     //
+    //     // StringBuilder orderbySb = new StringBuilder();
+    //     //
+    //     // if (orderbyList.size() > 0) {
+    //     // orderbySb.append(" order by ");
+    //     // orderbyList.forEach(t -> {
+    //     // String column = propertyMap.get(t).getColumn().name();
+    //     // switch (t.orderbyType) {
+    //     // case ASC:
+    //     // orderbySb.append(String.format(" `%s`, ", column));
+    //     // break;
+    //     // case DESC:
+    //     // orderbySb.append(String.format(" `%s` desc, ", column));
+    //     // break;
+    //     // }
+    //     //
+    //     // orderbySb.delete(orderbySb.length() - 2, orderbySb.length());
+    //     //
+    //     // });
+    //     // }
+    //     //
+    //     // String tableName = entityInfo.getTable().name();
+    //     //
+    //     // String select = String.format("select %s from `%s` %s"
+    //     // , columnsSb.toString()
+    //     // , tableName
+    //     // , whereSb.toString()
+    //     // , orderbySb.toString());
+    //     //
+    //     // return select;
+    
+    //     return null;
+    // }
+    
+
+    public TableInfo getTableInfo() {
+        return tableInfo;
     }
     
-    private String buildSql(Class cls) {
 
-
-//        EntityInfo entityInfo = Model.getMetaMap().get(cls.getName());
-//        Map<String, PropertyInfo> propertyMap = entityInfo.getPropertyMap();
-//        StringBuilder columnsSb = new StringBuilder();
-//        if (columnList.size() > 0) {
-//            columnList.forEach(t -> {
-//                String column = propertyMap.get(t.property).getColumn().name();
-//                if (StringUtils.isNotEmpty(t.alias)) {
-//                    columnsSb.append(String.format(" `%s` as `%s`, ", column, t.alias));
-//                } else {
-//                    columnsSb.append(String.format(" `%s`, ", column));
-//                }
-//
-//            });
-//            columnsSb.delete(columnsSb.length() - 2, columnsSb.length());
-//        } else {
-//            columnsSb.append(" * ");
-//        }
-//
-//
-//        List<Object> paramList = new ArrayList<>();
-//
-//        StringBuilder whereSb = new StringBuilder();
-//        if (whereList.size() > 0) {
-//            whereSb.append(" where ");
-//            whereList.forEach(t -> {
-//                t.build();
-//                whereSb.append(String.format(" %s, ", t.getExpression()));
-//            });
-//        }
-//
-//        StringBuilder orderbySb = new StringBuilder();
-//
-//        if (orderbyList.size() > 0) {
-//            orderbySb.append(" order by ");
-//            orderbyList.forEach(t -> {
-//                String column = propertyMap.get(t).getColumn().name();
-//                switch (t.orderbyType) {
-//                    case ASC:
-//                        orderbySb.append(String.format(" `%s`, ", column));
-//                        break;
-//                    case DESC:
-//                        orderbySb.append(String.format(" `%s` desc, ", column));
-//                        break;
-//                }
-//
-//                orderbySb.delete(orderbySb.length() - 2, orderbySb.length());
-//
-//            });
-//        }
-//
-//        String tableName = entityInfo.getTable().name();
-//
-//        String select = String.format("select %s from `%s` %s"
-//                , columnsSb.toString()
-//                , tableName
-//                , whereSb.toString()
-//                , orderbySb.toString());
-//
-//        return select;
-        
-        return null;
-    }
-    
-    
     @Override
-    public int priority() {
+    public int getPriority() {
         return OperationPriority.FROM;
     }
     
     @Override
-    public OperationContext getContext() {
-        return context;
+    public String getExpression() {
+        return expression;
     }
     
-    public TableInfo getTableInfo() {
-        return tableInfo;
+    @Override
+    public void build() {
+        expression = String.format(EXPRESSION, tableInfo.getName());
     }
+    
 }

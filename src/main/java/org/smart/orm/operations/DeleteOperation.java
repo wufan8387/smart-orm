@@ -5,15 +5,16 @@ import org.smart.orm.OperationContext;
 import org.smart.orm.data.OperationPriority;
 import org.smart.orm.reflect.TableInfo;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
-public class DeleteOperation<T> implements Operation {
+public class DeleteOperation<T> extends AbstractOperation {
     
     private final static String EXPRESSION = " DELETE FROM `%s` ";
     
     private String expression;
-    
-    private OperationContext context;
     
     private TableInfo tableInfo;
     
@@ -28,11 +29,12 @@ public class DeleteOperation<T> implements Operation {
         this.tableInfo = tableInfo;
     }
     
-    
-    public DeleteOperation<T> where(WhereOperation<T>... operations) {
+    public DeleteOperation<T> where(WhereOperation<?>... operations) {
+        for (WhereOperation<?> operation : operations) {
+            operation.setContext(context);
+        }
         return this;
     }
-    
     
     @Override
     public int getPriority() {
@@ -49,13 +51,5 @@ public class DeleteOperation<T> implements Operation {
         expression = String.format(EXPRESSION, tableInfo.getName());
     }
     
-    @Override
-    public Collection<Object> getParams() {
-        return null;
-    }
-    
-    @Override
-    public OperationContext getContext() {
-        return context;
-    }
+
 }

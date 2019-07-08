@@ -2,7 +2,7 @@ package org.smart.orm.data;
 
 public interface OperationPriority {
     
-    public final static int SELECT = 0
+    public final static int SELECT = 0;
     public final static int UPDATE = 0;
     public final static int DELETE = 0;
     public final static int INSERT = 0;
@@ -18,5 +18,7 @@ public interface OperationPriority {
     
     public final static int ORDERBY = 3;
     
+    
+    public final static int INCLUDE = 101;
     
 }

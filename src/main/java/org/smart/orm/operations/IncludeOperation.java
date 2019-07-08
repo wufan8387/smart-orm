@@ -1,22 +1,31 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Operation;
-import org.smart.orm.OperationContext;
+import org.smart.orm.data.OperationPriority;
 import org.smart.orm.reflect.Getter;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class IncludeOperation implements Operation {
+public class IncludeOperation extends AbstractOperation {
     
-    public SelectOperation include(String... properties) {
-        throw new NotImplementedException();
+    public SelectOperation<?> include(String... properties) {
+        return null;
     }
     
-    public <T> SelectOperation include(Getter<T>... properties) {
-        throw new NotImplementedException();
+    public <T> SelectOperation<T> include(Getter<?>... properties) {
+        return null;
     }
     
     @Override
-    public OperationContext getContext() {
+    public int getPriority() {
+        return OperationPriority.INCLUDE;
+    }
+    
+    @Override
+    public String getExpression() {
         return null;
     }
+    
+    @Override
+    public void build() {
+    
+    }
+    
 }

@@ -1,8 +1,11 @@
 package org.smart.orm.operations;
 
+import java.util.UUID;
+
 import org.smart.orm.data.WhereType;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.PropertyInfo;
+import org.smart.orm.reflect.TableInfo;
 
 public class BetweenOperation<T> extends WhereOperation<T> {
     
@@ -15,30 +18,28 @@ public class BetweenOperation<T> extends WhereOperation<T> {
     public BetweenOperation() {
     }
     
-    
-    
-    public BetweenOperation(  Getter<T> property, Object value1, Object value2) {
-        super( WhereType.NONE, property);
+    public BetweenOperation(Getter<T> property, Object value1, Object value2) {
+        super(WhereType.NONE, property);
         this.value1 = value1;
         this.value2 = value2;
     }
     
-    public BetweenOperation(  String property, Object value1, Object value2) {
-        super( WhereType.NONE, property);
-        this.value1 = value1;
-        this.value2 = value2;
-        
-    }
-    
-    public BetweenOperation(  WhereType whereType, Getter<T> property, Object value1, Object value2) {
-        super( whereType, property);
+    public BetweenOperation(String property, Object value1, Object value2) {
+        super(WhereType.NONE, property);
         this.value1 = value1;
         this.value2 = value2;
         
     }
     
-    public BetweenOperation(  WhereType whereType, String property, Object value1, Object value2) {
-        super( whereType, property);
+    public BetweenOperation(WhereType whereType, Getter<T> property, Object value1, Object value2) {
+        super(whereType, property);
+        this.value1 = value1;
+        this.value2 = value2;
+        
+    }
+    
+    public BetweenOperation(WhereType whereType, String property, Object value1, Object value2) {
+        super(whereType, property);
         this.value1 = value1;
         this.value2 = value2;
     }
@@ -59,9 +60,8 @@ public class BetweenOperation<T> extends WhereOperation<T> {
         this.value2 = value2;
     }
     
-    
     @Override
-    protected void build(PropertyInfo propertyInfo) {
+    protected void build(TableInfo tableInfo, PropertyInfo propertyInfo) {
         this.expression = String.format(EXPRESSION, whereText(), propertyInfo.getColumn());
         this.params.clear();
         this.params.add(value1);

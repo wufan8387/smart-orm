@@ -12,20 +12,18 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
-
-public class SelectOperation<T> implements Operation {
-    
+public class SelectOperation<T> extends AbstractOperation {
     
     private List<SelectColumn> columnList = new ArrayList<>();
     
-    private OperationContext context;
+    private String expression;
     
     public SelectOperation(OperationContext context) {
         this.context = context;
         context.add(this);
     }
-    
     
     public SelectOperation<T> alias(String property, String alias) {
         this.columnList.add(new SelectColumn(property, alias));
@@ -63,9 +61,9 @@ public class SelectOperation<T> implements Operation {
         return this;
     }
     
-    public SelectOperation<T> columns(Getter<T>... properties) {
+    public SelectOperation<T> columns(Getter<?>... properties) {
         
-        for (Getter<T> property : properties) {
+        for (Getter<?> property : properties) {
             Field field = LambdaParser.getGet(property);
             this.columnList.add(new SelectColumn(field.getName()));
         }
@@ -73,11 +71,9 @@ public class SelectOperation<T> implements Operation {
         return this;
     }
     
-    
     public Collection<SelectColumn> columns() {
         return columnList;
     }
-    
     
     public FromOperation<T> from() {
         return new FromOperation<>(context);
@@ -91,34 +87,33 @@ public class SelectOperation<T> implements Operation {
         return new FromOperation<>(context, table);
     }
     
-    
     public WhereOperation<T> where(WhereOperation<T> operation) {
         operation.setContext(context);
         context.add(operation);
         return operation;
     }
     
-    public SelectOperation<T> join(JoinOperation operation) {
+    public SelectOperation<T> join(JoinOperation<?, ?> operation) {
         operation.setContext(context);
         context.add(operation);
         return this;
     }
     
-    
     @Override
-    public int priority() {
+    public int getPriority() {
         return OperationPriority.SELECT;
     }
     
+    
     @Override
-    public OperationContext getContext() {
-        return context;
+    public String getExpression() {
+        return expression;
+    }
+    
+    @Override
+    public void build() {
+    
     }
     
     
 }
-
-
-
-
-

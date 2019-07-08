@@ -3,6 +3,7 @@ package org.smart.orm.operations;
 import org.smart.orm.data.WhereType;
 import org.smart.orm.reflect.Getter;
 import org.smart.orm.reflect.PropertyInfo;
+import org.smart.orm.reflect.TableInfo;
 
 import java.util.Collections;
 
@@ -38,7 +39,7 @@ public class NotInOperation<T> extends WhereOperation<T> {
     
     
     @Override
-    protected void build(PropertyInfo propertyInfo) {
+    protected void build(TableInfo tableInfo, PropertyInfo propertyInfo) {
         this.expression = String.format(EXPRESSION, whereText(), propertyInfo.getColumn());
         this.params.clear();
         Collections.addAll(this.params, values);

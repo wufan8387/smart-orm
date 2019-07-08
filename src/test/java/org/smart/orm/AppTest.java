@@ -1,29 +1,29 @@
 package org.smart.orm;
 
+import com.querydsl.core.QueryFactory;
 import com.querydsl.core.types.PathMetadata;
 import com.querydsl.core.types.PathMetadataFactory;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.sql.*;
-import net.jcip.annotations.Immutable;
+import com.querydsl.sql.dml.SQLInsertClause;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.Table;
 import org.smart.orm.operations.EqualOperation;
 import org.smart.orm.operations.FromOperation;
-import org.smart.orm.operations.NotEqualOperation;
-import org.smart.orm.reflect.EntityInfo;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.Types;
 
 import static org.junit.Assert.assertTrue;
-import static org.smart.orm.Facade.select;
 
 /**
  * Unit test for simple App.
  */
 public class AppTest {
-    
     
     /**
      * Rigorous Test :-)
@@ -32,15 +32,13 @@ public class AppTest {
     public void shouldAnswerWithTrue() {
         assertTrue(true);
         
-        
         QSurvey survey = QSurvey.survey;
         
-        SQLQuery<?> query = new SQLQuery(HSQLDBTemplates.builder().newLineToSingleSpace().build());
-        query
-                .select(survey.name, survey.name2)
-                .from(survey)
-                .where(survey.name2.eq("100"))
-                .toString();
+        SQLQuery<?> query = new SQLQuery<TestEntity>(HSQLDBTemplates.builder().newLineToSingleSpace().build());
+        query.select(survey.name, survey.name2).from(survey).where(survey.name2.eq("100")).toString();
+        
+        SQLInsertClause insert = null;
+        insert.execute();
         
     }
     
@@ -90,19 +88,26 @@ public class AppTest {
     @Test
     public void selectTest() {
         
+        
+        Type type = TestEntity.class.getGenericSuperclass();
+        
+        if (type instanceof ParameterizedType) {
+            ParameterizedType pType = (ParameterizedType) type;
+            Type claz = pType.getActualTypeArguments()[0];
+            String x = claz.toString();
+        }
+        
+        
         OperationContext context = new OperationContext();
-        FromOperation fromOperation = new FromOperation(context, "test");
+        FromOperation<TestEntity> fromOperation = new FromOperation<>(context, "test");
         
-        fromOperation
-                .select("id", "name")
-                .alias("id", "pid")
-                .where(new EqualOperation("id", 100));
+        fromOperation.select(t -> t.id).alias("id", "pid").where(new EqualOperation<TestEntity>("id", 100));
         
-        context.execute();
-//        select(TestEntity.class);
-//
-//        OperationContext<TestEntity> context;
-//        context.select("","").from(TestEntity.class);
+        context.execute(fromOperation);
+        // select(TestEntity.class);
+        //
+        // OperationContext<TestEntity> context;
+        // context.select("","").from(TestEntity.class);
     }
     
 }
