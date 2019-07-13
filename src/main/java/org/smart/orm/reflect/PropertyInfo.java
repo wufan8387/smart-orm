@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 
 public class PropertyInfo {
     
-    private String column;
+    private String columnName;
     
     private Field field;
     
@@ -18,33 +18,29 @@ public class PropertyInfo {
     
     private IdType idType;
     
-    private String name;
+    private String propertyName;
     
     public PropertyInfo() {
     }
     
     public PropertyInfo(Column column, Field field) {
-        this.column = column.value();
+        this.columnName = column.value();
         this.fillType = column.fillType();
         this.isPrimaryKey = column.isPrimaryKey();
         this.idType = column.idType();
-        this.name = field.getName();
+        this.propertyName = field.getName();
         this.field = field;
-        
-        if (this.column.equals("")) {
-            this.column = this.name;
+        if (this.columnName.equals("")) {
+            this.columnName = this.propertyName;
         }
-        
-        
     }
     
-    
-    public String getColumn() {
-        return column;
+    public String getPropertyName() {
+        return propertyName;
     }
     
-    public void setColumn(String column) {
-        this.column = column;
+    public String getColumnName() {
+        return columnName;
     }
     
     public Field getField() {
@@ -53,15 +49,7 @@ public class PropertyInfo {
     
     public void setField(Field field) {
         this.field = field;
-        this.name = field.getName();
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
+        this.propertyName = field.getName();
     }
     
     public ColumnFillType[] getFillType() {
@@ -87,4 +75,6 @@ public class PropertyInfo {
     public void setPrimaryKey(boolean primaryKey) {
         isPrimaryKey = primaryKey;
     }
+
+
 }

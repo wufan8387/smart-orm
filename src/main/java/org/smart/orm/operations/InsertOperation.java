@@ -1,25 +1,16 @@
 package org.smart.orm.operations;
 
-import org.apache.commons.lang3.NotImplementedException;
-import org.smart.orm.Operation;
+import org.smart.orm.Model;
 import org.smart.orm.OperationContext;
 import org.smart.orm.data.OperationPriority;
-import org.smart.orm.reflect.Getter;
+import org.smart.orm.reflect.PropertyGetter;
 import org.smart.orm.reflect.TableInfo;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-public class InsertOperation<T> extends AbstractOperation {
+public class InsertOperation<T extends Model<T>> extends AbstractOperation<T> {
     
     private final static String EXPRESSION = " INSERT INTO `%s` ";
     
     private String expression;
-    
-    private OperationContext context;
-    private TableInfo tableInfo;
     
     
     public InsertOperation(OperationContext context, String table) {
@@ -36,7 +27,7 @@ public class InsertOperation<T> extends AbstractOperation {
         return this;
     }
     
-    public InsertOperation<T> include(Getter<?>... properties) {
+    public InsertOperation<T> include(PropertyGetter<?>... properties) {
         return this;
     }
     
@@ -48,12 +39,12 @@ public class InsertOperation<T> extends AbstractOperation {
     
     @Override
     public String getExpression() {
-        return  expression;
+        return expression;
     }
     
     @Override
     public void build() {
         expression = String.format(EXPRESSION, tableInfo.getName());
     }
-
+    
 }

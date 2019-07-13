@@ -1,19 +1,22 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Operation;
+import org.smart.orm.Model;
 import org.smart.orm.OperationContext;
+import org.smart.orm.reflect.TableInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class AbstractOperation implements Operation {
+public abstract class AbstractOperation<T extends Model<T>> implements Operation<T> {
     
-    private UUID batch;
+    protected UUID batch = UUID.randomUUID();
     
     protected List<Object> params = new ArrayList<>();
     
     protected OperationContext context;
+    
+    protected TableInfo tableInfo;
     
     @Override
     public UUID getBatch() {
@@ -36,7 +39,20 @@ public abstract class AbstractOperation implements Operation {
         return context;
     }
     
+    @Override
     public void setContext(OperationContext context) {
         this.context = context;
     }
+    
+    @Override
+    public TableInfo getTableInfo() {
+        return tableInfo;
+    }
+    
+    @Override
+    public void setTableInfo(TableInfo tableInfo) {
+        this.tableInfo = tableInfo;
+    }
+    
+    
 }

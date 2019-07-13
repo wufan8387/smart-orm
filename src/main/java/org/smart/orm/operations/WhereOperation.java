@@ -1,73 +1,69 @@
 package org.smart.orm.operations;
 
-import com.mysql.cj.jdbc.ha.MultiHostMySQLConnection;
 import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.Model;
-import org.smart.orm.Operation;
-import org.smart.orm.OperationContext;
 import org.smart.orm.SmartORMException;
 import org.smart.orm.data.OperationPriority;
 import org.smart.orm.data.WhereType;
 import org.smart.orm.reflect.*;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-public abstract class WhereOperation<T> extends AbstractOperation {
+public abstract class WhereOperation<T extends Model<T>> extends AbstractOperation<T> {
     
     
     private EntityInfo entityInfo;
     
-    private TableInfo tableInfo;
-    
     protected WhereType whereType = WhereType.NONE;
-    
-    protected PropertyInfo propertyInfo;
     
     protected String property;
     
     protected String expression;
     
-    
     public WhereOperation() {
-        this.entityInfo = Model.getMeta(this.getClass());
+        entityInfo = T.getMeta(this.getClass());
+        tableInfo = entityInfo.getTable();
     }
     
     public WhereOperation(String property) {
+        entityInfo = T.getMeta(this.getClass());
         this.property = property;
-        this.entityInfo = Model.getMeta(this.getClass());
-        this.buildPropertyInfo();
     }
     
-    public WhereOperation(Getter<T> property) {
-        this.entityInfo = Model.getMeta(this.getClass());
-        if (entityInfo == null)
-            throw new SmartORMException();
-        this.tableInfo = entityInfo.getTable();
-        this.property = LambdaParser.getGet(property).getName();
-        this.buildPropertyInfo();
+    public WhereOperation(PropertyGetter<T> property) {
+        entityInfo = T.getMeta(this.getClass());
+        tableInfo = entityInfo.getTable();
+        this.property = entityInfo
+                .getPropertyMap()
+                .get(LambdaParser.getGetter(property).getName())
+                .getColumnName();
     }
     
     public WhereOperation(WhereType whereType, String property) {
-        this.entityInfo = Model.getMeta(this.getClass());
         this.whereType = whereType;
         this.property = property;
-        this.buildPropertyInfo();
-        
     }
     
-    public WhereOperation(WhereType whereType, Getter<T> property) {
-        this.entityInfo = Model.getMeta(this.getClass());
-        if (entityInfo == null)
-            throw new SmartORMException();
-        this.tableInfo = entityInfo.getTable();
+    public WhereOperation(WhereType whereType, PropertyGetter<T> property) {
+        this.tableInfo = Model.getMeta(this.getClass()).getTable();
         this.whereType = whereType;
-        this.property = LambdaParser.getGet(property).getName();
-        this.buildPropertyInfo();
+        this.property = LambdaParser.getGetter(property).getName();
     }
+    
+    public WhereOperation(TableInfo tableInfo) {
+        this.tableInfo = tableInfo;
+    }
+    
+    public WhereOperation(TableInfo tableInfo, String property) {
+        this.property = property;
+        this.tableInfo = tableInfo;
+    }
+    
+    
+    public WhereOperation(TableInfo tableInfo, WhereType whereType, String property) {
+        this.tableInfo = tableInfo;
+        this.whereType = whereType;
+        this.property = property;
+    }
+    
     
     public WhereType getWhereType() {
         return whereType;
@@ -83,14 +79,12 @@ public abstract class WhereOperation<T> extends AbstractOperation {
     
     public void setProperty(String property) {
         this.property = property;
-        this.buildPropertyInfo();
     }
     
-    public void setProperty(Getter<T> property) {
+    public void setProperty(PropertyGetter<T> property) {
         if (entityInfo == null)
             throw new SmartORMException();
-        this.property = LambdaParser.getGet(property).getName();
-        this.buildPropertyInfo();
+        this.property = LambdaParser.getGetter(property).getName();
     }
     
     @Override
@@ -100,32 +94,52 @@ public abstract class WhereOperation<T> extends AbstractOperation {
     
     @Override
     public void build() {
-        build(tableInfo, propertyInfo);
+        build(tableInfo, property);
     }
     
-    protected abstract void build(TableInfo tableInfo, PropertyInfo propertyInfo);
+    protected abstract void build(TableInfo tableInfo, String property);
     
     @Override
     public int getPriority() {
-        return OperationPriority.WHERE;
+        if (whereType == WhereType.NONE)
+            return OperationPriority.WHERE;
+        return OperationPriority.WHERE_N;
     }
     
-    public <U> WhereOperation<U> and(WhereOperation<U> operation) {
+    public <U extends Model<U>> WhereOperation<U> andOther(WhereOperation<U> operation) {
         operation.setWhereType(WhereType.AND);
+        operation.setBatch(batch);
         this.context.add(operation);
         return operation;
     }
     
-    public <U> WhereOperation<U> or(WhereOperation<U> operation) {
+    public <U extends Model<U>> WhereOperation<U> orOther(WhereOperation<U> operation) {
         operation.setWhereType(WhereType.OR);
+        operation.setBatch(batch);
         this.context.add(operation);
         return operation;
     }
+    
+    public WhereOperation<T> andThis(WhereOperation<T> operation) {
+        operation.setWhereType(WhereType.AND);
+        operation.setBatch(batch);
+        operation.setTableInfo(tableInfo);
+        this.context.add(operation);
+        return operation;
+    }
+    
+    public WhereOperation<T> orThis(WhereOperation<T> operation) {
+        operation.setWhereType(WhereType.OR);
+        operation.setBatch(batch);
+        operation.setTableInfo(tableInfo);
+        this.context.add(operation);
+        return operation;
+    }
+    
     
     public LimitOperation limit(int count) {
         return new LimitOperation(this.context, count);
     }
-    
     
     protected String whereText() {
         switch (whereType) {
@@ -134,21 +148,10 @@ public abstract class WhereOperation<T> extends AbstractOperation {
             case OR:
                 return " or ";
             case NONE:
-                return StringUtils.EMPTY;
+                return " where ";
         }
         return StringUtils.EMPTY;
     }
     
-    private void buildPropertyInfo() {
-        
-        if (entityInfo == null) {
-            propertyInfo = new PropertyInfo();
-            propertyInfo.setColumn(property);
-            propertyInfo.setName(property);
-        } else {
-            propertyInfo = entityInfo.getPropertyMap().get(property);
-        }
-        
-    }
     
 }

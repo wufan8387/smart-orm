@@ -1,25 +1,23 @@
 package org.smart.orm.data;
 
-import org.smart.orm.Operation;
+import org.smart.orm.operations.Operation;
 
 public final class SelectColumn {
     
     
-    public String property;
+    private String name;
     
-    public String alias;
+    private String alias;
     
-    public Operation operation;
+    private Operation operation;
     
-    public SelectColumn() {
+    
+    public SelectColumn(String name) {
+        this.name = name;
     }
     
-    public SelectColumn(String property) {
-        this.property = property;
-    }
-    
-    public SelectColumn(String property, String alias) {
-        this.property = property;
+    public SelectColumn(String name, String alias) {
+        this.name = name;
         this.alias = alias;
     }
     
@@ -33,5 +31,15 @@ public final class SelectColumn {
         this.alias = alias;
     }
     
+    public String getName() {
+        return name;
+    }
     
+    public String getAlias() {
+        return alias;
+    }
+    
+    public Operation getOperation() {
+        return operation;
+    }
 }

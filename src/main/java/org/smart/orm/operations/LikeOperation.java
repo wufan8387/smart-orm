@@ -1,11 +1,13 @@
 package org.smart.orm.operations;
 
+import org.smart.orm.Model;
 import org.smart.orm.data.WhereType;
-import org.smart.orm.reflect.Getter;
+import org.smart.orm.reflect.PropertyGetter;
 import org.smart.orm.reflect.PropertyInfo;
 import org.smart.orm.reflect.TableInfo;
+import org.springframework.util.StringUtils;
 
-public class LikeOperation<T> extends WhereOperation<T> {
+public class LikeOperation<T extends Model<T>> extends WhereOperation<T> {
     
     private Object value;
     
@@ -13,7 +15,7 @@ public class LikeOperation<T> extends WhereOperation<T> {
     }
     
     
-    public LikeOperation(Getter<T> property, String value) {
+    public LikeOperation(PropertyGetter<T> property, String value) {
         super(WhereType.NONE, property);
         this.value = value;
     }
@@ -23,7 +25,7 @@ public class LikeOperation<T> extends WhereOperation<T> {
         this.value = value;
     }
     
-    public LikeOperation(WhereType whereType, Getter<T> property, String value) {
+    public LikeOperation(WhereType whereType, PropertyGetter<T> property, String value) {
         super(whereType, property);
         this.value = value;
     }
@@ -41,12 +43,20 @@ public class LikeOperation<T> extends WhereOperation<T> {
         this.value = value;
     }
     
-    private final static String EXPRESSION = " %s %s like ? ";
+    private final static String EXPRESSION = " %s `%s`.`%s` like ? ";
     
     
     @Override
-    protected void build(TableInfo tableInfo, PropertyInfo propertyInfo) {
-        this.expression = String.format(EXPRESSION, whereText(), propertyInfo.getColumn());
+    protected void build(TableInfo tableInfo, String property) {
+        
+        String alias = tableInfo.getAlias();
+        if (StringUtils.isEmpty(alias)) {
+            this.expression = String.format(EXPRESSION, whereText(), tableInfo.getName(), property);
+        } else {
+            this.expression = String.format(EXPRESSION, whereText(), alias, property);
+            
+        }
+        
         this.params.clear();
         this.params.add(value);
     }

@@ -2,23 +2,17 @@ package org.smart.orm.operations;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 import org.smart.orm.Model;
-import org.smart.orm.Operation;
-import org.smart.orm.OperationContext;
-import org.smart.orm.annotations.Table;
 import org.smart.orm.data.OperationPriority;
 import org.smart.orm.data.OrderByInfo;
 import org.smart.orm.data.OrderbyType;
 import org.smart.orm.reflect.EntityInfo;
-import org.smart.orm.reflect.Getter;
+import org.smart.orm.reflect.PropertyGetter;
 import org.smart.orm.reflect.LambdaParser;
-import org.smart.orm.reflect.TableInfo;
 
-public class OrderbyOperation<T> extends AbstractOperation {
+public class OrderbyOperation<T extends Model<T>> extends AbstractOperation {
     
     private final static String EXPRESSION_ORDERBY = " ORDER BY %s ";
     
@@ -33,16 +27,16 @@ public class OrderbyOperation<T> extends AbstractOperation {
     
     
     public OrderbyOperation() {
-        this.entityInfo = Model.getMeta(this.getClass());
+        this.entityInfo = T.getMeta(this.getClass());
     }
     
     @SafeVarargs
-    public final OrderbyOperation<T> asc(Getter<T>... properties) {
+    public final OrderbyOperation<T> asc(PropertyGetter<T>... properties) {
         
-        for (Getter<T> property : properties) {
+        for (PropertyGetter<T> property : properties) {
             OrderByInfo orderByInfo = new OrderByInfo();
             orderByInfo.orderbyType = OrderbyType.ASC;
-            Field field = LambdaParser.getGet(property);
+            Field field = LambdaParser.getGetter(property);
             orderByInfo.property = field.getName();
             orderbyList.add(orderByInfo);
         }
@@ -51,12 +45,12 @@ public class OrderbyOperation<T> extends AbstractOperation {
     }
     
     @SafeVarargs
-    public final OrderbyOperation<T> desc(Getter<T>... properties) {
+    public final OrderbyOperation<T> desc(PropertyGetter<T>... properties) {
         
-        for (Getter<T> property : properties) {
+        for (PropertyGetter<T> property : properties) {
             OrderByInfo orderByInfo = new OrderByInfo();
             orderByInfo.orderbyType = OrderbyType.DESC;
-            Field field = LambdaParser.getGet(property);
+            Field field = LambdaParser.getGetter(property);
             orderByInfo.property = field.getName();
             orderbyList.add(orderByInfo);
         }
@@ -131,5 +125,5 @@ public class OrderbyOperation<T> extends AbstractOperation {
         
     }
     
-
+    
 }

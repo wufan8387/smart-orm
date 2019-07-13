@@ -17,7 +17,7 @@ public class LambdaParser {
 
     private static Map<Class<?>, SerializedLambda> lambdaMap = new HashMap<>();
 
-    public static <T> Field getGet(Getter<T> fn) {
+    public static <T> Field getGetter(PropertyGetter<T> fn) {
         SerializedLambda lambda = serialize(fn);
         String methodName = lambda.getImplMethodName();
         String clsName = lambda.getImplClass();

@@ -1,16 +1,11 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Operation;
+import org.smart.orm.Model;
 import org.smart.orm.OperationContext;
 import org.smart.orm.data.OperationPriority;
 import org.smart.orm.reflect.TableInfo;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-public class DeleteOperation<T> extends AbstractOperation {
+public class DeleteOperation<T extends Model<T>> extends AbstractOperation<T> {
     
     private final static String EXPRESSION = " DELETE FROM `%s` ";
     
@@ -32,6 +27,7 @@ public class DeleteOperation<T> extends AbstractOperation {
     public DeleteOperation<T> where(WhereOperation<?>... operations) {
         for (WhereOperation<?> operation : operations) {
             operation.setContext(context);
+            operation.setBatch(batch);
         }
         return this;
     }
@@ -51,5 +47,5 @@ public class DeleteOperation<T> extends AbstractOperation {
         expression = String.format(EXPRESSION, tableInfo.getName());
     }
     
-
+    
 }

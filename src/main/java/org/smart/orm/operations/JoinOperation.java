@@ -1,16 +1,11 @@
 package org.smart.orm.operations;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-import org.smart.orm.Operation;
-import org.smart.orm.OperationContext;
+import org.smart.orm.Model;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.OperationPriority;
-import org.smart.orm.reflect.Getter;
+import org.smart.orm.reflect.PropertyGetter;
 
-public class JoinOperation<T, U> extends AbstractOperation {
+public class JoinOperation<T extends Model<T>, U extends Model<U>> extends AbstractOperation {
     
     
     private String expression;
@@ -19,27 +14,27 @@ public class JoinOperation<T, U> extends AbstractOperation {
     
     }
     
-    public JoinOperation<T, U> equal(Getter<T> leftProperty, Getter<U> rightProperty) {
+    public JoinOperation<T, U> equal(PropertyGetter<T> leftProperty, PropertyGetter<U> rightProperty) {
         return this;
     }
     
-    public JoinOperation<T, U> notEqual(Getter<T> leftProperty, Getter<U> rightProperty) {
+    public JoinOperation<T, U> notEqual(PropertyGetter<T> leftProperty, PropertyGetter<U> rightProperty) {
         return this;
     }
     
-    public JoinOperation<T, U> lessThan(Getter<T> leftProperty, Getter<U> rightProperty) {
+    public JoinOperation<T, U> lessThan(PropertyGetter<T> leftProperty, PropertyGetter<U> rightProperty) {
         return this;
     }
     
-    public JoinOperation<T, U> lessEqualThan(Getter<T> leftProperty, Getter<U> rightProperty) {
+    public JoinOperation<T, U> lessEqualThan(PropertyGetter<T> leftProperty, PropertyGetter<U> rightProperty) {
         return this;
     }
     
-    public JoinOperation<T, U> greatThan(Getter<T> leftProperty, Getter<U> rightProperty) {
+    public JoinOperation<T, U> greatThan(PropertyGetter<T> leftProperty, PropertyGetter<U> rightProperty) {
         return this;
     }
     
-    public JoinOperation<T, U> greatEqualThan(Getter<T> leftProperty, Getter<U> rightProperty) {
+    public JoinOperation<T, U> greatEqualThan(PropertyGetter<T> leftProperty, PropertyGetter<U> rightProperty) {
         return this;
     }
     

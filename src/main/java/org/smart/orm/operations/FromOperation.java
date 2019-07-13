@@ -1,66 +1,65 @@
 package org.smart.orm.operations;
 
+import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.Model;
-import org.smart.orm.Operation;
 import org.smart.orm.OperationContext;
 import org.smart.orm.data.OperationPriority;
-import org.smart.orm.data.OrderByInfo;
-import org.smart.orm.data.OrderbyType;
-import org.smart.orm.reflect.Getter;
-import org.smart.orm.reflect.LambdaParser;
+import org.smart.orm.reflect.PropertyGetter;
 import org.smart.orm.reflect.TableInfo;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
-public class FromOperation<T> extends AbstractOperation {
+public class FromOperation<T extends Model<T>> extends AbstractOperation<T> {
     
     
-    private final static String EXPRESSION = " FROM %s ";
+    private final static String EXPRESSION = " FROM `%s` ";
     
-    private TableInfo tableInfo;
-
-//    private List<OrderByInfo> orderbyList = new ArrayList<>();
+    private final static String EXPRESSION_AS = " FROM `%s` AS `%S` ";
     
     private String expression;
     
-    private OperationContext context;
-    
-    public FromOperation(OperationContext context) {
+    public FromOperation(UUID batch, OperationContext context) {
+        this.batch = batch;
         this.context = context;
         context.add(this);
-        this.tableInfo = Model.getMeta(this.getClass()).getTable();
+        this.tableInfo = T.getMeta(this.getClass()).getTable();
     }
     
-    public FromOperation(OperationContext context, String table) {
+    public FromOperation(UUID batch, OperationContext context, String table) {
+        this.batch = batch;
         this.context = context;
         context.add(this);
         this.tableInfo = new TableInfo(table);
     }
     
-    public FromOperation(OperationContext context, TableInfo tableInfo) {
+    public FromOperation(UUID batch, OperationContext context, String table, String alias) {
+        this.batch = batch;
+        this.context = context;
+        context.add(this);
+        this.tableInfo = new TableInfo(table, alias);
+    }
+    
+    public FromOperation(UUID batch, OperationContext context, TableInfo tableInfo) {
+        this.batch = batch;
         this.context = context;
         context.add(this);
         this.tableInfo = tableInfo;
     }
     
     public SelectOperation<T> select() {
-        return new SelectOperation<>(this.context);
+        return new SelectOperation<>(this.batch, this.context, this.tableInfo);
     }
     
     @SafeVarargs
-    public final SelectOperation<T> select(Getter<T>... properteis) {
-        SelectOperation<T> operation = new SelectOperation<>(this.context);
-        operation.columns(properteis);
+    public final SelectOperation<T> select(PropertyGetter<T>... properties) {
+        SelectOperation<T> operation = new SelectOperation<>(this.batch, this.context, this.tableInfo);
+        operation.columns(properties);
         return operation;
     }
     
-    public SelectOperation<T> select(String... properteis) {
-        SelectOperation<T> operation = new SelectOperation<>(this.context);
-        operation.columns(properteis);
+    public SelectOperation<T> select(String... properties) {
+        SelectOperation<T> operation = new SelectOperation<>(this.batch, this.context, this.tableInfo);
+        operation.columns(properties);
         return operation;
     }
     
@@ -71,6 +70,7 @@ public class FromOperation<T> extends AbstractOperation {
     
     public WhereOperation<T> where(WhereOperation<T> operation) {
         operation.setContext(this.context);
+        operation.setBatch(batch);
         this.context.add(operation);
         return operation;
     }
@@ -79,19 +79,20 @@ public class FromOperation<T> extends AbstractOperation {
         return new LimitOperation(this.context, count);
     }
     
-    public FromOperation<T> orderby(OrderbyOperation operation) {
+    public FromOperation<T> orderBy(OrderbyOperation operation) {
         operation.setContext(this.context);
+        operation.setBatch(batch);
         this.context.add(operation);
         return this;
     }
 
 //    @SafeVarargs
-//    public final FromOperation<T> orderby(OrderbyType orderbyType, Getter<T>... properties) {
+//    public final FromOperation<T> orderby(OrderbyType orderbyType, PropertyGetter<T>... properties) {
 //
-//        for (Getter<T> property : properties) {
+//        for (PropertyGetter<T> property : properties) {
 //            OrderByInfo orderByInfo = new OrderByInfo();
 //            orderByInfo.orderbyType = orderbyType;
-//            Field field = LambdaParser.getGet(property);
+//            Field field = LambdaParser.getGetter(property);
 //            orderByInfo.property = field.getName();
 //            orderbyList.add(orderByInfo);
 //        }
@@ -164,12 +165,7 @@ public class FromOperation<T> extends AbstractOperation {
     //     return null;
     // }
     
-
-    public TableInfo getTableInfo() {
-        return tableInfo;
-    }
     
-
     @Override
     public int getPriority() {
         return OperationPriority.FROM;
@@ -182,7 +178,11 @@ public class FromOperation<T> extends AbstractOperation {
     
     @Override
     public void build() {
-        expression = String.format(EXPRESSION, tableInfo.getName());
+        if (StringUtils.isEmpty(tableInfo.getAlias())) {
+            expression = String.format(EXPRESSION, tableInfo.getName());
+        } else {
+            expression = String.format(EXPRESSION_AS, tableInfo.getName(), tableInfo.getAlias());
+        }
     }
     
 }

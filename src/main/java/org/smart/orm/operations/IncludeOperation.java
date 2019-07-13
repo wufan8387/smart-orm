@@ -1,7 +1,8 @@
 package org.smart.orm.operations;
 
+import org.smart.orm.Model;
 import org.smart.orm.data.OperationPriority;
-import org.smart.orm.reflect.Getter;
+import org.smart.orm.reflect.PropertyGetter;
 
 public class IncludeOperation extends AbstractOperation {
     
@@ -9,7 +10,7 @@ public class IncludeOperation extends AbstractOperation {
         return null;
     }
     
-    public <T> SelectOperation<T> include(Getter<?>... properties) {
+    public <T extends Model<T>> SelectOperation<T> include(PropertyGetter<?>... properties) {
         return null;
     }
     

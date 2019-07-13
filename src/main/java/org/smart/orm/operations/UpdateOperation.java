@@ -1,17 +1,12 @@
 package org.smart.orm.operations;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-import org.smart.orm.Operation;
+import org.smart.orm.Model;
 import org.smart.orm.OperationContext;
 import org.smart.orm.data.OperationPriority;
-import org.smart.orm.reflect.Getter;
+import org.smart.orm.reflect.PropertyGetter;
 
-public class UpdateOperation<T> extends AbstractOperation {
+public class UpdateOperation<T extends Model<T>> extends AbstractOperation<T> {
     
-    // private TableInfo tableInfo;
     
     private String expression;
     
@@ -27,7 +22,7 @@ public class UpdateOperation<T> extends AbstractOperation {
         return this;
     }
     
-    public UpdateOperation<T> set(Getter<T> property, Object value) {
+    public UpdateOperation<T> set(PropertyGetter<T> property, Object value) {
         
         return this;
     }

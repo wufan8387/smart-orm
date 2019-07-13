@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Model<T> {
+public abstract class Model<T extends Model<T>> {
     
     private final static Map<String, EntityInfo> metaMap = new HashMap<>();
     
@@ -50,8 +50,21 @@ public abstract class Model<T> {
     public static EntityInfo getMeta(Class<?> cls) {
         
         Type type = cls.getGenericSuperclass();
+        
         if (!(type instanceof ParameterizedType))
             return null;
+        
+        Type[] typeList = ((ParameterizedType) type).getActualTypeArguments();
+        
+        if (typeList.length == 0)
+            return null;
+        
+        Type actualType = typeList[0];
+        
+        if (actualType instanceof java.lang.reflect.TypeVariable)
+            return null;
+        
+        cls = (Class<?>) actualType;
         
         String clsName = cls.getName();
         
@@ -82,7 +95,7 @@ public abstract class Model<T> {
                 continue;
             
             PropertyInfo propertyInfo = new PropertyInfo(column, field);
-            entityInfo.getPropertyMap().put(propertyInfo.getName(), propertyInfo);
+            entityInfo.getPropertyMap().put(propertyInfo.getPropertyName(), propertyInfo);
         }
         
         return entityInfo;
@@ -100,8 +113,8 @@ public abstract class Model<T> {
         
     }
     
-    protected void propertyChange(Getter<T> property, Object value) {
-        String propertyName = LambdaParser.getGet(property).getName();
+    protected void propertyChange(PropertyGetter<T> property, Object value) {
+        String propertyName = LambdaParser.getGetter(property).getName();
         this.propertyChange(propertyName, value);
     }
     

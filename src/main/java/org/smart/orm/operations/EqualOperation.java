@@ -1,13 +1,15 @@
 package org.smart.orm.operations;
 
+import org.apache.commons.lang3.StringUtils;
+import org.smart.orm.Model;
 import org.smart.orm.data.WhereType;
-import org.smart.orm.reflect.Getter;
+import org.smart.orm.reflect.PropertyGetter;
 import org.smart.orm.reflect.PropertyInfo;
 import org.smart.orm.reflect.TableInfo;
 
-public class EqualOperation<T> extends WhereOperation<T> {
+public class EqualOperation<T extends Model<T>> extends WhereOperation<T> {
     
-    private final static String EXPRESSION = " %s %s = ? ";
+    private final static String EXPRESSION = " %s `%s`.`%s` = ? ";
     
     private Object value;
     
@@ -15,7 +17,7 @@ public class EqualOperation<T> extends WhereOperation<T> {
     }
     
     
-    public EqualOperation(Getter<T> property, Object value) {
+    public EqualOperation(PropertyGetter<T> property, Object value) {
         super(WhereType.NONE, property);
         this.value = value;
     }
@@ -25,7 +27,7 @@ public class EqualOperation<T> extends WhereOperation<T> {
         this.value = value;
     }
     
-    public EqualOperation(WhereType whereType, Getter<T> property, Object value) {
+    public EqualOperation(WhereType whereType, PropertyGetter<T> property, Object value) {
         super(whereType, property);
         this.value = value;
     }
@@ -45,8 +47,13 @@ public class EqualOperation<T> extends WhereOperation<T> {
     }
     
     @Override
-    protected void build(TableInfo tableInfo, PropertyInfo propertyInfo) {
-        this.expression = String.format(EXPRESSION, whereText(), propertyInfo.getColumn());
+    protected void build(TableInfo tableInfo, String property) {
+        String alias = tableInfo.getAlias();
+        if (StringUtils.isEmpty(alias)) {
+            this.expression = String.format(EXPRESSION, whereText(), tableInfo.getName(), property);
+        } else {
+            this.expression = String.format(EXPRESSION, whereText(), alias, property);
+        }
         this.params.clear();
         this.params.add(value);
     }
