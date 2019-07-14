@@ -1,14 +1,12 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Model;
 import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.TableInfo;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public interface Operation<T extends Model<T>> {
+public interface Operation {
     
     UUID getBatch();
     

@@ -1,22 +1,13 @@
 package org.smart.orm;
 
-import com.querydsl.core.QueryFactory;
-import com.querydsl.core.types.PathMetadata;
-import com.querydsl.core.types.PathMetadataFactory;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.core.types.dsl.StringPath;
-import com.querydsl.sql.*;
-import com.querydsl.sql.dml.SQLInsertClause;
 import org.junit.Test;
-import org.junit.experimental.theories.suppliers.TestedOn;
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.Table;
-import org.smart.orm.operations.EqualOperation;
-import org.smart.orm.operations.FromOperation;
+import org.smart.orm.operations.type.EqualOperation;
+import org.smart.orm.operations.type.FromOperation;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.sql.Types;
 import java.util.UUID;
 
 import static org.junit.Assert.assertTrue;
@@ -35,7 +26,22 @@ public class AppTest {
         
         @Column
         private String name;
-        
+    
+        public int getId() {
+            return id;
+        }
+    
+        public void setId(int id) {
+            this.id = id;
+        }
+    
+        public String getName() {
+            return name;
+        }
+    
+        public void setName(String name) {
+            this.name = name;
+        }
     }
     
     @Test
@@ -54,7 +60,9 @@ public class AppTest {
         OperationContext context = new OperationContext();
         FromOperation<TestEntity> fromOperation = new FromOperation<>(UUID.randomUUID(), context, "test");
         
-        fromOperation.select(t -> t.id).alias("id", "pid").where(new EqualOperation<TestEntity>("id", 100));
+        fromOperation
+                .select(TestEntity::getId,"pid")
+                .where(new EqualOperation<>(TestEntity::getId, 100));
         
         context.query(fromOperation.getBatch());
         // select(TestEntity.class);

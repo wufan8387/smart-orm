@@ -1,6 +1,5 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Model;
 import org.smart.orm.OperationContext;
 import org.smart.orm.reflect.TableInfo;
 
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class AbstractOperation<T extends Model<T>> implements Operation<T> {
+public abstract class AbstractOperation implements Operation {
     
     protected UUID batch = UUID.randomUUID();
     

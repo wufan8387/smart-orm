@@ -2,9 +2,9 @@ package org.smart.orm;
 
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.Table;
-import org.smart.orm.operations.DeleteOperation;
-import org.smart.orm.operations.InsertOperation;
-import org.smart.orm.operations.UpdateOperation;
+import org.smart.orm.operations.type.DeleteOperation;
+import org.smart.orm.operations.type.InsertOperation;
+import org.smart.orm.operations.type.UpdateOperation;
 import org.smart.orm.reflect.*;
 
 import java.lang.reflect.Field;
@@ -119,18 +119,18 @@ public abstract class Model<T extends Model<T>> {
     }
     
     public InsertOperation<T> insert() {
-        InsertOperation<T> insOp = new InsertOperation<>(context, this.getMeta().getTable());
+        InsertOperation<T> insOp = new InsertOperation<>(context);
         return insOp;
     }
     
     public DeleteOperation<T> delete() {
-        DeleteOperation<T> delOp = new DeleteOperation<>(context, this.getMeta().getTable());
+        DeleteOperation<T> delOp = new DeleteOperation<>(context);
         return delOp;
     }
     
     @SuppressWarnings("unchecked")
     public UpdateOperation<T> update() {
-        UpdateOperation<T> upOp = new UpdateOperation<T>(context, (T) this);
+        UpdateOperation<T> upOp = new UpdateOperation<>(context, (T) this);
         return upOp;
     }
     

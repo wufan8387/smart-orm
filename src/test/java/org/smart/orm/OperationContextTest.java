@@ -1,28 +1,26 @@
 package org.smart.orm;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.smart.orm.operations.EqualOperation;
-import org.smart.orm.operations.FromOperation;
-import org.smart.orm.operations.LikeOperation;
+import org.smart.orm.operations.text.*;
 
 import java.util.UUID;
-
-import static org.junit.Assert.*;
 
 public class OperationContextTest {
     
     @Test
-    public void buildTEst() {
+    public void buildTest() {
         
         OperationContext context = new OperationContext();
         
-        FromOperation<?> fromOperation = new FromOperation(UUID.randomUUID(), context, "user");
+        FromOperation fromOperation = new FromOperation(UUID.randomUUID(), context, "user");
         
         fromOperation
                 .select("id", "name")
-                .where(new EqualOperation<>("id", 100))
-                .andThis(new LikeOperation<>("name", "100"));
+                .join(new JoinOperation("profile"))
+                .on("id", new EqualOperation("profile", "id", "100"))
+                .where("user", new EqualOperation("id", 100))
+                .and(new LikeOperation("name", "%100%"))
+                .andFor("user", new NotNullOperation("name"));
         
         
         OperationContext.ExecuteData data = context.build(fromOperation.getBatch());
