@@ -5,7 +5,7 @@ import org.smart.orm.operations.text.*;
 
 import java.util.UUID;
 
-public class OperationContextTest {
+public class TextOperationTest {
     
     @Test
     public void buildTest() {
@@ -17,8 +17,9 @@ public class OperationContextTest {
         fromOperation
                 .select("id", "name")
                 .join(new JoinOperation("profile"))
-                .on("id", new EqualOperation("profile", "id", "100"))
-                .where("user", new EqualOperation("id", 100))
+                .on("id", new EqualOperation("user", "id"))
+                .and("name",new NotEqualOperation("user","name"))
+                .where(new EqualOperation("user", "id"))
                 .and(new LikeOperation("name", "%100%"))
                 .andFor("user", new NotNullOperation("name"));
         

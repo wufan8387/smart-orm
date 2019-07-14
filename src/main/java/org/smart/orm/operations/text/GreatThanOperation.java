@@ -19,7 +19,7 @@ public class GreatThanOperation extends WhereOperation {
         this.value = value;
     }
     
-    public GreatThanOperation(String table String property, Object value) {
+    public GreatThanOperation(String table, String property, Object value) {
         super(WhereType.NONE, table, property);
         this.value = value;
     }
