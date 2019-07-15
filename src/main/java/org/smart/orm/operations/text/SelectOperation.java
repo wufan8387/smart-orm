@@ -4,7 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.OperationContext;
 import org.smart.orm.data.OperationPriority;
 import org.smart.orm.data.SelectColumn;
+import org.smart.orm.data.WhereType;
 import org.smart.orm.operations.AbstractOperation;
+import org.smart.orm.operations.Expression;
 import org.smart.orm.operations.Operation;
 import org.smart.orm.reflect.TableInfo;
 
@@ -89,13 +91,14 @@ public class SelectOperation extends AbstractOperation {
         return new FromOperation(this.batch, context, table);
     }
     
-    public WhereOperation where(WhereOperation operation) {
-        operation.setContext(context);
-        operation.setBatch(batch);
-        operation.setTableInfo(this.tableInfo);
-        context.add(operation);
-        return operation;
+    public WhereOperation where(String property, Expression exp, Object... value) {
+        return new WhereOperation(batch, context, tableInfo, property, exp, value);
     }
+    
+    public WhereOperation where(String table, String property, Expression exp, Object... value) {
+        return new WhereOperation(batch, context, table, property, exp, value);
+    }
+    
     
     public JoinOperation join(JoinOperation operation) {
         operation.setContext(context);

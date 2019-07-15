@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public interface Operation {
     
+    UUID getId();
+    
     UUID getBatch();
     
     void setBatch(UUID batch);
@@ -18,7 +20,11 @@ public interface Operation {
     
     void build();
     
+    void build(StringBuilder sb);
+    
     List<Object> getParams();
+    
+    List<Operation> getChildren();
     
     OperationContext getContext();
     
@@ -27,6 +33,8 @@ public interface Operation {
     TableInfo getTableInfo();
     
     void setTableInfo(TableInfo tableInfo);
+    
+    
     
     
 }

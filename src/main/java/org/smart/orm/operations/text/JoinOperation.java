@@ -4,6 +4,7 @@ import org.smart.orm.Model;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.OperationPriority;
 import org.smart.orm.operations.AbstractOperation;
+import org.smart.orm.operations.Expression;
 import org.smart.orm.reflect.PropertyGetter;
 import org.smart.orm.reflect.TableInfo;
 
@@ -40,7 +41,7 @@ public class JoinOperation extends AbstractOperation {
     }
     
     
-    public JoinOperation on(String thisProperty, WhereOperation condition) {
+    public JoinOperation on(String thisProperty, Expression exp,String otherTable) {
         this.thisProperty = thisProperty;
         return this;
     }

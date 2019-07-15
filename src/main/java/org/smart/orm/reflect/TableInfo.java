@@ -44,4 +44,24 @@ public class TableInfo {
         return new TableInfo(name, alias);
     }
     
+    
+    @Override
+    public boolean equals(Object obj) {
+        
+        if (obj == null)
+            return false;
+        
+        if (!(obj instanceof TableInfo))
+            return false;
+        
+        TableInfo tableInfo = (TableInfo) obj;
+        
+        return this.name.equals(tableInfo.name);
+        
+    }
+    
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

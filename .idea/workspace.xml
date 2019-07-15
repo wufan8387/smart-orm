@@ -16,72 +16,107 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WhereOperation.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WhereOperation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/WhereOperation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="39">
-              <caret line="117" column="29" lean-forward="true" selection-start-line="117" selection-start-column="29" selection-end-line="117" selection-end-column="29" />
+            <state relative-caret-position="707">
+              <caret line="129" column="29" selection-start-line="129" selection-start-column="21" selection-end-line="129" selection-end-column="29" />
               <folding>
                 <element signature="method#WhereOperation#0;class#WhereOperation#0" />
-                <element signature="method#getPriority#0;class#WhereOperation#0" />
+                <element signature="method#WhereOperation#1;class#WhereOperation#0" />
+                <element signature="method#build#1;class#WhereOperation#0" />
+                <element signature="method#add#0;class#WhereOperation#0" />
+                <element signature="e#4175#4176#0" expanded="true" />
+                <element signature="e#4237#4238#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Expression.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Expression.java">
+      <file leaf-file-name="AbstractOperation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/AbstractOperation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="7" column="19" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="19" />
+            <state relative-caret-position="655">
+              <caret line="68" column="13" selection-start-line="68" selection-start-column="13" selection-end-line="68" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NotInOperation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/NotInOperation.java">
+      <file leaf-file-name="OperationPriority.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/data/OperationPriority.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="11" column="46" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="73" />
+            <state relative-caret-position="468">
+              <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NotNullOperation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/NotNullOperation.java">
+      <file leaf-file-name="UpdateOperation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/UpdateOperation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="10" column="46" selection-start-line="10" selection-start-column="46" selection-end-line="10" selection-end-column="72" />
-              <folding>
-                <element signature="e#472#473#0" expanded="true" />
-                <element signature="e#519#520#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="442">
+              <caret line="21" column="79" selection-start-line="21" selection-start-column="79" selection-end-line="21" selection-end-column="79" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Exp.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Exp.java">
+      <file leaf-file-name="Operation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Operation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="84" column="8" lean-forward="true" selection-start-line="84" selection-start-column="8" selection-end-line="84" selection-end-column="8" />
+            <state relative-caret-position="395">
+              <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TextOperationTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/TextOperationTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="676">
+              <caret line="26" column="48" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="class#Op#0;class#Operators#0" />
-                <element signature="e#188#189#0" expanded="true" />
-                <element signature="e#224#225#0" expanded="true" />
-                <element signature="e#163#164#0" expanded="true" />
-                <element signature="e#198#199#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExistsOperation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/ExistsOperation.java">
+      <file leaf-file-name="OperationContext.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/OperationContext.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="11" column="60" selection-start-line="11" selection-start-column="60" selection-end-line="11" selection-end-column="72" />
+            <state relative-caret-position="608">
+              <caret line="45" column="18" selection-start-line="45" selection-start-column="12" selection-end-line="45" selection-end-column="18" />
+              <folding>
+                <element signature="e#969#970#0" expanded="true" />
+                <element signature="e#1011#1012#0" expanded="true" />
+                <element signature="method#addIfAbsent#0;class#OperationContext#0" />
+                <element signature="method#addTableIfAbsent#2;class#OperationContext#0" />
+                <element signature="method#query#0;class#OperationContext#0" />
+                <element signature="method#update#0;class#OperationContext#0" />
+                <element signature="method#insert#0;class#OperationContext#0" />
+                <element signature="method#delete#0;class#OperationContext#0" />
+                <element signature="method#build#0;class#OperationContext#0" />
+                <element signature="class#ExecuteData#0;class#OperationContext#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TableInfo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/TableInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="655">
+              <caret line="52" column="8" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
+              <folding>
+                <element signature="e#426#427#0" expanded="true" />
+                <element signature="e#467#468#0" expanded="true" />
+                <element signature="e#502#503#0" expanded="true" />
+                <element signature="e#529#530#0" expanded="true" />
+                <element signature="e#573#574#0" expanded="true" />
+                <element signature="e#605#606#0" expanded="true" />
+                <element signature="e#984#985#0" expanded="true" />
+                <element signature="e#1022#1023#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -89,20 +124,8 @@
       <file leaf-file-name="FromOperation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/FromOperation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="26">
-              <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrderbyOperation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/OrderbyOperation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="624">
-              <caret line="33" column="80" selection-start-line="33" selection-start-column="80" selection-end-line="33" selection-end-column="80" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="364">
+              <caret line="22" column="19" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -110,8 +133,8 @@
       <file leaf-file-name="SelectOperation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/SelectOperation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="57" />
+            <state relative-caret-position="475">
+              <caret line="82" column="32" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#column#0;class#SelectOperation#0" />
@@ -148,12 +171,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/GreatThanOperation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/IncludeOperation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/InOperation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/InsertOperation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/IsNullOperation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/JoinOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/LessThanEqualOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/LessThanOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/LikeOperation.java" />
@@ -172,7 +189,6 @@
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/FromOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/InsertOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/DeleteOperation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/FromOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/InOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/IsNullOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/LessThanEqualOperation.java" />
@@ -187,9 +203,6 @@
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/OrderbyOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/UpdateOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/GreatThanOperation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/SelectOperation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/JoinOperation.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/TextOperationTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/EqualOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/NotEqualOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/data/ConditionType.java" />
@@ -198,7 +211,17 @@
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Ops.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Expression.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Exp.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/JoinOperation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/TableInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/FromOperation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/SelectOperation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/data/OperationGroup.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/TextOperationTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Operation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/AbstractOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/WhereOperation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/OperationContext.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/data/OperationPriority.java" />
       </list>
     </option>
   </component>
@@ -232,6 +255,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -315,6 +339,15 @@
               <item name="smart-orm" type="b2602c69:ProjectViewProjectNode" />
               <item name="smart-orm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="orm" type="462c0819:PsiDirectoryNode" />
+              <item name="reflect" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="smart-orm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="smart-orm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -337,12 +370,11 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="SearchEverywhereHistoryKey" value="up&#9;PSI&#9;JAVA://org.smart.orm.operations.UpdateOperation" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://D:/Work/smart-orm/src/main/java/org/smart/orm/operations/AbstractOperation.java&#10;up&#9;PSI&#9;JAVA://org.smart.orm.operations.UpdateOperation" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
@@ -551,6 +583,7 @@
       <workItem from="1562981603705" duration="30362000" />
       <workItem from="1563071833716" duration="13988000" />
       <workItem from="1563097942025" duration="9360000" />
+      <workItem from="1563192170646" duration="7591000" />
     </task>
     <servers />
   </component>
@@ -587,7 +620,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="170644000" />
+    <option name="totallyTimeSpent" value="178235000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -604,10 +637,9 @@
       <window_info anchor="bottom" id="Spring" order="12" weight="0.32969433" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.2183406" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19509594" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19722815" />
       <window_info anchor="right" id="Bean Validation" order="6" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.37882096" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -617,6 +649,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.37882096" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -678,62 +711,21 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/smart/orm/OperationContext.java</url>
-          <line>59</line>
+          <line>141</line>
           <properties />
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/SelectOperation.java</url>
-          <line>145</line>
+          <line>148</line>
           <properties />
           <option name="timeStamp" value="56" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/LessThanOperation.java</url>
-          <line>19</line>
-          <properties />
-          <option name="timeStamp" value="63" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="67" />
+      <option name="time" value="68" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/InsertOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/IsNullOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/JoinOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="54" column="4" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/LessThanEqualOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/LessThanOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/LikeOperation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="429">
@@ -944,34 +936,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/UpdateOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="21" column="79" selection-start-line="21" selection-start-column="79" selection-end-line="21" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/QueryDSLTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
           <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/TextOperationTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="19" column="19" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/JoinOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="48" column="44" lean-forward="true" selection-start-line="48" selection-start-column="44" selection-end-line="48" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -1038,13 +1006,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/LikeOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="650">
-          <caret line="54" column="46" selection-start-line="54" selection-start-column="46" selection-end-line="54" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/NotEqualOperation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
@@ -1087,30 +1048,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/SelectOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#column#0;class#SelectOperation#0" />
-            <element signature="method#column#1;class#SelectOperation#0" />
-            <element signature="method#columns#0;class#SelectOperation#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/ExistsOperation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
           <caret line="11" column="60" selection-start-line="11" selection-start-column="60" selection-end-line="11" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/FromOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="65" />
         </state>
       </provider>
     </entry>
@@ -1121,36 +1062,143 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/LikeOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Exp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="84" column="8" lean-forward="true" selection-start-line="84" selection-start-column="8" selection-end-line="84" selection-end-column="8" />
+        <state relative-caret-position="130">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#Op#0;class#Operators#0" />
-            <element signature="e#188#189#0" expanded="true" />
-            <element signature="e#224#225#0" expanded="true" />
-            <element signature="e#163#164#0" expanded="true" />
-            <element signature="e#198#199#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/JoinOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="42" column="4" lean-forward="true" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/TableInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="655">
+          <caret line="52" column="8" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
+          <folding>
+            <element signature="e#426#427#0" expanded="true" />
+            <element signature="e#467#468#0" expanded="true" />
+            <element signature="e#502#503#0" expanded="true" />
+            <element signature="e#529#530#0" expanded="true" />
+            <element signature="e#573#574#0" expanded="true" />
+            <element signature="e#605#606#0" expanded="true" />
+            <element signature="e#984#985#0" expanded="true" />
+            <element signature="e#1022#1023#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/data/OperationGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="15" column="4" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/TextOperationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="676">
+          <caret line="26" column="48" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Operation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/AbstractOperation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="13" column="49" selection-start-line="13" selection-start-column="40" selection-end-line="13" selection-end-column="49" />
+        <state relative-caret-position="655">
+          <caret line="68" column="13" selection-start-line="68" selection-start-column="13" selection-end-line="68" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/WhereOperation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="39">
-          <caret line="117" column="29" lean-forward="true" selection-start-line="117" selection-start-column="29" selection-end-line="117" selection-end-column="29" />
+        <state relative-caret-position="707">
+          <caret line="129" column="29" selection-start-line="129" selection-start-column="21" selection-end-line="129" selection-end-column="29" />
           <folding>
             <element signature="method#WhereOperation#0;class#WhereOperation#0" />
-            <element signature="method#getPriority#0;class#WhereOperation#0" />
+            <element signature="method#WhereOperation#1;class#WhereOperation#0" />
+            <element signature="method#build#1;class#WhereOperation#0" />
+            <element signature="method#add#0;class#WhereOperation#0" />
+            <element signature="e#4175#4176#0" expanded="true" />
+            <element signature="e#4237#4238#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/UpdateOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="21" column="79" selection-start-line="21" selection-start-column="79" selection-end-line="21" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/SelectOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="82" column="32" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#column#0;class#SelectOperation#0" />
+            <element signature="method#column#1;class#SelectOperation#0" />
+            <element signature="method#columns#0;class#SelectOperation#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/FromOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="22" column="19" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/OperationContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="45" column="18" selection-start-line="45" selection-start-column="12" selection-end-line="45" selection-end-column="18" />
+          <folding>
+            <element signature="e#969#970#0" expanded="true" />
+            <element signature="e#1011#1012#0" expanded="true" />
+            <element signature="method#addIfAbsent#0;class#OperationContext#0" />
+            <element signature="method#addTableIfAbsent#2;class#OperationContext#0" />
+            <element signature="method#query#0;class#OperationContext#0" />
+            <element signature="method#update#0;class#OperationContext#0" />
+            <element signature="method#insert#0;class#OperationContext#0" />
+            <element signature="method#delete#0;class#OperationContext#0" />
+            <element signature="method#build#0;class#OperationContext#0" />
+            <element signature="class#ExecuteData#0;class#OperationContext#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/data/OperationPriority.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
         </state>
       </provider>
     </entry>

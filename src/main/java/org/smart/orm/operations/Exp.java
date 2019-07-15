@@ -3,27 +3,10 @@ package org.smart.orm.operations;
 import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.data.WhereType;
 
-import javax.swing.table.TableStringConverter;
 
 public class Exp {
     
-    
-    private static class Op implements Expression {
-        
-        private String op;
 
-//        private List<Object> params;
-        
-        public Op(String op) {
-            this.op = op;
-        }
-        
-        @Override
-        public String getOp() {
-            return op;
-        }
-        
-    }
     
     private final static String TEXT_BETWEEN = " `%s`.`%s` between ? and ? ";
     private final static String TEXT_EQUAL = " `%s`.`%s` = ? ";
@@ -69,7 +52,7 @@ public class Exp {
     
     public final static Expression LESS_THAN = t -> String.format(TEXT_LESS_THAN, t[0], t[1]);
     
-    public final static Expression LESS_THAN_EQUAL = t -> String.format(TEXT_LESS_THAN_EQUAL, t[0].t[1]);
+    public final static Expression LESS_THAN_EQUAL = t -> String.format(TEXT_LESS_THAN_EQUAL, t[0], t[1]);
     
     public final static Expression LIKE = t -> String.format(TEXT_LIKE, t[0], t[1]);
     

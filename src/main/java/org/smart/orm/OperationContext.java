@@ -1,9 +1,12 @@
 package org.smart.orm;
 
+import jdk.nashorn.internal.runtime.options.Option;
+import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.execution.Executor;
 import org.smart.orm.operations.Operation;
 import org.smart.orm.reflect.TableInfo;
 
+import java.awt.event.ItemEvent;
 import java.util.*;
 
 public class OperationContext {
@@ -24,15 +27,94 @@ public class OperationContext {
         this.executor = executor;
     }
     
-    public List<Operation> getOperationList(UUID batchId) {
-        return operationMap.get(batchId);
+    public List<Operation> getOperationList(UUID batch) {
+        return operationMap.get(batch);
     }
     
     public void add(Operation operation) {
-        UUID batchId = operation.getBatch();
-        operationMap.putIfAbsent(batchId, new ArrayList<>());
-        operationMap.get(batchId).add(operation);
+        UUID batch = operation.getBatch();
+        operationMap.putIfAbsent(batch, new ArrayList<>());
+        
+        List<Operation> operationList = operationMap.get(batch);
+        
+        int priority = operation.getPriority();
+        Optional<Operation> option = operationList
+                .stream()
+                .filter(t -> t.getPriority() == priority)
+                .findFirst();
+        
+        if (option.isPresent()) {
+            option.get().getChildren().add(operation);
+        } else {
+            operationMap.get(batch).add(operation);
+        }
+        
     }
+    
+    
+    public List<TableInfo> getTable(UUID batch) {
+        return tableMap.get(batch);
+    }
+    
+    public TableInfo addTableIfAbsent(UUID batch, String table) {
+        tableMap.putIfAbsent(batch, new ArrayList<>());
+        
+        List<TableInfo> tableList = tableMap.get(batch);
+        
+        TableInfo tableInfo = new TableInfo(table);
+        if (!tableList.contains(tableInfo)) {
+            tableList.add(tableInfo);
+            return tableInfo;
+        } else {
+            int index = tableList.indexOf(tableInfo);
+            tableInfo = tableList.get(index);
+            return tableInfo;
+        }
+        
+        
+    }
+    
+    
+    public TableInfo addTableIfAbsent(UUID batch, String table, String alias) {
+        tableMap.putIfAbsent(batch, new ArrayList<>());
+        
+        List<TableInfo> tableList = tableMap.get(batch);
+        
+        TableInfo tableInfo = new TableInfo(table, alias);
+        if (!tableList.contains(tableInfo)) {
+            tableList.add(tableInfo);
+            return tableInfo;
+        } else {
+            int index = tableList.indexOf(tableInfo);
+            tableInfo = tableList.get(index);
+            
+            if (StringUtils.isNotEmpty(alias))
+                tableInfo.setAlias(alias);
+            return tableInfo;
+        }
+        
+        
+    }
+    
+    public TableInfo addTableIfAbsent(UUID batch, TableInfo tableInfo) {
+        tableMap.putIfAbsent(batch, new ArrayList<>());
+        
+        List<TableInfo> tableList = tableMap.get(batch);
+        
+        if (!tableList.contains(tableInfo)) {
+            tableList.add(tableInfo);
+            return tableInfo;
+        } else {
+            int index = tableList.indexOf(tableInfo);
+            tableInfo = tableList.get(index);
+            if (StringUtils.isNotEmpty(tableInfo.getAlias()))
+                tableInfo.setAlias(tableInfo.getAlias());
+            return tableInfo;
+        }
+        
+        
+    }
+    
     
     public void query(UUID batchId) {
         ExecuteData data = build(batchId);

@@ -27,28 +27,27 @@ public class FromOperation extends AbstractOperation {
         this.batch = batch;
         this.context = context;
         context.add(this);
-        this.tableInfo = new TableInfo(table);
+        this.tableInfo = context.addTableIfAbsent(batch, table);
     }
     
     public FromOperation(UUID batch, OperationContext context, String table, String alias) {
         this.batch = batch;
         this.context = context;
         context.add(this);
-        this.tableInfo = new TableInfo(table, alias);
+        this.tableInfo = context.addTableIfAbsent(batch, table, alias);
     }
     
     public FromOperation(UUID batch, OperationContext context, TableInfo tableInfo) {
         this.batch = batch;
         this.context = context;
         context.add(this);
-        this.tableInfo = tableInfo;
+        this.tableInfo = context.addTableIfAbsent(batch, tableInfo);
     }
     
     public SelectOperation select() {
         return new SelectOperation(this.batch, this.context, this.tableInfo);
     }
     
-
     
     public SelectOperation select(String... properties) {
         SelectOperation operation = new SelectOperation(this.batch, this.context, this.tableInfo);
@@ -171,7 +170,7 @@ public class FromOperation extends AbstractOperation {
     
     @Override
     public void build() {
-      
+        
         
         expression = String.format(EXPRESSION, tableInfo.getName(), tableInfo.getAlias());
         

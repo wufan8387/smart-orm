@@ -9,13 +9,23 @@ import java.util.UUID;
 
 public abstract class AbstractOperation implements Operation {
     
-    protected UUID batch = UUID.randomUUID();
+    protected UUID batch;
     
     protected List<Object> params = new ArrayList<>();
     
     protected OperationContext context;
     
     protected TableInfo tableInfo;
+    
+    protected final List<Operation> children = new ArrayList<>();
+    
+    
+    private final UUID id = UUID.randomUUID();
+    
+    @Override
+    public UUID getId() {
+        return id;
+    }
     
     @Override
     public UUID getBatch() {
@@ -26,7 +36,6 @@ public abstract class AbstractOperation implements Operation {
     public void setBatch(UUID batch) {
         this.batch = batch;
     }
-    
     
     @Override
     public List<Object> getParams() {
@@ -53,5 +62,12 @@ public abstract class AbstractOperation implements Operation {
         this.tableInfo = tableInfo;
     }
     
+    public List<Operation> getChildren() {
+        return children;
+    }
     
+    @Override
+    public void build(StringBuilder sb) {
+    
+    }
 }
