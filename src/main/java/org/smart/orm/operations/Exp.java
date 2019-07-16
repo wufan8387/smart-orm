@@ -36,35 +36,35 @@ public class Exp {
     private final static String TEXT_INNER_JOIN = " INNER JOIN `%s` AS `%S` ON %s ";
     
     
-    public final static Expression BETWEEN = t -> String.format(TEXT_BETWEEN, t[0], t[1]);
+    public final static Formatter BETWEEN = t -> String.format(TEXT_BETWEEN, t[0], t[1]);
     
-    public final static Expression EQUAL = t -> String.format(TEXT_EQUAL, t[0], t[1]);
+    public final static Formatter EQUAL = t -> String.format(TEXT_EQUAL, t[0], t[1]);
     
-    public final static Expression EXISTS = t -> String.format(TEXT_EXISTS, t[0], t[1]);
+    public final static Formatter EXISTS = t -> String.format(TEXT_EXISTS, t[0], t[1]);
     
-    public final static Expression GREATE_THAN = t -> String.format(TEXT_GREATE_THAN, t[0], t[1]);
+    public final static Formatter GREATE_THAN = t -> String.format(TEXT_GREATE_THAN, t[0], t[1]);
     
-    public final static Expression GREATE_THAN_EQUAL = t -> String.format(TEXT_GREATE_THAN_EQUAL, t[0], t[1]);
+    public final static Formatter GREATE_THAN_EQUAL = t -> String.format(TEXT_GREATE_THAN_EQUAL, t[0], t[1]);
     
-    public final static Expression IN = t -> String.format(TEXT_IN, t[0], t[1]);
+    public final static Formatter IN = t -> String.format(TEXT_IN, t[0], t[1]);
     
-    public final static Expression IS_NULL = t -> String.format(TEXT_IS_NULL, t[0], t[1]);
+    public final static Formatter IS_NULL = t -> String.format(TEXT_IS_NULL, t[0], t[1]);
     
-    public final static Expression LESS_THAN = t -> String.format(TEXT_LESS_THAN, t[0], t[1]);
+    public final static Formatter LESS_THAN = t -> String.format(TEXT_LESS_THAN, t[0], t[1]);
     
-    public final static Expression LESS_THAN_EQUAL = t -> String.format(TEXT_LESS_THAN_EQUAL, t[0], t[1]);
+    public final static Formatter LESS_THAN_EQUAL = t -> String.format(TEXT_LESS_THAN_EQUAL, t[0], t[1]);
     
-    public final static Expression LIKE = t -> String.format(TEXT_LIKE, t[0], t[1]);
+    public final static Formatter LIKE = t -> String.format(TEXT_LIKE, t[0], t[1]);
     
-    public final static Expression NOT_EQUAL = t -> String.format(TEXT_NOT_EQUAL, t[0], t[1]);
+    public final static Formatter NOT_EQUAL = t -> String.format(TEXT_NOT_EQUAL, t[0], t[1]);
     
-    public final static Expression NOT_EXISTS = t -> String.format(TEXT_NOT_EXISTS, t[0], t[1]);
+    public final static Formatter NOT_EXISTS = t -> String.format(TEXT_NOT_EXISTS, t[0], t[1]);
     
-    public final static Expression NOT_IN = t -> String.format(TEXT_NOT_IN, t[0], t[1]);
+    public final static Formatter NOT_IN = t -> String.format(TEXT_NOT_IN, t[0], t[1]);
     
-    public final static Expression NOT_nULL = t -> String.format(TEXT_NOT_nULL, t[0], t[1]);
+    public final static Formatter NOT_nULL = t -> String.format(TEXT_NOT_nULL, t[0], t[1]);
     
-    public final static Expression WHERE = t -> {
+    public final static Formatter WHERE = t -> {
         
         WhereType whereType = (WhereType) t[0];
         switch (whereType) {

@@ -18,7 +18,6 @@ public interface OperationPriority {
     
     public final static int LIMIT = 7;
     
-    
     public final static int INCLUDE = 101;
     
 }

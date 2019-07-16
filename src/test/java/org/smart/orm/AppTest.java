@@ -3,8 +3,8 @@ package org.smart.orm;
 import org.junit.Test;
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.Table;
-import org.smart.orm.operations.type.EqualOperation;
-import org.smart.orm.operations.type.FromOperation;
+import org.smart.orm.operations.type.EqualExpression;
+import org.smart.orm.operations.type.FromExpression;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -57,14 +57,14 @@ public class AppTest {
         }
         
         
-        OperationContext context = new OperationContext();
-        FromOperation<TestEntity> fromOperation = new FromOperation<>(UUID.randomUUID(), context, "test");
-        
-        fromOperation
-                .select(TestEntity::getId,"pid")
-                .where(new EqualOperation<>(TestEntity::getId, 100));
-        
-        context.query(fromOperation.getBatch());
+//        OperationContext context = new OperationContext();
+//        FromExpression<TestEntity> fromOperation = new FromExpression<>(UUID.randomUUID(), context, "test");
+//
+//        fromOperation
+//                .select(TestEntity::getId,"pid")
+//                .where(new EqualExpression<>(TestEntity::getId, 100));
+//
+//        context.query(fromOperation.getBatch());
         // select(TestEntity.class);
         //
         // OperationContext<TestEntity> context;

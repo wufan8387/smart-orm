@@ -2,9 +2,9 @@ package org.smart.orm;
 
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.Table;
-import org.smart.orm.operations.type.DeleteOperation;
-import org.smart.orm.operations.type.InsertOperation;
-import org.smart.orm.operations.type.UpdateOperation;
+import org.smart.orm.operations.type.DeleteExpression;
+import org.smart.orm.operations.type.InsertExpression;
+import org.smart.orm.operations.type.UpdateExpression;
 import org.smart.orm.reflect.*;
 
 import java.lang.reflect.Field;
@@ -118,21 +118,21 @@ public abstract class Model<T extends Model<T>> {
         this.propertyChange(propertyName, value);
     }
     
-    public InsertOperation<T> insert() {
-        InsertOperation<T> insOp = new InsertOperation<>(context);
-        return insOp;
-    }
+//    public InsertExpression<T> insert() {
+//        InsertExpression<T> insOp = new InsertExpression<>();
+//        return insOp;
+//    }
+//
+//    public DeleteExpression<T> delete() {
+//        DeleteExpression<T> delOp = new DeleteExpression<>();
+//        return delOp;
+//    }
     
-    public DeleteOperation<T> delete() {
-        DeleteOperation<T> delOp = new DeleteOperation<>(context);
-        return delOp;
-    }
-    
-    @SuppressWarnings("unchecked")
-    public UpdateOperation<T> update() {
-        UpdateOperation<T> upOp = new UpdateOperation<>(context, (T) this);
-        return upOp;
-    }
+//    @SuppressWarnings("unchecked")
+//    public UpdateExpression<T> update() {
+//        UpdateExpression<T> upOp = new UpdateExpression<>(context, (T) this);
+//        return upOp;
+//    }
     
     private static class ChangeInfo {
         
