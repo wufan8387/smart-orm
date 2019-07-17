@@ -72,7 +72,7 @@ public class FromExpression<T extends Model<T>> extends AbstractExpression {
     }
 
 //    @SafeVarargs
-//    public final FromExpression<T> orderby(OrderbyType orderbyType, PropertyGetter<T>... properties) {
+//    public final FromNode<T> orderby(OrderbyType orderbyType, PropertyGetter<T>... properties) {
 //
 //        for (PropertyGetter<T> property : properties) {
 //            OrderByInfo orderByInfo = new OrderByInfo();

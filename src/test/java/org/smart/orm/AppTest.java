@@ -58,7 +58,7 @@ public class AppTest {
         
         
 //        OperationContext context = new OperationContext();
-//        FromExpression<TestEntity> fromOperation = new FromExpression<>(UUID.randomUUID(), context, "test");
+//        FromNode<TestEntity> fromOperation = new FromNode<>(UUID.randomUUID(), context, "test");
 //
 //        fromOperation
 //                .select(TestEntity::getId,"pid")

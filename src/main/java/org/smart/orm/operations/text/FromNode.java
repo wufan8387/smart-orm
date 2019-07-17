@@ -1,35 +1,34 @@
 package org.smart.orm.operations.text;
 
+import org.smart.orm.data.JoinType;
 import org.smart.orm.data.OperationPriority;
-import org.smart.orm.operations.AbstractExpression;
-import org.smart.orm.operations.Formatter;
-import org.smart.orm.operations.Statement;
+import org.smart.orm.operations.*;
 import org.smart.orm.reflect.TableInfo;
 
-public class FromExpression extends AbstractExpression {
+public class FromNode extends AbstractExpression {
     
     
     private final static String EXPRESSION = " FROM `%s` AS `%S` ";
     
     
-    public FromExpression(Statement statement) {
+    public FromNode(Statement statement) {
         this.statement = statement;
         statement.add(this);
     }
     
-    public FromExpression(Statement statement, String table) {
+    public FromNode(Statement statement, String table) {
         this.statement = statement;
         statement.add(this);
         this.tableInfo = statement.getTable(table);
     }
     
-    public FromExpression(Statement statement, String table, String alias) {
+    public FromNode(Statement statement, String table, String alias) {
         this.statement = statement;
         statement.add(this);
         this.tableInfo = statement.getTable(table, alias);
     }
     
-    public FromExpression(Statement statement, TableInfo tableInfo) {
+    public FromNode(Statement statement, TableInfo tableInfo) {
         this.statement = statement;
         statement.add(this);
         this.tableInfo = statement.getTable(tableInfo);
@@ -46,7 +45,7 @@ public class FromExpression extends AbstractExpression {
         return expression;
     }
     
-    public FromExpression join(JoinExpression expression) {
+    public FromNode join(JoinExpression expression) {
         statement.add(expression);
         return this;
     }
@@ -64,14 +63,24 @@ public class FromExpression extends AbstractExpression {
         return new LimitExpression(this.statement, count);
     }
     
-    public FromExpression orderBy(OrderbyExpression expression) {
+    public FromNode orderBy(OrderbyExpression expression) {
         expression.setStatement(this.statement);
         statement.add(expression);
         return this;
     }
+    
+    public FromNode join(JoinType joinType, String table, SqlNode on) {
+        
+        return this;
+    }
+    
+    public FromNode join(JoinType joinType, String table, String alias, SqlNode on) {
+        return this;
+    }
+
 
 //    @SafeVarargs
-//    public final FromExpression<T> orderby(OrderbyType orderbyType, PropertyGetter<T>... properties) {
+//    public final FromNode<T> orderby(OrderbyType orderbyType, PropertyGetter<T>... properties) {
 //
 //        for (PropertyGetter<T> property : properties) {
 //            OrderByInfo orderByInfo = new OrderByInfo();

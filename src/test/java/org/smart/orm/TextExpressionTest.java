@@ -6,8 +6,6 @@ import org.smart.orm.operations.Exp;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.text.*;
 
-import java.util.UUID;
-
 public class TextExpressionTest {
     
     @Test
@@ -16,7 +14,7 @@ public class TextExpressionTest {
         OperationContext context = new OperationContext();
     
         Statement statement=new DefaultStatement();
-        FromExpression fromOperation = new FromExpression(statement, "user");
+        FromNode fromOperation = new FromNode(statement, "user");
         
         fromOperation
                 .select("id", "name")

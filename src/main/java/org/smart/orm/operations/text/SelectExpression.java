@@ -71,16 +71,16 @@ public class SelectExpression extends AbstractExpression {
         return columnList;
     }
     
-    public FromExpression from() {
-        return new FromExpression(statement);
+    public FromNode from() {
+        return new FromNode(statement);
     }
     
-    public FromExpression from(String table) {
-        return new FromExpression(statement, table);
+    public FromNode from(String table) {
+        return new FromNode(statement, table);
     }
     
-    public FromExpression from(TableInfo table) {
-        return new FromExpression(statement, table);
+    public FromNode from(TableInfo table) {
+        return new FromNode(statement, table);
     }
     
     public WhereExpression where(String property, Formatter exp, Object... value) {
