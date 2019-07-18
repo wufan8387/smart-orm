@@ -28,29 +28,16 @@ public class QueryStatement implements Statement {
         return null;
     }
     
-    @Override
-    public void add(Expression expression) {
     
-    }
-    
-    @Override
-    public TableInfo getTable(String table) {
-        return null;
-    }
-    
-    @Override
-    public TableInfo getTable(String table, String alias) {
-        return null;
-    }
-    
-    @Override
-    public TableInfo getTable(TableInfo tableInfo) {
-        return null;
-    }
-    
-    public FromNode from(String table) {
-        FromNode node = new FromNode(this, table);
+    public RelationNode<QueryStatement> from(String rel) {
+        RelationNode<QueryStatement> node = new RelationNode<>(this, rel);
         return node;
     }
+    
+    public AttributeNode<QueryStatement> select(String rel, String attr) {
+        AttributeNode<QueryStatement> node = new AttributeNode<>(this, rel, attr);
+        return node;
+    }
+    
     
 }

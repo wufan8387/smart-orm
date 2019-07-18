@@ -8,6 +8,7 @@ import org.smart.orm.reflect.TableInfo;
 public class FromNode extends AbstractExpression {
     
     
+    
     private final static String EXPRESSION = " FROM `%s` AS `%S` ";
     
     

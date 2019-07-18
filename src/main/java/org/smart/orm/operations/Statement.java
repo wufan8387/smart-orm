@@ -11,6 +11,8 @@ public interface Statement {
     
     void add(Expression expression);
     
+    void add(SqlNode node);
+    
     
     TableInfo getTable(String table);
     

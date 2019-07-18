@@ -1,12 +1,12 @@
 package org.smart.orm.operations;
 
 import org.apache.commons.lang3.StringUtils;
+import org.smart.orm.data.JoinType;
 import org.smart.orm.data.WhereType;
 
 
 public class Exp {
     
-
     
     private final static String TEXT_BETWEEN = " `%s`.`%s` between ? and ? ";
     private final static String TEXT_EQUAL = " `%s`.`%s` = ? ";
@@ -78,5 +78,32 @@ public class Exp {
         return StringUtils.EMPTY;
         
     };
+    
+    public final static Formatter JOIN = t -> {
+        
+        JoinType joinType = (JoinType) t[0];
+        switch (joinType) {
+            case INNER:
+                return " INNER JOIN ";
+            case LEFT:
+                return " LEFT JOIN ";
+            case RIGHT:
+                return " RIGHT JOIN ";
+        }
+        return " FROM ";
+        
+    };
+    
+    public final static Formatter AS = t -> {
+        if (t.length == 2) {
+            if (t[1] == null) {
+                return String.format(" `%s` ", t[0]);
+            }
+            return String.format(" `%s` AS `%s` ", t[0], t[1]);
+        }
+        
+        return String.format(" `%s` ", t[0]);
+    };
+    
     
 }
