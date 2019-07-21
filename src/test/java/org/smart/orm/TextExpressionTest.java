@@ -1,38 +1,35 @@
 package org.smart.orm;
 
 import org.junit.Test;
-import org.smart.orm.operations.DefaultStatement;
-import org.smart.orm.operations.Exp;
-import org.smart.orm.operations.Statement;
-import org.smart.orm.operations.text.*;
+import org.smart.orm.operations.Op;
+import org.smart.orm.operations.text.QueryStatement;
 
 public class TextExpressionTest {
     
     @Test
     public void buildTest() {
         
-        OperationContext context = new OperationContext();
+        QueryStatement statement = new QueryStatement();
+        
+        statement
+                .select("name")
+                .from("user", "u")
+                .join("profile", "p")
+                .on("id", Op.EQUAL, "tid")
+                .and("x", Op.NOT_EQUAL, "tt")
+                .statement()
+                .where("user", "id", Op.EQUAL, 100)
+                .statement()
+                .orderBy("user", "id")
+                .desc("profile", "name")
+                .statement()
+                .limit(100)
+                .setEnd(200);
+        
+        System.out.print(statement.toString());
+        System.out.print(statement.getParams().toString());
     
-        Statement statement=new DefaultStatement();
-        FromNode fromOperation = new FromNode(statement, "user");
-        
-        fromOperation
-                .select("id", "name")
-//                .join(new JoinExpression("profile"))
-//                .on("id", new EqualExpression("user", "id"))
-//                .and("name", new NotEqualExpression("user", "name"))
-                .where("id", Exp.EQUAL, 100)
-                .and("name", Exp.LIKE, "%100%")
-                .or("id", Exp.EQUAL, 100)
-                .and("user", "name", Exp.IS_NULL)
-                .or("user", "name", Exp.NOT_nULL);
-        
-        
-//        OperationContext.ExecuteData data = context.build(fromOperation.getBatch());
-        
-//        System.out.print(data.sql);
-        
-        
+    
     }
     
     

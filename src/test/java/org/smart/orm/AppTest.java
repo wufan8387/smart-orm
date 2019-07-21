@@ -3,14 +3,9 @@ package org.smart.orm;
 import org.junit.Test;
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.Table;
-import org.smart.orm.operations.type.EqualExpression;
-import org.smart.orm.operations.type.FromExpression;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.UUID;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for simple App.

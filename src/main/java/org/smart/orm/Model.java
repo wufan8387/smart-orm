@@ -2,9 +2,7 @@ package org.smart.orm;
 
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.Table;
-import org.smart.orm.operations.type.DeleteExpression;
-import org.smart.orm.operations.type.InsertExpression;
-import org.smart.orm.operations.type.UpdateExpression;
+
 import org.smart.orm.reflect.*;
 
 import java.lang.reflect.Field;

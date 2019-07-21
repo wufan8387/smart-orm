@@ -1,24 +1,24 @@
 package org.smart.orm.operations;
 
-import org.apache.commons.lang3.StringUtils;
-import org.smart.orm.reflect.TableInfo;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public interface Statement {
     
     UUID getId();
     
-    void add(Expression expression);
+    List<Object> getParams();
     
-    void add(SqlNode node);
+    void addParam(Object param);
     
+    <T extends SqlNode<?>> T attach(T node);
     
-    TableInfo getTable(String table);
+    <T extends SqlNode<?>> List<T> find(int nodeType, Predicate<T> predicate);
     
-    TableInfo getTable(String table, String alias);
+    <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate);
     
-    TableInfo getTable(TableInfo tableInfo);
-    
+    <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate, Supplier<T> other);
     
 }

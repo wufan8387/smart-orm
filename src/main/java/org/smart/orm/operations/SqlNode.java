@@ -4,6 +4,8 @@ public interface SqlNode<T extends Statement> {
     
     int getType();
     
-    T getStatement();
+    T statement();
+    
+    void toString(StringBuilder sb);
     
 }

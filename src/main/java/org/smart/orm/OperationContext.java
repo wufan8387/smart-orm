@@ -12,8 +12,6 @@ public class OperationContext {
     private final static Map<UUID, List<Expression>> operationMap = new HashMap<>();
     
     
-//    private final static Map<UUID, List<TableInfo>> tableMap = new HashMap<>();
-    
     
     private Executor executor;
     
