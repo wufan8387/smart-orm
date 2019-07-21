@@ -3,15 +3,24 @@ package org.smart.orm;
 import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.execution.Executor;
 import org.smart.orm.operations.Expression;
+import org.smart.orm.operations.Statement;
 import org.smart.orm.reflect.TableInfo;
 
+import javax.sql.RowSet;
+import javax.sql.RowSetListener;
+import javax.sql.rowset.JdbcRowSet;
+import javax.sql.rowset.RowSetWarning;
+import java.io.InputStream;
+import java.io.Reader;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 public class OperationContext {
     
-    private final static Map<UUID, List<Expression>> operationMap = new HashMap<>();
-    
-    
+    private final static Map<UUID, Statement> statementMap = new HashMap<>();
     
     private Executor executor;
     
@@ -23,98 +32,10 @@ public class OperationContext {
         this.executor = executor;
     }
     
-//    public List<Expression> getOperationList(UUID batch) {
-//        return operationMap.get(batch);
-//    }
-//
-//    public void add(Expression expression) {
-//        UUID batch = expression.getBatch();
-//        operationMap.putIfAbsent(batch, new ArrayList<>());
-//
-//        List<Expression> expressionList = operationMap.get(batch);
-//
-//        int priority = expression.getPriority();
-//        Optional<Expression> option = expressionList
-//                .stream()
-//                .filter(t -> t.getPriority() == priority)
-//                .findFirst();
-//
-//        if (option.isPresent()) {
-//            option.get().getChildren().add(expression);
-//        } else {
-//            operationMap.get(batch).add(expression);
-//        }
-//
-//    }
-//
-    
-//    public List<TableInfo> getTable(UUID batch) {
-//        return tableMap.get(batch);
-//    }
-//
-//    public TableInfo addTableIfAbsent(UUID batch, String table) {
-//        tableMap.putIfAbsent(batch, new ArrayList<>());
-//
-//        List<TableInfo> tableList = tableMap.get(batch);
-//
-//        TableInfo tableInfo = new TableInfo(table);
-//        if (!tableList.contains(tableInfo)) {
-//            tableList.add(tableInfo);
-//            return tableInfo;
-//        } else {
-//            int index = tableList.indexOf(tableInfo);
-//            tableInfo = tableList.get(index);
-//            return tableInfo;
-//        }
-//
-//
-//    }
-//
-//
-//    public TableInfo addTableIfAbsent(UUID batch, String table, String alias) {
-//        tableMap.putIfAbsent(batch, new ArrayList<>());
-//
-//        List<TableInfo> tableList = tableMap.get(batch);
-//
-//        TableInfo tableInfo = new TableInfo(table, alias);
-//        if (!tableList.contains(tableInfo)) {
-//            tableList.add(tableInfo);
-//            return tableInfo;
-//        } else {
-//            int index = tableList.indexOf(tableInfo);
-//            tableInfo = tableList.get(index);
-//
-//            if (StringUtils.isNotEmpty(alias))
-//                tableInfo.setAlias(alias);
-//            return tableInfo;
-//        }
-//
-//
-//    }
-//
-//    public TableInfo addTableIfAbsent(UUID batch, TableInfo tableInfo) {
-//        tableMap.putIfAbsent(batch, new ArrayList<>());
-//
-//        List<TableInfo> tableList = tableMap.get(batch);
-//
-//        if (!tableList.contains(tableInfo)) {
-//            tableList.add(tableInfo);
-//            return tableInfo;
-//        } else {
-//            int index = tableList.indexOf(tableInfo);
-//            tableInfo = tableList.get(index);
-//            if (StringUtils.isNotEmpty(tableInfo.getAlias()))
-//                tableInfo.setAlias(tableInfo.getAlias());
-//            return tableInfo;
-//        }
-//
-//
-//    }
-//
-    
-    public void query(UUID batchId) {
-        ExecuteData data = build(batchId);
-//        executor.executeQuery(null, data.sql, data.paramList);
+    public void query(Statement statement) {
+        String sql = statement.toString();
+        List<Object> paramList = statement.getParams();
+        executor.executeQuery(null, null, sql, paramList.toArray());
     }
     
     public void update(UUID batchId) {
