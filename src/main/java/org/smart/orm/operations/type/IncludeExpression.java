@@ -8,11 +8,11 @@
 //
 //public class IncludeExpression extends AbstractExpression {
 //
-//    public SelectExpression<?> include(String... properties) {
+//    public AttributeNode<?> include(String... properties) {
 //        return null;
 //    }
 //
-//    public <T extends Model<T>> SelectExpression<T> include(PropertyGetter<?>... properties) {
+//    public <T extends Model<T>> AttributeNode<T> include(PropertyGetter<?>... properties) {
 //        return null;
 //    }
 //

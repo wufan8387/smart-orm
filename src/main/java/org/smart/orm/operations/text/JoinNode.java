@@ -18,10 +18,7 @@ public class JoinNode<T extends Statement> implements SqlNode<T> {
     
     private String rightAttr;
     
-    
     private Func<String> op;
-    
-    private JoinNode<T> parent;
     
     private JoinNode<T> child;
     
@@ -43,7 +40,6 @@ public class JoinNode<T extends Statement> implements SqlNode<T> {
     public JoinNode(T statement, String leftRel, String leftAttr, Func<String> op, String rightRel, String
             rightAttr, JoinNode<T> parent) {
         this(statement, leftRel, leftAttr, op, rightRel, rightAttr);
-        this.parent = parent;
         if (parent != null)
             parent.child = this;
     }
@@ -60,7 +56,6 @@ public class JoinNode<T extends Statement> implements SqlNode<T> {
     
     public JoinNode(T statement, RelationNode<T> leftRel, String leftAttr, Func<String> op, RelationNode<T> rightRel, String rightAttr, JoinNode<T> parent) {
         this(statement, leftRel, leftAttr, op, rightRel, rightAttr);
-        this.parent = parent;
         if (parent != null)
             parent.child = this;
     }

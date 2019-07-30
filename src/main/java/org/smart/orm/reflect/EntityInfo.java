@@ -2,6 +2,7 @@ package org.smart.orm.reflect;
 
 import org.smart.orm.SmartORMException;
 
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ public class EntityInfo {
         this.entityClass = entityClass;
     }
 
+    @NotNull
     public TableInfo getTable() {
         return table;
     }

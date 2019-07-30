@@ -7,17 +7,17 @@
 //import org.smart.orm.operations.Statement;
 //import org.smart.orm.reflect.TableInfo;
 //
-//public class DeleteExpression<T extends Model<T>> extends AbstractExpression {
+//public class DeleteStatement<T extends Model<T>> extends AbstractExpression {
 //
 //    private final static String EXPRESSION = " DELETE FROM `%s` ";
 //
 //    private TableInfo tableInfo;
 //
-//    public DeleteExpression(Statement statement) {
+//    public DeleteStatement(Statement statement) {
 //        this.statement = statement;
 //    }
 //
-//    public DeleteExpression<T> where(WhereExpression<T>... operations) {
+//    public DeleteStatement<T> where(WhereExpression<T>... operations) {
 //        for (WhereExpression<T> operation : operations) {
 //            operation.setStatement(statement);
 //        }

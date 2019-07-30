@@ -1,24 +1,17 @@
 package org.smart.orm.operations.text;
 
 import org.smart.orm.Func;
-import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.JoinType;
+import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.SqlNode;
-import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class QueryStatement implements Statement {
+public class QueryStatement extends AbstractStatement {
     
-    
-    private final List<SqlNode<?>> nodeList = new ArrayList<>();
     
     private RelationNode<QueryStatement> relRoot;
     
@@ -30,26 +23,10 @@ public class QueryStatement implements Statement {
     
     private OrderByNode<QueryStatement> orderByRoot;
     
+    private GroupByNode<QueryStatement> groupByRoot;
+    
+    
     private LimitNode<QueryStatement> limitRoot;
-    
-    private List<AttributeNode<QueryStatement>> attrList = new ArrayList<>();
-    
-    private List<Object> paramList = new ArrayList<>();
-    
-    @Override
-    public UUID getId() {
-        return null;
-    }
-    
-    @Override
-    public List<Object> getParams() {
-        return paramList;
-    }
-    
-    @Override
-    public void addParam(Object param) {
-        paramList.add(param);
-    }
     
     @SuppressWarnings("unchecked")
     @Override
@@ -66,6 +43,10 @@ public class QueryStatement implements Statement {
                 whereRoot = whereRoot == null ? whereNode : whereRoot;
                 whereLast = whereNode;
                 break;
+            case NodeType.GROUP_BY:
+                GroupByNode<QueryStatement> groupByNode = (GroupByNode<QueryStatement>) node;
+                groupByRoot = groupByRoot == null ? groupByNode : groupByRoot;
+                break;
             case NodeType.ORDER_BY:
                 OrderByNode<QueryStatement> orderByNode = (OrderByNode<QueryStatement>) node;
                 orderByRoot = orderByRoot == null ? orderByNode : orderByRoot;
@@ -77,31 +58,6 @@ public class QueryStatement implements Statement {
         }
         nodeList.add(node);
         return node;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends SqlNode<?>> List<T> find(int nodeType, Predicate<T> predicate) {
-        return nodeList.stream()
-                .filter(t -> t.getType() == nodeType)
-                .map(t -> (T) t)
-                .filter(predicate)
-                .collect(Collectors.toList());
-    }
-    
-    public <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate) {
-        return findFirst(nodeType, predicate, () -> null);
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate, Supplier<T> other) {
-        return nodeList.stream()
-                .filter(t -> t.getType() == nodeType)
-                .map(t -> (T) t)
-                .filter(predicate)
-                .findFirst()
-                .orElseGet(other);
     }
     
     public RelationNode<QueryStatement> from(String rel) {
@@ -185,7 +141,6 @@ public class QueryStatement implements Statement {
                 .setLogicalType(LogicalType.OR);
     }
     
-    
     public AttributeNode<QueryStatement> select(String attr, String alias) {
         AttributeNode<QueryStatement> node = new AttributeNode<>(this, attr, alias);
         return node;
@@ -194,7 +149,6 @@ public class QueryStatement implements Statement {
     public AttributeNode<QueryStatement> select(SqlNode<QueryStatement> attr, String alias) {
         return new AttributeNode<>(this, attr, alias);
     }
-    
     
     public OrderByNode<QueryStatement> orderBy(String rel, String attr) {
         if (orderByRoot == null) {
@@ -212,6 +166,15 @@ public class QueryStatement implements Statement {
         return orderByRoot;
     }
     
+    public GroupByNode<QueryStatement> groupBy(String rel, String attr) {
+        if (groupByRoot == null) {
+            attach(new GroupByNode<>(this));
+        }
+        groupByRoot.add(rel, attr);
+        return groupByRoot;
+    }
+    
+    
     public LimitNode<QueryStatement> limit(int start) {
         if (limitRoot == null)
             limitRoot = new LimitNode<>(this);
@@ -227,6 +190,7 @@ public class QueryStatement implements Statement {
     }
     
     
+    @SuppressWarnings("unchecked")
     @Override
     public String toString() {
         this.paramList.clear();
@@ -234,8 +198,9 @@ public class QueryStatement implements Statement {
         
         sb.append(Token.SELECT);
         
-        List<SqlNode<?>> attrList = nodeList
+        List<AttributeNode<QueryStatement>> attrList = nodeList
                 .stream().filter(t -> t.getType() == NodeType.ATTRIBUTE)
+                .map(t -> (AttributeNode<QueryStatement>) t)
                 .collect(Collectors.toList());
         
         int attrSize = attrList.size();
@@ -259,8 +224,11 @@ public class QueryStatement implements Statement {
             whereRoot.toString(sb);
         }
         
+        if (groupByRoot != null) {
+            groupByRoot.toString(sb);
+        }
+        
         if (orderByRoot != null) {
-            sb.append(Token.ORDERBY);
             orderByRoot.toString(sb);
         }
         
@@ -270,4 +238,8 @@ public class QueryStatement implements Statement {
         
         return sb.toString();
     }
+    
+    
+    
+    
 }

@@ -3,8 +3,10 @@ package org.smart.orm;
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.Table;
 
+import org.smart.orm.operations.text.QueryStatement;
 import org.smart.orm.reflect.*;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -16,8 +18,6 @@ import java.util.Map;
 public abstract class Model<T extends Model<T>> {
     
     private final static Map<String, EntityInfo> metaMap = new HashMap<>();
-    
-    // private static Map<Integer, List<ChangeInfo>> changeMap = new HashMap<>();
     
     private List<ChangeInfo> changeList = new ArrayList<>();
     
@@ -44,23 +44,28 @@ public abstract class Model<T extends Model<T>> {
         return entityInfo;
     }
     
-    
+    @NotNull
     public static EntityInfo getMeta(Class<?> cls) {
+        return getMeta(cls, 0);
+    }
+    
+    @NotNull
+    public static EntityInfo getMeta(Class<?> cls, int index) {
         
         Type type = cls.getGenericSuperclass();
-        
-        if (!(type instanceof ParameterizedType))
-            return null;
+
+//        if (!(type instanceof ParameterizedType))
+//            return null;
         
         Type[] typeList = ((ParameterizedType) type).getActualTypeArguments();
+
+//        if (typeList.length == 0)
+//            return null;
         
-        if (typeList.length == 0)
-            return null;
-        
-        Type actualType = typeList[0];
-        
-        if (actualType instanceof java.lang.reflect.TypeVariable)
-            return null;
+        Type actualType = typeList[index];
+
+//        if (actualType instanceof java.lang.reflect.TypeVariable)
+//            return null;
         
         cls = (Class<?>) actualType;
         
@@ -76,6 +81,7 @@ public abstract class Model<T extends Model<T>> {
             return entityInfo;
         }
     }
+    
     
     private static EntityInfo buildEntityInfo(Class<?> cls) {
         EntityInfo entityInfo = new EntityInfo();
@@ -115,20 +121,21 @@ public abstract class Model<T extends Model<T>> {
         String propertyName = LambdaParser.getGetter(property).getName();
         this.propertyChange(propertyName, value);
     }
-    
-//    public InsertExpression<T> insert() {
-//        InsertExpression<T> insOp = new InsertExpression<>();
+
+
+//    public InsertStatement<T> insert() {
+//        InsertStatement<T> insOp = new InsertStatement<>();
 //        return insOp;
 //    }
 //
-//    public DeleteExpression<T> delete() {
-//        DeleteExpression<T> delOp = new DeleteExpression<>();
+//    public DeleteStatement<T> delete() {
+//        DeleteStatement<T> delOp = new DeleteStatement<>();
 //        return delOp;
 //    }
-    
+
 //    @SuppressWarnings("unchecked")
-//    public UpdateExpression<T> update() {
-//        UpdateExpression<T> upOp = new UpdateExpression<>(context, (T) this);
+//    public UpdateStatement<T> update() {
+//        UpdateStatement<T> upOp = new UpdateStatement<>(context, (T) this);
 //        return upOp;
 //    }
     

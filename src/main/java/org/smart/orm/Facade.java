@@ -113,27 +113,27 @@
 //    }
 //
 //    // insert
-//    public static <T extends Model<T>> InsertExpression<T> insert(Statement statement, T entity) {
-//        return new InsertExpression<>(statement);
+//    public static <T extends Model<T>> InsertStatement<T> insert(Statement statement, T entity) {
+//        return new InsertStatement<>(statement);
 //    }
 //
 //    // delete
-//    public static <T extends Model<T>> DeleteExpression<T> delete(Statement statement, T entity) {
-//        return new DeleteExpression<>(statement);
+//    public static <T extends Model<T>> DeleteStatement<T> delete(Statement statement, T entity) {
+//        return new DeleteStatement<>(statement);
 //    }
 //
 //    // update
-//    public static <T extends Model<T>> UpdateExpression<T> update(Statement statement) {
-//        return new UpdateExpression<>(statement);
+//    public static <T extends Model<T>> UpdateStatement<T> update(Statement statement) {
+//        return new UpdateStatement<>(statement);
 //    }
 //
-//    public static <T extends Model<T>> UpdateExpression<T> update(Statement statement, T entity) {
-//        return new UpdateExpression<>(statement, entity);
+//    public static <T extends Model<T>> UpdateStatement<T> update(Statement statement, T entity) {
+//        return new UpdateStatement<>(statement, entity);
 //    }
 //
 //    // select
-//    public static <T extends Model<T>> SelectExpression<T> select(Statement statement) {
-//        return new SelectExpression<>(statement);
+//    public static <T extends Model<T>> AttributeNode<T> select(Statement statement) {
+//        return new AttributeNode<>(statement);
 //    }
 //
 //}

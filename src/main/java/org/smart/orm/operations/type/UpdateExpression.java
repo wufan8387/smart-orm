@@ -8,22 +8,22 @@
 //import org.smart.orm.operations.Statement;
 //import org.smart.orm.reflect.PropertyGetter;
 //
-//public class UpdateExpression<T extends Model<T>> extends AbstractExpression {
+//public class UpdateStatement<T extends Model<T>> extends AbstractExpression {
 //
 //
-//    public UpdateExpression(Statement statement) {
-//
-//    }
-//
-//    public UpdateExpression(Statement statement, T entity) {
+//    public UpdateStatement(Statement statement) {
 //
 //    }
 //
-//    public UpdateExpression<T> where(WhereExpression<?>... operations) {
+//    public UpdateStatement(Statement statement, T entity) {
+//
+//    }
+//
+//    public UpdateStatement<T> where(WhereExpression<?>... operations) {
 //        return this;
 //    }
 //
-//    public UpdateExpression<T> set(PropertyGetter<T> property, Object value) {
+//    public UpdateStatement<T> set(PropertyGetter<T> property, Object value) {
 //
 //        return this;
 //    }

@@ -1,29 +1,32 @@
-package org.smart.orm.operations.text;
+package org.smart.orm.operations.type;
 
 import org.apache.commons.lang3.StringUtils;
+import org.smart.orm.Model;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
+import org.smart.orm.reflect.LambdaParser;
+import org.smart.orm.reflect.PropertyGetter;
 
-
-public class AttributeNode<T extends Statement> implements SqlNode<T> {
+public class AttributeNode<T extends Statement, K extends Model<K>> implements SqlNode<T> {
+    
     
     private T statement;
     
-    private String name;
+    private PropertyGetter<K> name;
     private String alias;
     
     private SqlNode<T> expNode;
     
-    private RelationNode<T> rel;
+    private RelationNode<T, K> rel;
     
-    public AttributeNode(T statement, String name) {
+    public AttributeNode(T statement, PropertyGetter<K> name) {
         this.statement = statement;
         this.name = name;
     }
     
-    public AttributeNode(T statement, String name, String alias) {
+    public AttributeNode(T statement, PropertyGetter<K> name, String alias) {
         this.statement = statement;
         this.name = name;
         this.alias = alias;
@@ -36,16 +39,16 @@ public class AttributeNode<T extends Statement> implements SqlNode<T> {
     }
     
     public String getName() {
-        return name;
+        return LambdaParser.getGetter(name).getName();
     }
     
     public String getAlias() {
         if (StringUtils.isNotEmpty(alias))
             return alias;
-        return name;
+        return getName();
     }
     
-    public AttributeNode<T> setAlias(String alias) {
+    public AttributeNode<T, K> setAlias(String alias) {
         this.alias = alias;
         return this;
     }
@@ -60,26 +63,17 @@ public class AttributeNode<T extends Statement> implements SqlNode<T> {
         return statement;
     }
     
-    public RelationNode<T> from(String rel) {
+    public RelationNode<T, K> from(Class<K> rel) {
         this.rel = statement.findFirst(NodeType.RELATION,
-                t -> t.getName().equals(rel),
-                () -> statement.attach(new RelationNode<>(statement, rel))
+                t -> t.getName().equals(Model.getMeta(rel).getTable().getName()) ,
+                () -> statement.attach(new RelationNode<>(statement))
         );
         statement.attach(this);
         return this.rel;
     }
     
-    public RelationNode<T> from(String rel, String alias) {
-        this.rel = statement.findFirst(NodeType.RELATION,
-                t -> t.getName().equals(rel),
-                () -> statement.attach(new RelationNode<>(statement, rel))
-        )
-                .setAlias(alias);
-        statement.attach(this);
-        return this.rel;
-    }
     
-    public RelationNode<T> from(RelationNode<T> rel) {
+    public RelationNode<T, K> from(RelationNode<T, K> rel) {
         this.rel = rel;
         statement.attach(this);
         return rel;
@@ -88,7 +82,7 @@ public class AttributeNode<T extends Statement> implements SqlNode<T> {
     @Override
     public void toString(StringBuilder sb) {
         if (expNode == null) {
-            sb.append(Token.ATTR_AS.apply(rel.getAlias(), name, getAlias()));
+            sb.append(Token.ATTR_AS.apply(rel.getAlias(), getName(), getAlias()));
             
         } else {
             
@@ -97,4 +91,6 @@ public class AttributeNode<T extends Statement> implements SqlNode<T> {
             sb.append(") ").append(Token.AS.apply(getAlias()));
         }
     }
+    
+    
 }

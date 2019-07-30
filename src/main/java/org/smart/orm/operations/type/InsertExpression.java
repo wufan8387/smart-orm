@@ -1,7 +1,6 @@
 package org.smart.orm.operations.type;
 
 import org.smart.orm.Model;
-import org.smart.orm.OperationContext;
 import org.smart.orm.data.OperationPriority;
 import org.smart.orm.operations.AbstractExpression;
 import org.smart.orm.operations.Statement;

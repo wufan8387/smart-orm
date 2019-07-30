@@ -6,12 +6,10 @@ import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.Op;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
-import org.smart.orm.operations.Token;
 
 
 public class ConditionNode<T extends Statement> implements SqlNode<T> {
     
-    private String boolOp;
     
     private RelationNode<T> leftRel;
     
@@ -25,7 +23,7 @@ public class ConditionNode<T extends Statement> implements SqlNode<T> {
     
     private Func<String> op;
     
-    private ConditionNode<T> parent;
+//    private ConditionNode<T> parent;
     
     private ConditionNode<T> child;
     
@@ -47,7 +45,7 @@ public class ConditionNode<T extends Statement> implements SqlNode<T> {
     public ConditionNode(T statement, String leftRel, String leftAttr, Func<String> op, String rightRel, String
             rightAttr, ConditionNode<T> parent) {
         this(statement, leftRel, leftAttr, op, rightRel, rightAttr);
-        this.parent = parent;
+//        this.parent = parent;
         parent.child = this;
         statement.attach(this);
     }
@@ -64,7 +62,7 @@ public class ConditionNode<T extends Statement> implements SqlNode<T> {
     
     public ConditionNode(T statement, RelationNode<T> leftRel, String leftAttr, Func<String> op, RelationNode<T> rightRel, String rightAttr, ConditionNode<T> parent) {
         this(statement, leftRel, leftAttr, op, rightRel, rightAttr);
-        this.parent = parent;
+//        this.parent = parent;
         if (parent != null)
             parent.child = this;
     }
@@ -82,7 +80,7 @@ public class ConditionNode<T extends Statement> implements SqlNode<T> {
     public ConditionNode(T statement, String rel, String attr, Func<String> op, ConditionNode<T> parent, Object...
             params) {
         this(statement, rel, attr, op, params);
-        this.parent = parent;
+//        this.parent = parent;
         if (parent != null)
             parent.child = this;
     }

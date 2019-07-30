@@ -1,6 +1,5 @@
 package org.smart.orm.operations.text;
 
-import antlr.TokenStreamRewriteEngine;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.data.OrderbyType;
 import org.smart.orm.operations.SqlNode;
@@ -12,14 +11,10 @@ import java.util.List;
 
 public class OrderByNode<T extends Statement> implements SqlNode<T> {
     
-    private final static String EXPRESSION_ORDERBY = " ORDER BY %s ";
-    
-    private final static String EXPRESSION_DESC = " DESC ";
-    private final static String EXPRESSION_ASC = " ASC ";
     
     private T statement;
     
-    private List<OrderByInfo<T>> orderbyList = new ArrayList<>();
+    private List<OrderByInfo<T>> orderByList = new ArrayList<>();
     
     public OrderByNode(T statement) {
         this.statement = statement;
@@ -30,11 +25,11 @@ public class OrderByNode<T extends Statement> implements SqlNode<T> {
         
         RelationNode<T> relNode = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rel));
         
-        OrderByInfo<T> orderByInfo = new OrderByInfo();
+        OrderByInfo<T> orderByInfo = new OrderByInfo<>();
         orderByInfo.type = OrderbyType.ASC;
         orderByInfo.rel = relNode;
         orderByInfo.attr = attr;
-        orderbyList.add(orderByInfo);
+        orderByList.add(orderByInfo);
         
         return this;
     }
@@ -43,11 +38,11 @@ public class OrderByNode<T extends Statement> implements SqlNode<T> {
         
         RelationNode<T> relNode = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rel));
         
-        OrderByInfo orderByInfo = new OrderByInfo();
+        OrderByInfo<T> orderByInfo = new OrderByInfo<>();
         orderByInfo.type = OrderbyType.DESC;
         orderByInfo.attr = attr;
         orderByInfo.rel = relNode;
-        orderbyList.add(orderByInfo);
+        orderByList.add(orderByInfo);
         
         return this;
     }
@@ -66,9 +61,15 @@ public class OrderByNode<T extends Statement> implements SqlNode<T> {
     @Override
     public void toString(StringBuilder sb) {
         
-        int len = orderbyList.size();
+        int len = orderByList.size();
+        
+        if (len==0)
+            return;
+    
+        sb.append(Token.ORDER_BY);
+    
         for (int i = 0; i < len; i++) {
-            OrderByInfo<T> item = orderbyList.get(i);
+            OrderByInfo<T> item = orderByList.get(i);
             switch (item.type) {
                 case ASC:
                     sb.append(Token.ASC.apply(item.rel.getAlias(), item.attr));

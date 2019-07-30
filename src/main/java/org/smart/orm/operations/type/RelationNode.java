@@ -1,45 +1,50 @@
-package org.smart.orm.operations.text;
+package org.smart.orm.operations.type;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.Func;
+import org.smart.orm.Model;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.NodeType;
-import org.smart.orm.operations.*;
+import org.smart.orm.operations.SqlNode;
+import org.smart.orm.operations.Statement;
+import org.smart.orm.operations.Token;
+import org.smart.orm.reflect.PropertyGetter;
 
-public class RelationNode<T extends Statement> implements SqlNode<T> {
+public class RelationNode<T extends Statement, K extends Model<K>> implements SqlNode<T> {
     
     private T statement;
     
     private String name;
-    
     private String alias;
     
-    private RelationNode<T> parent;
+    private RelationNode<T, ?> parent;
     
-    private RelationNode<T> child;
+    private RelationNode<T, ?> child;
     
     private JoinType joinType = JoinType.NONE;
     
-    private JoinNode<T> joinRoot;
+    private JoinNode<T, ?, ?> joinRoot;
     
-    private JoinNode<T> joinLast;
+    private JoinNode<T, ?, ?> joinLast;
     
     @Override
     public T statement() {
         return statement;
     }
     
-    public RelationNode(T statement, String name) {
+    public RelationNode(T statement) {
+        name = Model.getMeta(this.getClass(), 1).getTable().getName();
         this.statement = statement;
-        this.name = name;
         statement.attach(this);
     }
     
-    public RelationNode(T statement, String name, RelationNode<T> parent) {
-        this(statement, name);
+    
+    public RelationNode(T statement, RelationNode<T, ?> parent) {
+        this(statement);
         this.parent = parent;
         if (parent != null)
             parent.child = this;
+        
     }
     
     
@@ -63,66 +68,51 @@ public class RelationNode<T extends Statement> implements SqlNode<T> {
         return name;
     }
     
-    public RelationNode<T> setAlias(String alias) {
+    public RelationNode<T, K> setAlias(String alias) {
         this.alias = alias;
         return this;
     }
     
-    public RelationNode<T> join(String rel) {
-        return statement.findFirst(NodeType.RELATION,
-                t -> t.getName().equals(rel),
-                () -> new RelationNode<>(statement, rel, this)
-        )
-                .setJoinType(JoinType.INNER);
+    public <U extends Model<U>> RelationNode<T, U> join(Class<U> rel) {
+        RelationNode<T, U> node = statement.findFirst(NodeType.RELATION,
+                t -> t.getName().equals(Model.getMeta(rel).getTable().getName()),
+                () -> new RelationNode<>(statement, this));
+        return node.setJoinType(JoinType.INNER);
     }
     
-    public RelationNode<T> join(String rel, String alias) {
-        return statement.findFirst(NodeType.RELATION,
-                t -> t.getName().equals(rel),
-                () -> new RelationNode<>(statement, rel, this)
-        )
-                .setAlias(alias)
-                .setJoinType(JoinType.INNER);
-    }
-    
-    
-    public JoinNode<T> on(String leftAttr, Func<String> op, String rightAttr) {
-        joinLast = new JoinNode<>(statement, this.parent, leftAttr, op, this, rightAttr, joinLast);
+    @SuppressWarnings("unchecked")
+    public <L extends Model<L>, R extends Model<R>> JoinNode<T, L, R> on(PropertyGetter<L> leftAttr
+            , Func<String> op
+            , PropertyGetter<R> rightAttr) {
+        joinLast = new JoinNode<>(statement, leftAttr, op, rightAttr, joinLast);
         joinRoot = joinRoot == null ? joinLast : joinRoot;
-        return joinLast;
-    }
-    
-    public JoinNode<T> on(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
-        RelationNode<T> leftNode = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(leftRel));
-        RelationNode<T> rightNode = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rightRel));
-        joinLast = new JoinNode<>(statement, leftNode, leftAttr, op, rightNode, rightAttr, joinLast);
-        joinRoot = joinRoot == null ? joinLast : joinRoot;
-        return joinLast;
+        return (JoinNode<T, L, R>) joinLast;
     }
     
     
-    public RelationNode<T> select(String attr) {
+    public RelationNode<T, K> select(PropertyGetter<K> attr) {
         return statement.attach(new AttributeNode<>(statement, attr)).from(this);
     }
     
-    public RelationNode<T> select(String attr, String alias) {
+    public RelationNode<T, K> select(PropertyGetter<K> attr, String alias) {
         return statement.attach(new AttributeNode<>(statement, attr, alias)).from(this);
     }
     
-    
-    public RelationNode<T> getParent() {
-        return parent;
+    @SuppressWarnings("unchecked")
+    public <P extends Model<P>> RelationNode<T, P> getParent() {
+        return (RelationNode<T, P>) parent;
     }
     
-    public RelationNode<T> getChild() {
-        return child;
+    @SuppressWarnings("unchecked")
+    public <C extends Model<C>> RelationNode<T, C> getChild() {
+        return (RelationNode<T, C>) child;
     }
     
     public JoinType getJoinType() {
         return joinType;
     }
     
-    public RelationNode<T> setJoinType(JoinType joinType) {
+    public RelationNode<T, K> setJoinType(JoinType joinType) {
         this.joinType = joinType;
         return this;
     }
@@ -166,4 +156,6 @@ public class RelationNode<T extends Statement> implements SqlNode<T> {
         
         
     }
+    
+    
 }
