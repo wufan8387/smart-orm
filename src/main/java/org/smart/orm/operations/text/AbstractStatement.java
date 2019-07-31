@@ -1,5 +1,6 @@
 package org.smart.orm.operations.text;
 
+import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
 public abstract class AbstractStatement implements Statement {
     
     private UUID id = UUID.randomUUID();
+    
+    private int sn = 0;
     
     protected final List<SqlNode<?>> nodeList = new ArrayList<>();
     
@@ -43,6 +46,11 @@ public abstract class AbstractStatement implements Statement {
                 .orElseGet(other);
     }
     
+    @Override
+    public String alias(String term) {
+        sn++;
+        return term + "_" + sn;
+    }
     
     @Override
     public UUID getId() {

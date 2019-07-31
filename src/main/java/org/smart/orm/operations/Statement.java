@@ -13,6 +13,9 @@ public interface Statement {
     
     void addParam(Object param);
     
+    
+    String alias(String term);
+    
     <T extends SqlNode<?>> T attach(T node);
     
     <T extends SqlNode<?>> List<T> find(int nodeType, Predicate<T> predicate);

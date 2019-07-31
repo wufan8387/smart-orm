@@ -44,33 +44,12 @@ public abstract class Model<T extends Model<T>> {
         return entityInfo;
     }
     
-    @NotNull
-    public static EntityInfo getMeta(Class<?> cls) {
-        return getMeta(cls, 0);
-    }
+
     
     @NotNull
-    public static EntityInfo getMeta(Class<?> cls, int index) {
-        
-        Type type = cls.getGenericSuperclass();
-
-//        if (!(type instanceof ParameterizedType))
-//            return null;
-        
-        Type[] typeList = ((ParameterizedType) type).getActualTypeArguments();
-
-//        if (typeList.length == 0)
-//            return null;
-        
-        Type actualType = typeList[index];
-
-//        if (actualType instanceof java.lang.reflect.TypeVariable)
-//            return null;
-        
-        cls = (Class<?>) actualType;
+    public static EntityInfo getMeta(Class<?> cls) {
         
         String clsName = cls.getName();
-        
         
         synchronized (metaMap) {
             EntityInfo entityInfo = metaMap.get(clsName);

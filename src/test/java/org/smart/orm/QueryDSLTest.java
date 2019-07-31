@@ -5,19 +5,9 @@ import com.querydsl.core.types.PathMetadataFactory;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.sql.*;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.TransactionIsolationLevel;
-import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.junit.Test;
 
-import java.io.Serializable;
-import java.sql.Connection;
 import java.sql.Types;
-import java.util.Date;
-import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -33,7 +23,7 @@ public class QueryDSLTest {
         
         QSurvey survey = QSurvey.survey;
 
-        SQLQuery<?> query = new SQLQuery<TestEntity>(HSQLDBTemplates.builder().newLineToSingleSpace().build());
+        SQLQuery<?> query = new SQLQuery<Account>(HSQLDBTemplates.builder().newLineToSingleSpace().build());
         query
                 .select(survey.name, survey.name2)
                 .from(survey)

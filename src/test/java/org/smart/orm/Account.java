@@ -1,9 +1,18 @@
 package org.smart.orm;
 
-public class TestEntity extends Model<TestEntity> {
+import org.smart.orm.annotations.Column;
+import org.smart.orm.annotations.Table;
+
+@Table("account")
+public class Account extends Model<Account> {
     
+    @Column
     private String id;
+    
+    @Column
     private  String name;
+    
+    @Column
     private String remark;
     
     public String getId() {

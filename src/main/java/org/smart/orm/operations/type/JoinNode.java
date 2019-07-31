@@ -7,6 +7,7 @@ import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.Op;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
+import org.smart.orm.reflect.LambdaParser;
 import org.smart.orm.reflect.PropertyGetter;
 
 public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R>> implements SqlNode<T> {
@@ -33,11 +34,15 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
             , Func<String> op
             , PropertyGetter<R> rightAttr) {
         this.statement = statement;
-        Class<?> cls = this.getClass();
+        
+        Class<?> leftCls = LambdaParser.getGetter(leftAttr).getDeclaringClass();
+        Class<?> rightCls = LambdaParser.getGetter(rightAttr).getDeclaringClass();
+    
+    
         this.leftRel = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(cls, 1).getTable().getName()));
+                , t -> t.getName().equals(Model.getMeta(leftCls).getTable().getName()));
         this.rightRel = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(cls, 2).getTable().getName()));
+                , t -> t.getName().equals(Model.getMeta(rightCls).getTable().getName()));
         this.leftAttr = leftAttr;
         this.rightAttr = rightAttr;
         this.op = op;
@@ -141,7 +146,11 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
         
         sb.append(Op.LOGICAL.apply(logicalType));
         
-        sb.append(op.apply(leftRel.getAlias(), leftAttr, rightRel.getAlias(), rightAttr));
+        String leftTextAttr=LambdaParser.getGetter(leftAttr).getName();
+        String rightTextAttr=LambdaParser.getGetter(rightAttr).getName();
+    
+    
+        sb.append(op.apply(leftRel.getAlias(), leftTextAttr, rightRel.getAlias(), rightTextAttr));
         if (child != null)
             child.toString(sb);
     }

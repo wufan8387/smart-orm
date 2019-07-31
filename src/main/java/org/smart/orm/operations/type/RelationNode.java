@@ -10,6 +10,8 @@ import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 import org.smart.orm.reflect.PropertyGetter;
 
+import java.nio.channels.ClosedSelectorException;
+
 public class RelationNode<T extends Statement, K extends Model<K>> implements SqlNode<T> {
     
     private T statement;
@@ -32,15 +34,15 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
         return statement;
     }
     
-    public RelationNode(T statement) {
-        name = Model.getMeta(this.getClass(), 1).getTable().getName();
+    public RelationNode(T statement, Class<K> cls) {
         this.statement = statement;
+        name = Model.getMeta(cls).getTable().getName();
         statement.attach(this);
     }
     
     
-    public RelationNode(T statement, RelationNode<T, ?> parent) {
-        this(statement);
+    public RelationNode(T statement, Class<K> cls, RelationNode<T, ?> parent) {
+        this(statement, cls);
         this.parent = parent;
         if (parent != null)
             parent.child = this;
@@ -65,7 +67,9 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     public String getAlias() {
         if (StringUtils.isNotEmpty(alias))
             return alias;
-        return name;
+        String name = getName();
+        alias = statement.alias(name);
+        return alias;
     }
     
     public RelationNode<T, K> setAlias(String alias) {
@@ -76,7 +80,7 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     public <U extends Model<U>> RelationNode<T, U> join(Class<U> rel) {
         RelationNode<T, U> node = statement.findFirst(NodeType.RELATION,
                 t -> t.getName().equals(Model.getMeta(rel).getTable().getName()),
-                () -> new RelationNode<>(statement, this));
+                () -> new RelationNode<>(statement, rel, this));
         return node.setJoinType(JoinType.INNER);
     }
     

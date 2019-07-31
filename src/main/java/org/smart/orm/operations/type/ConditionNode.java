@@ -8,6 +8,7 @@ import org.smart.orm.execution.KeyMapHandler;
 import org.smart.orm.operations.Op;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
+import org.smart.orm.reflect.LambdaParser;
 import org.smart.orm.reflect.PropertyGetter;
 
 import javax.jws.WebParam;
@@ -36,11 +37,12 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     
     public ConditionNode(T statement, PropertyGetter<L> leftAttr, Func<String> op, PropertyGetter<R> rightAttr) {
         this.statement = statement;
-        Class<?> cls = this.getClass();
+        Class<?> leftCls = LambdaParser.getGetter(leftAttr).getDeclaringClass();
+        Class<?> rightCls = LambdaParser.getGetter(rightAttr).getDeclaringClass();
         this.leftRel = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(cls, 1).getTable().getName()));
+                , t -> t.getName().equals(Model.getMeta(leftCls).getTable().getName()));
         this.rightRel = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(cls, 2).getTable().getName()));
+                , t -> t.getName().equals(Model.getMeta(rightCls).getTable().getName()));
         this.leftAttr = leftAttr;
         this.rightAttr = rightAttr;
         this.op = op;
@@ -73,8 +75,10 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     
     public ConditionNode(T statement, PropertyGetter<L> attr, Func<String> op, Object... params) {
         this.statement = statement;
+        Class<?> cls = LambdaParser.getGetter(attr).getDeclaringClass();
+    
         this.leftRel = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(this.getClass(), 1).getTable().getName()));
+                , t -> t.getName().equals(Model.getMeta(cls).getTable().getName()));
         this.leftAttr = attr;
         this.params = params;
         this.op = op;

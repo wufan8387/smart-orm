@@ -45,7 +45,9 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
     public String getAlias() {
         if (StringUtils.isNotEmpty(alias))
             return alias;
-        return getName();
+        String name = getName();
+        alias = statement.alias(name);
+        return alias;
     }
     
     public AttributeNode<T, K> setAlias(String alias) {
@@ -65,8 +67,8 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
     
     public RelationNode<T, K> from(Class<K> rel) {
         this.rel = statement.findFirst(NodeType.RELATION,
-                t -> t.getName().equals(Model.getMeta(rel).getTable().getName()) ,
-                () -> statement.attach(new RelationNode<>(statement))
+                t -> t.getName().equals(Model.getMeta(rel).getTable().getName()),
+                () -> statement.attach(new RelationNode<>(statement, rel))
         );
         statement.attach(this);
         return this.rel;

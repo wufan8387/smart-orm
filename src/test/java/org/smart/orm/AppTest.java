@@ -53,17 +53,17 @@ public class AppTest {
         
         
 //        OperationContext context = new OperationContext();
-//        FromNode<TestEntity> fromOperation = new FromNode<>(UUID.randomUUID(), context, "test");
+//        FromNode<Account> fromOperation = new FromNode<>(UUID.randomUUID(), context, "test");
 //
 //        fromOperation
-//                .select(TestEntity::getId,"pid")
-//                .where(new EqualExpression<>(TestEntity::getId, 100));
+//                .select(Account::getId,"pid")
+//                .where(new EqualExpression<>(Account::getId, 100));
 //
 //        context.query(fromOperation.getBatch());
-        // select(TestEntity.class);
+        // select(Account.class);
         //
-        // OperationContext<TestEntity> context;
-        // context.select("","").from(TestEntity.class);
+        // OperationContext<Account> context;
+        // context.select("","").from(Account.class);
     }
     
 }

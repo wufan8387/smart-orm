@@ -1,19 +1,23 @@
 package org.smart.orm;
 
 import org.junit.Test;
-import org.smart.orm.operations.type.QueryStatement;
-
-import java.sql.SQLException;
+import org.smart.orm.operations.Op;
+import org.smart.orm.operations.type.QueryObject;
 
 public class TypeStatementTEst {
     
     
     @Test
-    public void buildTest() throws ClassNotFoundException, SQLException {
-        QueryStatement statement = new QueryStatement();
+    public void buildTest() {
+        QueryObject statement = new QueryObject();
         statement
-                .from(TestEntity.class)
-                .select(TestEntity::getId);
+                .from(Account.class)
+                .select(Account::getId)
+                .join(Order.class)
+                .on(Account::getId, Op.EQUAL, Order::getUid);
+        
+        System.out.print(statement.toString());
     }
+    
     
 }
