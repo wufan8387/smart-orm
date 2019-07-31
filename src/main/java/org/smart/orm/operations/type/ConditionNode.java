@@ -163,11 +163,13 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     public void toString(StringBuilder sb) {
         
         sb.append(Op.LOGICAL.apply(logicalType));
-        
+        String leftTextAttr=LambdaParser.getGetter(leftAttr).getName();
+    
         if (rightRel != null) {
-            sb.append(op.apply(leftRel.getAlias(), leftAttr, rightRel.getAlias(), rightAttr));
+            String rightTextAttr=LambdaParser.getGetter(rightAttr).getName();
+            sb.append(op.apply(leftRel.getAlias(), leftTextAttr, rightRel.getAlias(), rightTextAttr));
         } else {
-            sb.append(op.apply(leftRel.getAlias(), leftAttr));
+            sb.append(op.apply(leftRel.getAlias(), leftTextAttr));
         }
         if (child != null)
             child.toString(sb);

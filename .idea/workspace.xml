@@ -16,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TypeStatementTEst.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TypeStatementTEst.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/TypeStatementTEst.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="494">
+              <caret line="19" column="8" lean-forward="true" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -61,16 +61,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Model.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/Model.java">
+      <file leaf-file-name="ConditionNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/ConditionNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="514">
-              <caret line="54" column="22" selection-start-line="54" selection-start-column="12" selection-end-line="54" selection-end-column="22" />
+            <state relative-caret-position="260">
+              <caret line="168" column="77" selection-start-line="168" selection-start-column="77" selection-end-line="168" selection-end-column="77" />
               <folding>
-                <element signature="method#getMeta#0;class#Model#0" />
-                <element signature="method#buildEntityInfo#0;class#Model#0" />
-                <element signature="method#propertyChange#0;class#Model#0" />
-                <element signature="class#ChangeInfo#0;class#Model#0" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -115,7 +112,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JoinNode.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="JoinNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/JoinNode.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="299">
@@ -209,17 +206,17 @@
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/GroupByNode.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/TestEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/LambdaParser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/ConditionNode.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Statement.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/AbstractStatement.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/AttributeNode.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/TypeStatementTEst.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/Model.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/Account.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/Order.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/RelationNode.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/QueryObject.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/JoinNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/ConditionNode.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/TypeStatementTEst.java" />
       </list>
     </option>
   </component>
@@ -587,20 +584,11 @@
       <workItem from="1564201248604" duration="17584000" />
       <workItem from="1564400902698" duration="1964000" />
       <workItem from="1564487134813" duration="12485000" />
-      <workItem from="1564573758220" duration="7808000" />
+      <workItem from="1564573758220" duration="8067000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="TypeStatementTEst_buildTest - 2019.07.31 at 21h 43m 20s.xml">
-      <configuration name="TypeStatementTEst.buildTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TypeStatementTEst_buildTest - 2019.07.31 at 21h 44m 00s.xml">
-      <configuration name="TypeStatementTEst.buildTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TypeStatementTEst_buildTest - 2019.07.31 at 21h 44m 26s.xml">
-      <configuration name="TypeStatementTEst.buildTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="TypeStatementTEst_buildTest - 2019.07.31 at 21h 45m 22s.xml">
       <configuration name="TypeStatementTEst.buildTest" configurationId="JUnit" />
     </history-entry>
@@ -622,9 +610,18 @@
     <history-entry file="TypeStatementTEst_buildTest - 2019.07.31 at 22h 07m 18s.xml">
       <configuration name="TypeStatementTEst.buildTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="TypeStatementTEst_buildTest - 2019.07.31 at 22h 07m 34s.xml">
+      <configuration name="TypeStatementTEst.buildTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TypeStatementTEst_buildTest - 2019.07.31 at 22h 10m 03s.xml">
+      <configuration name="TypeStatementTEst.buildTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TypeStatementTEst_buildTest - 2019.07.31 at 22h 11m 24s.xml">
+      <configuration name="TypeStatementTEst.buildTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="275609000" />
+    <option name="totallyTimeSpent" value="275868000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -637,7 +634,7 @@
       <window_info anchor="right" id="Maven Projects" order="5" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.30567685" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30567685" />
       <window_info anchor="bottom" id="Spring" order="12" weight="0.32969433" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.2183406" />
       <window_info id="Designer" order="2" />
@@ -648,7 +645,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.33078602" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.33078602" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -1079,16 +1076,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/ConditionNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-669">
-          <caret line="80" column="59" selection-start-line="80" selection-start-column="59" selection-end-line="80" selection-end-column="59" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/Model.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="514">
@@ -1158,16 +1145,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/TypeStatementTEst.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/RelationNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="488">
@@ -1189,6 +1166,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
           <caret line="38" column="60" selection-start-line="38" selection-start-column="60" selection-end-line="38" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/ConditionNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="168" column="77" selection-start-line="168" selection-start-column="77" selection-end-line="168" selection-end-column="77" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/TypeStatementTEst.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="19" column="8" lean-forward="true" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

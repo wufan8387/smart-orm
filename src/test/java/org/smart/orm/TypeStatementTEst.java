@@ -14,9 +14,12 @@ public class TypeStatementTEst {
                 .from(Account.class)
                 .select(Account::getId)
                 .join(Order.class)
-                .on(Account::getId, Op.EQUAL, Order::getUid);
+                .on(Account::getId, Op.EQUAL, Order::getUid)
+                .statement()
+                .where(Order::getUid, Op.EQUAL, 100);
         
         System.out.print(statement.toString());
+        System.out.print(statement.getParams());
     }
     
     
