@@ -56,7 +56,7 @@ public class GroupByNode<T extends Statement> implements SqlNode<T> {
         
         for (int i = 0; i < len; i++) {
             GroupByInfo<T, ?> item = groupByList.get(i);
-            String attr = LambdaParser.getGetter(item.attr).getName();
+            String attr = Model.getMeta(item.rel.getRelClass()).getPropInfo(item.attr).getColumnName();
             sb.append(Token.ATTR.apply(item.rel.getAlias(), attr));
             if (i < len - 1)
                 sb.append(", ");

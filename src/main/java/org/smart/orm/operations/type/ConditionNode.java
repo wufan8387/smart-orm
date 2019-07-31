@@ -10,6 +10,7 @@ import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.reflect.LambdaParser;
 import org.smart.orm.reflect.PropertyGetter;
+import org.smart.orm.reflect.PropertyInfo;
 
 import javax.jws.WebParam;
 
@@ -22,6 +23,11 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     private PropertyGetter<L> leftAttr;
     
     private PropertyGetter<R> rightAttr;
+    
+    private PropertyInfo leftProp;
+    
+    private PropertyInfo rightProp;
+    
     
     private Object[] params;
     
@@ -49,8 +55,10 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
         statement.attach(this);
     }
     
-    public ConditionNode(T statement, PropertyGetter<L> leftAttr, Func<String> op, PropertyGetter<R> rightAttr,
-                         ConditionNode<T, ?, ?> parent) {
+    public ConditionNode(T statement, PropertyGetter<L> leftAttr
+            , Func<String> op
+            , PropertyGetter<R> rightAttr
+            , ConditionNode<T, ?, ?> parent) {
         this(statement, leftAttr, op, rightAttr);
         parent.child = this;
         statement.attach(this);
@@ -76,7 +84,7 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     public ConditionNode(T statement, PropertyGetter<L> attr, Func<String> op, Object... params) {
         this.statement = statement;
         Class<?> cls = LambdaParser.getGetter(attr).getDeclaringClass();
-    
+        
         this.leftRel = statement.findFirst(NodeType.RELATION
                 , t -> t.getName().equals(Model.getMeta(cls).getTable().getName()));
         this.leftAttr = attr;
@@ -163,10 +171,10 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     public void toString(StringBuilder sb) {
         
         sb.append(Op.LOGICAL.apply(logicalType));
-        String leftTextAttr=LambdaParser.getGetter(leftAttr).getName();
-    
+        String leftTextAttr = LambdaParser.getGetter(leftAttr).getName();
+        
         if (rightRel != null) {
-            String rightTextAttr=LambdaParser.getGetter(rightAttr).getName();
+            String rightTextAttr = LambdaParser.getGetter(rightAttr).getName();
             sb.append(op.apply(leftRel.getAlias(), leftTextAttr, rightRel.getAlias(), rightTextAttr));
         } else {
             sb.append(op.apply(leftRel.getAlias(), leftTextAttr));

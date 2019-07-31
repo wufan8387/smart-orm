@@ -44,7 +44,6 @@ public abstract class Model<T extends Model<T>> {
         return entityInfo;
     }
     
-
     
     @NotNull
     public static EntityInfo getMeta(Class<?> cls) {
@@ -78,7 +77,7 @@ public abstract class Model<T extends Model<T>> {
                 continue;
             
             PropertyInfo propertyInfo = new PropertyInfo(column, field);
-            entityInfo.getPropertyMap().put(propertyInfo.getPropertyName(), propertyInfo);
+            entityInfo.add(propertyInfo);
         }
         
         return entityInfo;

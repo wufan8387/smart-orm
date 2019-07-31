@@ -8,6 +8,7 @@ import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 import org.smart.orm.reflect.LambdaParser;
 import org.smart.orm.reflect.PropertyGetter;
+import org.smart.orm.reflect.PropertyInfo;
 
 public class AttributeNode<T extends Statement, K extends Model<K>> implements SqlNode<T> {
     
@@ -20,6 +21,8 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
     private SqlNode<T> expNode;
     
     private RelationNode<T, K> rel;
+    
+    private PropertyInfo prop;
     
     public AttributeNode(T statement, PropertyGetter<K> name) {
         this.statement = statement;
@@ -39,14 +42,13 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
     }
     
     public String getName() {
-        return LambdaParser.getGetter(name).getName();
+        return prop.getColumnName();
     }
     
     public String getAlias() {
         if (StringUtils.isNotEmpty(alias))
             return alias;
-        String name = getName();
-        alias = statement.alias(name);
+        alias = statement.alias(getName());
         return alias;
     }
     
@@ -65,18 +67,21 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
         return statement;
     }
     
-    public RelationNode<T, K> from(Class<K> rel) {
-        this.rel = statement.findFirst(NodeType.RELATION,
-                t -> t.getName().equals(Model.getMeta(rel).getTable().getName()),
-                () -> statement.attach(new RelationNode<>(statement, rel))
+    public RelationNode<T, K> from(Class<K> cls) {
+        rel = statement.findFirst(NodeType.RELATION,
+                t -> t.getName().equals(Model.getMeta(cls).getTable().getName()),
+                () -> statement.attach(new RelationNode<>(statement, cls))
         );
+        prop = Model.getMeta(cls).getPropInfo(this.name);
         statement.attach(this);
-        return this.rel;
+        
+        return rel;
     }
     
     
     public RelationNode<T, K> from(RelationNode<T, K> rel) {
         this.rel = rel;
+        prop = Model.getMeta(rel.getRelClass()).getPropInfo(this.name);
         statement.attach(this);
         return rel;
     }

@@ -75,7 +75,7 @@ public class OrderByNode<T extends Statement> implements SqlNode<T> {
         
         for (int i = 0; i < len; i++) {
             OrderByInfo<T,?> item = orderByList.get(i);
-            String attr = LambdaParser.getGetter(item.attr).getName();
+            String attr = Model.getMeta(item.rel.getRelClass()).getPropInfo(item.attr).getColumnName();
             switch (item.type) {
                 case ASC:
                     sb.append(Token.ASC.apply(item.rel.getAlias(), attr));

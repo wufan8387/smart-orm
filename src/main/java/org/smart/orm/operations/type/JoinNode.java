@@ -146,9 +146,8 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
         
         sb.append(Op.LOGICAL.apply(logicalType));
         
-        String leftTextAttr=LambdaParser.getGetter(leftAttr).getName();
-        String rightTextAttr=LambdaParser.getGetter(rightAttr).getName();
-    
+        String leftTextAttr = Model.getMeta(leftRel.getRelClass()).getPropInfo(leftAttr).getColumnName();
+        String rightTextAttr = Model.getMeta(rightRel.getRelClass()).getPropInfo(rightAttr).getColumnName();
     
         sb.append(op.apply(leftRel.getAlias(), leftTextAttr, rightRel.getAlias(), rightTextAttr));
         if (child != null)

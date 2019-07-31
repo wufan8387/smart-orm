@@ -29,17 +29,14 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     
     private JoinNode<T, ?, ?> joinLast;
     
-    @Override
-    public T statement() {
-        return statement;
-    }
+    private Class<?> relClass;
     
     public RelationNode(T statement, Class<K> cls) {
         this.statement = statement;
         name = Model.getMeta(cls).getTable().getName();
+        relClass = cls;
         statement.attach(this);
     }
-    
     
     public RelationNode(T statement, Class<K> cls, RelationNode<T, ?> parent) {
         this(statement, cls);
@@ -49,12 +46,19 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
         
     }
     
+    @Override
+    public T statement() {
+        return statement;
+    }
     
     @Override
     public int getType() {
         return NodeType.RELATION;
     }
     
+    public Class<?> getRelClass() {
+        return relClass;
+    }
     
     public String getName() {
         return name;
