@@ -3,14 +3,9 @@ package org.smart.orm.operations.text;
 
 import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.SqlNode;
-import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class InsertStatement extends AbstractStatement {
@@ -18,8 +13,11 @@ public class InsertStatement extends AbstractStatement {
     
     
     private RelationNode<InsertStatement> relRoot;
-    
-    
+
+    public InsertStatement(String rel) {
+        relRoot = new RelationNode<>(this, rel);
+    }
+
     @Override
     public <T extends SqlNode<?>> T attach(T node) {
         switch (node.getType()) {

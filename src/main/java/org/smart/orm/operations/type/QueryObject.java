@@ -147,7 +147,7 @@ public class QueryObject implements Statement {
         return new AttributeNode<>(this, attr);
     }
     
-    public <T extends Model<T>, K extends Model<K>> ConditionNode<QueryObject, T, K> where(PropertyGetter<T> leftAttr, Func<String> op, PropertyGetter<K> rightAttr) {
+    public <L extends Model<L>, R extends Model<R>> ConditionNode<QueryObject, L, R> where(PropertyGetter<L> leftAttr, Func<String> op, PropertyGetter<R> rightAttr) {
         
         if (whereRoot == null) {
             return new ConditionNode<>(this, leftAttr, op, rightAttr, whereLast);
@@ -166,7 +166,7 @@ public class QueryObject implements Statement {
     }
     
     
-    public <T extends Model<T>, K extends Model<K>> ConditionNode<QueryObject, T, K> and(PropertyGetter<T> leftAttr, Func<String> op, PropertyGetter<K> rightAttr) {
+    public <L extends Model<L>, R extends Model<R>> ConditionNode<QueryObject, L, R> and(PropertyGetter<L> leftAttr, Func<String> op, PropertyGetter<R> rightAttr) {
         
         return new ConditionNode<>(this, leftAttr, op, rightAttr, whereLast)
                 .setLogicalType(LogicalType.AND);
@@ -178,9 +178,9 @@ public class QueryObject implements Statement {
                 .setLogicalType(LogicalType.AND);
     }
     
-    public <T extends Model<T>, K extends Model<K>> ConditionNode<QueryObject, T, K> or(PropertyGetter<T> leftAttr
+    public <L extends Model<L>, R extends Model<R>> ConditionNode<QueryObject, L, R> or(PropertyGetter<L> leftAttr
             , Func<String> op
-            , PropertyGetter<K> rightAttr) {
+            , PropertyGetter<R> rightAttr) {
         return new ConditionNode<>(this, leftAttr, op, rightAttr, whereLast)
                 .setLogicalType(LogicalType.OR);
     }

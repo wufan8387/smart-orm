@@ -7,6 +7,6 @@ public interface ResultHandler<T> {
     
     void handle(ResultSet resultset);
     
-    void addLisenter(ResultListener<T> listener);
+    void addListener(ResultListener<T> listener);
     
 }
