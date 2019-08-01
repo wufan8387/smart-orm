@@ -11,21 +11,21 @@
 //
 //    // equal
 //    public static <T extends Model<T>> EqualExpression<T> equal(PropertyGetter<T> property, Object
-//            value, WhereType whereType) {
-//        return new EqualExpression<>(whereType, property, value);
+//            item2, WhereType whereType) {
+//        return new EqualExpression<>(whereType, property, item2);
 //    }
 //
-//    public static <T extends Model<T>> EqualExpression<T> equal(Class<T> cls, PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new EqualExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> EqualExpression<T> equal(Class<T> cls, PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new EqualExpression<>(whereType, property, item2);
 //    }
 //
 //    // not equal
-//    public static <T extends Model<T>> NotEqualExpression<T> notEqual(PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new NotEqualExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> NotEqualExpression<T> notEqual(PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new NotEqualExpression<>(whereType, property, item2);
 //    }
 //
-//    public static <T extends Model<T>> NotEqualExpression<T> notEqual(Class<T> cls, PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new NotEqualExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> NotEqualExpression<T> notEqual(Class<T> cls, PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new NotEqualExpression<>(whereType, property, item2);
 //    }
 //
 //    // between
@@ -38,48 +38,48 @@
 //    }
 //
 //    // like
-//    public static <T extends Model<T>> LikeExpression<T> like(PropertyGetter<T> property, String value, WhereType whereType) {
-//        return new LikeExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> LikeExpression<T> like(PropertyGetter<T> property, String item2, WhereType whereType) {
+//        return new LikeExpression<>(whereType, property, item2);
 //    }
 //
-//    public static <T extends Model<T>> LikeExpression<T> like(Class<T> cls, PropertyGetter<T> property, String value, WhereType whereType) {
-//        return new LikeExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> LikeExpression<T> like(Class<T> cls, PropertyGetter<T> property, String item2, WhereType whereType) {
+//        return new LikeExpression<>(whereType, property, item2);
 //    }
 //
 //    // great than
-//    public static <T extends Model<T>> GreatThanExpression<T> greatThan(PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new GreatThanExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> GreatThanExpression<T> greatThan(PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new GreatThanExpression<>(whereType, property, item2);
 //    }
 //
-//    public static <T extends Model<T>> GreatThanExpression<T> greatThan(Class<T> cls, PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new GreatThanExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> GreatThanExpression<T> greatThan(Class<T> cls, PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new GreatThanExpression<>(whereType, property, item2);
 //    }
 //
 //    // less than
-//    public static <T extends Model<T>> LessThanExpression<T> lessThan(PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new LessThanExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> LessThanExpression<T> lessThan(PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new LessThanExpression<>(whereType, property, item2);
 //    }
 //
-//    public static <T extends Model<T>> LessThanExpression<T> lessThan(Class<T> cls, PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new LessThanExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> LessThanExpression<T> lessThan(Class<T> cls, PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new LessThanExpression<>(whereType, property, item2);
 //    }
 //
 //    // greate than equal
-//    public static <T extends Model<T>> GreatThanEqualExpression<T> greateThanEqual(PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new GreatThanEqualExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> GreatThanEqualExpression<T> greateThanEqual(PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new GreatThanEqualExpression<>(whereType, property, item2);
 //    }
 //
-//    public static <T extends Model<T>> GreatThanEqualExpression<T> greateThanEqual(Class<T> cls, PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new GreatThanEqualExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> GreatThanEqualExpression<T> greateThanEqual(Class<T> cls, PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new GreatThanEqualExpression<>(whereType, property, item2);
 //    }
 //
 //    // less than equal
-//    public static <T extends Model<T>> LessThanEqualExpression<T> lessThanEqual(PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new LessThanEqualExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> LessThanEqualExpression<T> lessThanEqual(PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new LessThanEqualExpression<>(whereType, property, item2);
 //    }
 //
-//    public static <T extends Model<T>> LessThanEqualExpression<T> lessThanEqual(Class<T> cls, PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new LessThanEqualExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> LessThanEqualExpression<T> lessThanEqual(Class<T> cls, PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new LessThanEqualExpression<>(whereType, property, item2);
 //    }
 //
 //    // is null
@@ -93,23 +93,23 @@
 //    }
 //
 //    // in
-//    public static <T extends Model<T>> InExpression<T> in(PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new InExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> InExpression<T> in(PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new InExpression<>(whereType, property, item2);
 //    }
 //
 //    // not in
-//    public static <T extends Model<T>> NotInExpression<T> notIn(PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new NotInExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> NotInExpression<T> notIn(PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new NotInExpression<>(whereType, property, item2);
 //    }
 //
 //    // exists
-//    public static <T extends Model<T>> ExistsExpression<T> exists(PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new ExistsExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> ExistsExpression<T> exists(PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new ExistsExpression<>(whereType, property, item2);
 //    }
 //
 //    // not exists
-//    public static <T extends Model<T>> NotExistsExpression<T> notExists(PropertyGetter<T> property, Object value, WhereType whereType) {
-//        return new NotExistsExpression<>(whereType, property, value);
+//    public static <T extends Model<T>> NotExistsExpression<T> notExists(PropertyGetter<T> property, Object item2, WhereType whereType) {
+//        return new NotExistsExpression<>(whereType, property, item2);
 //    }
 //
 //    // insert

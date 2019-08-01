@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 public class QueryObject implements Statement {
     
-    private final List<Object> paramList = new ArrayList<>();
+    private final List paramList = new ArrayList();
     
     private final List<SqlNode<?>> nodeList = new ArrayList<>();
     
@@ -45,13 +45,8 @@ public class QueryObject implements Statement {
     }
     
     @Override
-    public List<Object> getParams() {
+    public List getParams() {
         return paramList;
-    }
-    
-    @Override
-    public void addParam(Object param) {
-        paramList.add(param);
     }
     
     @Override

@@ -22,7 +22,8 @@ public class ParameterTypeHandler {
     
     @SuppressWarnings("unchecked")
     public <T> void handle(PreparedStatement st, int index, T value) throws SQLException {
-        DataSetter<T> setter = (DataSetter<T>) setterMap.get(value.getClass());
+        Class<?> cls = value.getClass();
+        DataSetter<T> setter = (DataSetter<T>)setterMap.get(cls);
         setter.setValue(st, index, value);
     }
     
@@ -44,44 +45,44 @@ public class ParameterTypeHandler {
         register(byte.class, PreparedStatement::setByte);
         register(boolean.class, PreparedStatement::setBoolean);
         register(short.class, PreparedStatement::setShort);
-    
+        
         register(BigDecimal.class, PreparedStatement::setBigDecimal);
         register(String.class, PreparedStatement::setString);
         register(Clob.class, PreparedStatement::setClob);
         register(Blob.class, PreparedStatement::setBlob);
         register(Object.class, PreparedStatement::setObject);
         register(Date.class, PreparedStatement::setDate);
-    
+        
         register(Time.class, PreparedStatement::setTime);
         register(Timestamp.class, PreparedStatement::setTimestamp);
         register(URL.class, PreparedStatement::setURL);
         register(Object.class, PreparedStatement::setObject);
-    
-    
+        
+        
         register(Integer.class, (st, index, value) -> checkNull(st, index, value, st::setInt));
-    
+        
         register(Long.class, (st, index, value) -> checkNull(st, index, value, st::setLong));
         register(Float.class, (st, index, value) -> checkNull(st, index, value, st::setFloat));
         register(Double.class, (st, index, value) -> checkNull(st, index, value, st::setDouble));
         register(Byte.class, (st, index, value) -> checkNull(st, index, value, st::setByte));
         register(Boolean.class, (st, index, value) -> checkNull(st, index, value, st::setBoolean));
         register(Short.class, (st, index, value) -> checkNull(st, index, value, st::setShort));
-    
-    
+        
+        
         register(java.util.Date.class, (st, index, value) -> {
             checkNull(st, index, value, (t, v) -> st.setTimestamp(t, new Timestamp(v.getTime())));
         });
-    
-    
+        
+        
         register(BigInteger.class, (st, index, value) -> {
             checkNull(st, index, value, (t, v) -> st.setLong(t, v.longValue()));
         });
-    
-    
+        
+        
         register(Calendar.class, (st, index, value) -> {
             checkNull(st, index, value, (t, v) -> st.setTimestamp(t, new Timestamp(v.getTimeInMillis())));
         });
-    
+        
         register(Character.class, (st, index, value) -> {
             checkNull(st, index, value, (t, v) -> st.setString(t, v.toString()));
         });

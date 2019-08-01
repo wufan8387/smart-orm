@@ -1,9 +1,8 @@
 package org.smart.orm.reflect;
 
 import org.junit.Test;
-import org.smart.orm.Account;
+import org.smart.orm.AuthGroup;
 
-import java.awt.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -18,7 +17,7 @@ public class LambdaParserTest {
 
     @Test
     public void getSet() {
-        PropertyGetter<Account> getter = t->t.getId();
+        PropertyGetter<AuthGroup> getter = t->t.getId();
         Class<?> cls = getter.getClass();
         Type superclass = cls.getGenericSuperclass();
         System.out.println(superclass);

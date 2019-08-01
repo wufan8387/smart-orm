@@ -54,7 +54,7 @@ public class SetNode<T extends Statement> implements SqlNode<T> {
 
         for (int i = 0; i < len; i++) {
             sb.append(Token.ASSIGN.apply(attrList.get(i), "?"));
-            statement.addParam(valueList.get(i));
+            statement.getParams().add(valueList.get(i));
             if (i < len - 1)
                 sb.append(",");
         }

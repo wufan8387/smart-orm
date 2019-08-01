@@ -182,7 +182,7 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
         if (child != null)
             child.toString(sb);
         if (params != null && params.length > 0)
-            statement.addParam(params);
+            statement.getParams().add(params);
     }
     
     

@@ -53,17 +53,17 @@ public class AppTest {
         
         
 //        OperationContext context = new OperationContext();
-//        FromNode<Account> fromOperation = new FromNode<>(UUID.randomUUID(), context, "test");
+//        FromNode<AuthGroup> fromOperation = new FromNode<>(UUID.randomUUID(), context, "test");
 //
 //        fromOperation
-//                .select(Account::getId,"pid")
-//                .where(new EqualExpression<>(Account::getId, 100));
+//                .select(AuthGroup::getId,"pid")
+//                .where(new EqualExpression<>(AuthGroup::getId, 100));
 //
 //        context.query(fromOperation.getBatch());
-        // select(Account.class);
+        // select(AuthGroup.class);
         //
-        // OperationContext<Account> context;
-        // context.select("","").from(Account.class);
+        // OperationContext<AuthGroup> context;
+        // context.select("","").from(AuthGroup.class);
     }
     
 }

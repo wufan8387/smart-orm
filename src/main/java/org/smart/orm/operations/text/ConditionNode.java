@@ -152,6 +152,6 @@ public class ConditionNode<T extends Statement> implements SqlNode<T> {
         if (child != null)
             child.toString(sb);
         if (params != null && params.length > 0)
-            statement.addParam(params);
+            statement.getParams().add(params);
     }
 }

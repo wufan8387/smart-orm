@@ -53,7 +53,7 @@ public class ValuesNode<T extends Statement> implements SqlNode<T> {
         int len = valueList.size();
         for (int i = 0; i < len; i++) {
             sb.append("?");
-            statement.addParam(valueList.get(i));
+            statement.getParams().add(valueList.get(i));
             if (i < len - 1) {
                 sb.append(", ");
             }

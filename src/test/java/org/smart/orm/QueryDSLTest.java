@@ -23,7 +23,7 @@ public class QueryDSLTest {
         
         QSurvey survey = QSurvey.survey;
 
-        SQLQuery<?> query = new SQLQuery<Account>(HSQLDBTemplates.builder().newLineToSingleSpace().build());
+        SQLQuery<?> query = new SQLQuery<AuthGroup>(HSQLDBTemplates.builder().newLineToSingleSpace().build());
         query
                 .select(survey.name, survey.name2)
                 .from(survey)

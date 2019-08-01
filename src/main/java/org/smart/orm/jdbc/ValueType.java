@@ -13,46 +13,46 @@
 //
 //
 //    public DataSetter<BigDecimal> setBigDecimalToDouble() {
-//        return (statement, index, value) -> statement.setDouble(index, value.doubleValue());
+//        return (statement, index, item2) -> statement.setDouble(index, item2.doubleValue());
 //    }
 //
 //
 //    public DataSetter<BigInteger> setBigInteger() {
-//        return (statement, index, value) -> statement.setBigDecimal(index, new BigDecimal(value));
+//        return (statement, index, item2) -> statement.setBigDecimal(index, new BigDecimal(item2));
 //    }
 //
 //
 //    public DataSetter<BigInteger> setBigIntegerToLong() {
-//        return (statement, index, value) -> statement.setLong(index, value.longValue());
+//        return (statement, index, item2) -> statement.setLong(index, item2.longValue());
 //    }
 //
 //
 //    public <T extends Enum<T>> DataGetter<T> getEnumFromInt(Class<T> cls) {
 //        return (resultSet, index) -> {
-//            int value = resultSet.getInt(index);
-//            return resultSet.wasNull() ? null : cls.getEnumConstants()[value];
+//            int item2 = resultSet.getInt(index);
+//            return resultSet.wasNull() ? null : cls.getEnumConstants()[item2];
 //
 //        };
 //    }
 //
 //    public <T extends Enum<T>> DataSetter<T> setEnumToInt() {
-//        return (statement, index, value) -> {
-//            statement.setInt(index, value.ordinal());
+//        return (statement, index, item2) -> {
+//            statement.setInt(index, item2.ordinal());
 //        };
 //    }
 //
 //
 //    public <T extends Enum<T>> DataGetter<T> getEnumFromString(Class<T> cls) {
 //        return (resultSet, index) -> {
-//            String value = resultSet.getString(index);
-//            return resultSet.wasNull() ? null : Enum.valueOf(cls, value);
+//            String item2 = resultSet.getString(index);
+//            return resultSet.wasNull() ? null : Enum.valueOf(cls, item2);
 //
 //        };
 //    }
 //
 //    public <T extends Enum<T>> DataSetter<T> setEnumToString() {
-//        return (statement, index, value) -> {
-//            statement.setString(index, value.name());
+//        return (statement, index, item2) -> {
+//            statement.setString(index, item2.name());
 //        };
 //    }
 //

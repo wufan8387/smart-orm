@@ -8,6 +8,7 @@ import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
+import org.smart.orm.reflect.EntityInfo;
 import org.smart.orm.reflect.PropertyGetter;
 
 import java.nio.channels.ClosedSelectorException;
@@ -16,7 +17,6 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     
     private T statement;
     
-    private String name;
     private String alias;
     
     private RelationNode<T, ?> parent;
@@ -31,9 +31,11 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     
     private Class<?> relClass;
     
+    private EntityInfo entityInfo;
+    
     public RelationNode(T statement, Class<K> cls) {
         this.statement = statement;
-        name = Model.getMeta(cls).getTable().getName();
+        entityInfo = Model.getMeta(cls);
         relClass = cls;
         statement.attach(this);
     }
@@ -43,7 +45,6 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
         this.parent = parent;
         if (parent != null)
             parent.child = this;
-        
     }
     
     @Override
@@ -61,18 +62,13 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     }
     
     public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
+        return entityInfo.getTable().getName();
     }
     
     public String getAlias() {
         if (StringUtils.isNotEmpty(alias))
             return alias;
-        String name = getName();
-        alias = statement.alias(name);
+        alias = getName();
         return alias;
     }
     
@@ -131,7 +127,7 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
             sb.append(Token.JOIN.apply(joinType));
         }
         
-        sb.append(Token.REL_AS.apply(name, getAlias()));
+        sb.append(Token.REL_AS.apply(entityInfo.getTable().getName(), getAlias()));
         
         if (joinRoot != null) {
             sb.append(Token.ON);
@@ -147,7 +143,7 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return getName().hashCode();
     }
     
     @Override
@@ -160,7 +156,7 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
         
         RelationNode data = (RelationNode) obj;
         
-        return data.name.equals(name);
+        return data.getName().equals(getName());
         
         
     }

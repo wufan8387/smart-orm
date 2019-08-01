@@ -19,7 +19,7 @@ public abstract class AbstractStatement implements Statement {
     
     protected final List<SqlNode<?>> nodeList = new ArrayList<>();
     
-    protected List<Object> paramList = new ArrayList<>();
+    protected List paramList = new ArrayList();
     
     @SuppressWarnings("unchecked")
     @Override
@@ -58,13 +58,9 @@ public abstract class AbstractStatement implements Statement {
     }
     
     @Override
-    public List<Object> getParams() {
+    public List getParams() {
         return paramList;
     }
     
-    @Override
-    public void addParam(Object param) {
-        paramList.add(param);
-    }
-    
+
 }

@@ -20,8 +20,9 @@ public class InsertObject implements Statement {
 
     private final List<SqlNode<?>> nodeList = new ArrayList<>();
 
-    private final List<Object> paramList = new ArrayList<>();
+    private final List paramList = new ArrayList();
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends SqlNode<?>> T attach(T node) {
         switch (node.getType()) {
@@ -57,13 +58,8 @@ public class InsertObject implements Statement {
     }
 
     @Override
-    public List<Object> getParams() {
+    public List getParams() {
         return paramList;
-    }
-
-    @Override
-    public void addParam(Object param) {
-        paramList.add(param);
     }
 
     @Override

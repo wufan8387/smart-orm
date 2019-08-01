@@ -9,10 +9,7 @@ public interface Statement {
     
     UUID getId();
     
-    List<Object> getParams();
-    
-    void addParam(Object param);
-    
+    List getParams();
     
     String alias(String term);
     

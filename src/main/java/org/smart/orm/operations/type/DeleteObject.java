@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 public class DeleteObject implements Statement {
 
-    private final List<Object> paramList = new ArrayList<>();
+    private final List paramList = new ArrayList();
 
     private ConditionNode<DeleteObject, ?, ?> whereRoot;
 
@@ -54,13 +54,8 @@ public class DeleteObject implements Statement {
     }
 
     @Override
-    public List<Object> getParams() {
+    public List getParams() {
         return paramList;
-    }
-
-    @Override
-    public void addParam(Object param) {
-        paramList.add(param);
     }
 
     @SuppressWarnings("unchecked")

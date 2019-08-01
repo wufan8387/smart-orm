@@ -48,7 +48,7 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
     public String getAlias() {
         if (StringUtils.isNotEmpty(alias))
             return alias;
-        alias = statement.alias(getName());
+        alias = getName();
         return alias;
     }
     

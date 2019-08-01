@@ -16,10 +16,6 @@ import java.util.function.Supplier;
 public class DeleteStatement extends AbstractStatement {
     
     
-    private final List<Object> paramList = new ArrayList<>();
-    
-    private final List<SqlNode<?>> nodeList = new ArrayList<>();
-    
     private ConditionNode<DeleteStatement> whereRoot;
     
     private ConditionNode<DeleteStatement> whereLast;
@@ -30,7 +26,6 @@ public class DeleteStatement extends AbstractStatement {
     
     private final RelationNode<DeleteStatement> relRoot;
     
-    
     public DeleteStatement(String rel) {
         relRoot = new RelationNode<>(this, rel);
     }
@@ -39,21 +34,6 @@ public class DeleteStatement extends AbstractStatement {
         relRoot = new RelationNode<>(this, rel).setAlias(alias);
     }
     
-    
-    @Override
-    public UUID getId() {
-        return null;
-    }
-    
-    @Override
-    public List<Object> getParams() {
-        return paramList;
-    }
-    
-    @Override
-    public void addParam(Object param) {
-        paramList.add(param);
-    }
     
     @SuppressWarnings("unchecked")
     @Override
@@ -77,22 +57,6 @@ public class DeleteStatement extends AbstractStatement {
         
         return node;
     }
-    
-    @Override
-    public <T extends SqlNode<?>> List<T> find(int nodeType, Predicate<T> predicate) {
-        return null;
-    }
-    
-    @Override
-    public <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate) {
-        return null;
-    }
-    
-    @Override
-    public <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate, Supplier<T> other) {
-        return null;
-    }
-    
     
     public ConditionNode<DeleteStatement> where(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
         

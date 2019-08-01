@@ -43,8 +43,8 @@
 //        return new DataSetter<byte[]>() {
 //            @SuppressWarnings("unchecked")
 //            @Override
-//            public void setValue(PreparedStatement statement, int index, byte[] value) throws SQLException {
-//                statement.setBytes(index, value);
+//            public void setValue(PreparedStatement statement, int index, byte[] item2) throws SQLException {
+//                statement.setBytes(index, item2);
 //            }
 //        };
 //    }
@@ -73,9 +73,9 @@
 //
 //            @SuppressWarnings("unchecked")
 //            @Override
-//            public void setValue(PreparedStatement statement, int index, Byte[] value) throws SQLException {
-//                ByteArrayInputStream bis = new ByteArrayInputStream(convertToPrimitiveArray(value));
-//                statement.setBinaryStream(index, bis, value.length);
+//            public void setValue(PreparedStatement statement, int index, Byte[] item2) throws SQLException {
+//                ByteArrayInputStream bis = new ByteArrayInputStream(convertToPrimitiveArray(item2));
+//                statement.setBinaryStream(index, bis, item2.length);
 //            }
 //
 //        };
