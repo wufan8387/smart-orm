@@ -1,7 +1,7 @@
 package org.smart.orm.operations.type;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smart.orm.Func;
+import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.NodeType;
@@ -9,9 +9,7 @@ import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 import org.smart.orm.reflect.EntityInfo;
-import org.smart.orm.reflect.PropertyGetter;
-
-import java.nio.channels.ClosedSelectorException;
+import org.smart.orm.functions.PropertyGetter;
 
 public class RelationNode<T extends Statement, K extends Model<K>> implements SqlNode<T> {
     
@@ -29,14 +27,11 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     
     private JoinNode<T, ?, ?> joinLast;
     
-    private Class<?> relClass;
-    
     private EntityInfo entityInfo;
     
     public RelationNode(T statement, Class<K> cls) {
         this.statement = statement;
         entityInfo = Model.getMeta(cls);
-        relClass = cls;
         statement.attach(this);
     }
     
@@ -57,8 +52,8 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
         return NodeType.RELATION;
     }
     
-    public Class<?> getRelClass() {
-        return relClass;
+    public EntityInfo getEntityInfo() {
+        return entityInfo;
     }
     
     public String getName() {
@@ -143,7 +138,7 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     
     @Override
     public int hashCode() {
-        return getName().hashCode();
+        return (getName() + "-" + getAlias()).hashCode();
     }
     
     @Override
@@ -156,7 +151,7 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
         
         RelationNode data = (RelationNode) obj;
         
-        return data.getName().equals(getName());
+        return data.getName().equals(getName()) && data.getAlias().equals(getAlias());
         
         
     }

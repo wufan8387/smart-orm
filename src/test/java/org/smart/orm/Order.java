@@ -10,7 +10,7 @@ public class Order extends Model<Order> {
     private int id;
     
     @Column
-    private  int uid;
+    private int uid;
     
     @Column
     private String no;
@@ -20,6 +20,7 @@ public class Order extends Model<Order> {
     }
     
     public void setId(int id) {
+        propertyChange("id", Order::getId);
         this.id = id;
     }
     
@@ -28,6 +29,7 @@ public class Order extends Model<Order> {
     }
     
     public void setUid(int uid) {
+        propertyChange("uid", Order::getUid);
         this.uid = uid;
     }
     
@@ -36,6 +38,7 @@ public class Order extends Model<Order> {
     }
     
     public void setNo(String no) {
+        propertyChange("no", Order::getNo);
         this.no = no;
     }
 }

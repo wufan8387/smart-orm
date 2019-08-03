@@ -1,5 +1,7 @@
 package org.smart.orm.jdbc;
 
+import org.smart.orm.functions.ResultGetter;
+
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,22 +14,22 @@ import java.util.function.Function;
 
 public final class ResultTypeHandler {
     
-    private final Map<Class<?>, DataGetter<?>> getterMap = new HashMap<>();
+    private final Map<Class<?>, ResultGetter<?>> getterMap = new HashMap<>();
     
     
     public ResultTypeHandler() {
         initializeDefaultGetter();
     }
     
-    public <T> void register(Class<T> cls, DataGetter<T> getter) {
+    public <T> void register(Class<T> cls, ResultGetter<T> getter) {
         getterMap.put(cls, getter);
     }
     
     @SuppressWarnings("unchecked")
     @Nullable
     public <T> T handle(Class<T> cls, ResultSet rs, int index) throws SQLException {
-        DataGetter<T> getter = (DataGetter<T>) getterMap.get(cls);
-        return getter.getValue(rs, index);
+        ResultGetter<T> getter = (ResultGetter<T>) getterMap.get(cls);
+        return getter.get(rs, index);
     }
     
     
@@ -54,6 +56,9 @@ public final class ResultTypeHandler {
         register(byte.class, ResultSet::getByte);
         register(boolean.class, ResultSet::getBoolean);
         register(short.class, ResultSet::getShort);
+        
+        register(byte[].class, ResultSet::getBytes);
+        
         
         register(Integer.class, (resultSet, index) -> checkNull(resultSet, resultSet.getInt(index)));
         register(Long.class, (resultSet, index) -> checkNull(resultSet, resultSet.getLong(index)));
@@ -90,12 +95,31 @@ public final class ResultTypeHandler {
                 })
         );
         
-        register(Character.class, (rs, index) ->
-                checkNull(rs, rs.getString(index), t -> t.charAt(0))
-        );
+        register(Character.class, (rs, index) -> checkNull(rs, rs.getString(index), t -> t.charAt(0)));
         
         
     }
+
+
+//    private static Byte[] convertToObjectArray(byte[] bytes) {
+//        final Byte[] objects = new Byte[bytes.length];
+//        for (int i = 0; i < bytes.length; i++) {
+//            objects[i] = bytes[i];
+//        }
+//        return objects;
+//    }
+//
+//
+//    public ResultGetter<Byte[]> blobGetter() {
+//        return (resultSet, index) -> {
+//            Blob blob = resultSet.getBlob(index);
+//            Byte[] result = null;
+//            if (blob != null) {
+//                result = convertToObjectArray(blob.getBytes(1, (int) blob.length()));
+//            }
+//            return result;
+//        };
+//    }
     
     
 }

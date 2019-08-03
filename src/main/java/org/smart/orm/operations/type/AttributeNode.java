@@ -3,11 +3,11 @@ package org.smart.orm.operations.type;
 import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.Model;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.functions.Func;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
-import org.smart.orm.reflect.LambdaParser;
-import org.smart.orm.reflect.PropertyGetter;
+import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.reflect.PropertyInfo;
 
 public class AttributeNode<T extends Statement, K extends Model<K>> implements SqlNode<T> {
@@ -23,6 +23,14 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
     private RelationNode<T, K> rel;
     
     private PropertyInfo prop;
+    
+    private Func<String> op = Token.REL_ATTR_AS;
+    
+    public AttributeNode(T statement, RelationNode<T, K> rel, PropertyInfo prop) {
+        this.statement = statement;
+        this.rel = rel;
+        this.prop = prop;
+    }
     
     public AttributeNode(T statement, PropertyGetter<K> name) {
         this.statement = statement;
@@ -41,6 +49,14 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
         this.alias = alias;
     }
     
+    public RelationNode<T, K> getRel() {
+        return rel;
+    }
+    
+    public PropertyInfo getProp() {
+        return prop;
+    }
+    
     public String getName() {
         return prop.getColumnName();
     }
@@ -57,6 +73,14 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
         return this;
     }
     
+    public Func<String> getOp() {
+        return op;
+    }
+    
+    public void setOp(Func<String> op) {
+        this.op = op;
+    }
+    
     @Override
     public int getType() {
         return NodeType.ATTRIBUTE;
@@ -70,7 +94,7 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
     public RelationNode<T, K> from(Class<K> cls) {
         rel = statement.findFirst(NodeType.RELATION,
                 t -> t.getName().equals(Model.getMeta(cls).getTable().getName()),
-                () -> statement.attach(new RelationNode<>(statement, cls))
+                () -> new RelationNode<>(statement, cls)
         );
         prop = Model.getMeta(cls).getPropInfo(this.name);
         statement.attach(this);
@@ -81,7 +105,9 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
     
     public RelationNode<T, K> from(RelationNode<T, K> rel) {
         this.rel = rel;
-        prop = Model.getMeta(rel.getRelClass()).getPropInfo(this.name);
+        prop = Model
+                .getMeta(rel.getEntityInfo().getEntityClass())
+                .getPropInfo(this.name);
         statement.attach(this);
         return rel;
     }
@@ -89,7 +115,7 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
     @Override
     public void toString(StringBuilder sb) {
         if (expNode == null) {
-            sb.append(Token.ATTR_AS.apply(rel.getAlias(), getName(), getAlias()));
+            sb.append(op.apply(rel.getAlias(), getName(), getAlias()));
             
         } else {
             
@@ -97,6 +123,27 @@ public class AttributeNode<T extends Statement, K extends Model<K>> implements S
             expNode.toString(sb);
             sb.append(") ").append(Token.AS.apply(getAlias()));
         }
+    }
+    
+    
+    @Override
+    public int hashCode() {
+        return getAlias().hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        
+        if (!(obj instanceof AttributeNode))
+            return false;
+        
+        AttributeNode data = (AttributeNode) obj;
+        
+        return data.getAlias().equals(getAlias());
+        
+        
     }
     
     

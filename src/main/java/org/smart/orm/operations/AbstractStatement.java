@@ -1,6 +1,5 @@
-package org.smart.orm.operations.text;
+package org.smart.orm.operations;
 
-import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 
@@ -15,11 +14,15 @@ public abstract class AbstractStatement implements Statement {
     
     private UUID id = UUID.randomUUID();
     
-    private int sn = 0;
+    private final List<SqlNode<?>> nodeList = new ArrayList<>();
     
-    protected final List<SqlNode<?>> nodeList = new ArrayList<>();
+    private List<Object> paramList = new ArrayList<>();
     
-    protected List paramList = new ArrayList();
+    
+    @Override
+    public UUID getId() {
+        return id;
+    }
     
     @SuppressWarnings("unchecked")
     @Override
@@ -46,21 +49,24 @@ public abstract class AbstractStatement implements Statement {
                 .orElseGet(other);
     }
     
+    
+    protected abstract <T extends SqlNode<?>> void doAttach(T node);
+    
     @Override
-    public String alias(String term) {
-        sn++;
-        return term + "_" + sn;
+    public <T extends SqlNode<?>> T attach(T node) {
+        doAttach(node);
+        if (!nodeList.contains(node))
+            nodeList.add(node);
+        return node;
     }
     
     @Override
-    public UUID getId() {
-        return id;
-    }
-    
-    @Override
-    public List getParams() {
+    public List<Object> getParams() {
         return paramList;
     }
     
-
+    @Override
+    public List<SqlNode<?>> getNodes() {
+        return nodeList;
+    }
 }

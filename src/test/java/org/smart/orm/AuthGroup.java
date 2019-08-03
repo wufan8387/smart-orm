@@ -1,13 +1,14 @@
 package org.smart.orm;
 
 import org.smart.orm.annotations.Column;
+import org.smart.orm.annotations.IdType;
 import org.smart.orm.annotations.Table;
 
 @Table("ocenter_auth_group")
 public class AuthGroup extends Model<AuthGroup> {
     
-    @Column
-    private String id;
+    @Column(idType = IdType.Auto)
+    private int id;
     
     @Column
     private String module;
@@ -27,11 +28,12 @@ public class AuthGroup extends Model<AuthGroup> {
     @Column
     private String rules;
     
-    public String getId() {
+    public int getId() {
         return id;
     }
     
-    public void setId(String id) {
+    public void setId(int id) {
+        propertyChange("id", AuthGroup::getId);
         this.id = id;
     }
     
@@ -40,6 +42,7 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setModule(String module) {
+        propertyChange("module", AuthGroup::getModule);
         this.module = module;
     }
     
@@ -48,6 +51,7 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setType(int type) {
+        propertyChange("type", AuthGroup::getType);
         this.type = type;
     }
     
@@ -56,6 +60,7 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setTitle(String title) {
+        propertyChange("title", AuthGroup::getTitle);
         this.title = title;
     }
     
@@ -64,6 +69,7 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setDescription(String description) {
+        propertyChange("description", AuthGroup::getDescription);
         this.description = description;
     }
     
@@ -72,6 +78,7 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setStatus(int status) {
+        propertyChange("status", AuthGroup::getStatus);
         this.status = status;
     }
     
@@ -81,6 +88,7 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setRules(String rules) {
+        propertyChange("rules", AuthGroup::getRules);
         this.rules = rules;
     }
     

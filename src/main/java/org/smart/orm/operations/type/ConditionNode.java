@@ -1,18 +1,15 @@
 package org.smart.orm.operations.type;
 
-import org.smart.orm.Func;
+import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
-import org.smart.orm.execution.KeyMapHandler;
 import org.smart.orm.operations.Op;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.reflect.LambdaParser;
-import org.smart.orm.reflect.PropertyGetter;
+import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.reflect.PropertyInfo;
-
-import javax.jws.WebParam;
 
 public class ConditionNode<T extends Statement, L extends Model<L>, R extends Model<R>> implements SqlNode<T> {
     
@@ -64,7 +61,10 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
         statement.attach(this);
     }
     
-    public ConditionNode(T statement, RelationNode<T, L> leftRel, PropertyGetter<L> leftAttr, Func<String> op, RelationNode<T, R> rightRel, PropertyGetter<R> rightAttr) {
+    public ConditionNode(T statement
+            , RelationNode<T, L> leftRel, PropertyGetter<L> leftAttr
+            , Func<String> op
+            , RelationNode<T, R> rightRel, PropertyGetter<R> rightAttr) {
         this.statement = statement;
         this.leftRel = leftRel;
         this.rightRel = rightRel;
@@ -74,7 +74,11 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
         statement.attach(this);
     }
     
-    public ConditionNode(T statement, RelationNode<T, L> leftRel, PropertyGetter<L> leftAttr, Func<String> op, RelationNode<T, R> rightRel, PropertyGetter<R> rightAttr, ConditionNode<T, ?, ?> parent) {
+    public ConditionNode(T statement
+            , RelationNode<T, L> leftRel, PropertyGetter<L> leftAttr
+            , Func<String> op
+            , RelationNode<T, R> rightRel, PropertyGetter<R> rightAttr
+            , ConditionNode<T, ?, ?> parent) {
         this(statement, leftRel, leftAttr, op, rightRel, rightAttr);
         if (parent != null)
             parent.child = this;
@@ -175,14 +179,18 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
         
         if (rightRel != null) {
             String rightTextAttr = LambdaParser.getGetter(rightAttr).getName();
-            sb.append(op.apply(leftRel.getAlias(), leftTextAttr, rightRel.getAlias(), rightTextAttr));
+            sb.append(op.apply(leftRel.getAlias(), leftTextAttr, rightRel.getAlias(), rightTextAttr, params));
         } else {
-            sb.append(op.apply(leftRel.getAlias(), leftTextAttr));
+            sb.append(op.apply(leftRel.getAlias(), leftTextAttr, params));
+        }
+        if (params != null && params.length > 0) {
+            for (Object param : params) {
+                statement.getParams().add(param);
+            }
         }
         if (child != null)
             child.toString(sb);
-        if (params != null && params.length > 0)
-            statement.getParams().add(params);
+        
     }
     
     

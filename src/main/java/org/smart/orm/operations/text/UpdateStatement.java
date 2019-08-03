@@ -1,18 +1,13 @@
 package org.smart.orm.operations.text;
 
 
-import org.smart.orm.Func;
+import org.smart.orm.data.StatementType;
+import org.smart.orm.functions.Func;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
-import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public class UpdateStatement extends AbstractStatement {
     
@@ -39,9 +34,14 @@ public class UpdateStatement extends AbstractStatement {
         relRoot = new RelationNode<>(this, rel).setAlias(alias);
     }
     
+    @Override
+    public StatementType getType() {
+        return StatementType.DML;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends SqlNode<?>> T attach(T node) {
+    protected  <T extends SqlNode<?>> void doAttach(T node) {
         
         switch (node.getType()) {
             case NodeType.CONDITION:
@@ -59,8 +59,6 @@ public class UpdateStatement extends AbstractStatement {
                 break;
             
         }
-        
-        return node;
     }
     
     
@@ -146,7 +144,7 @@ public class UpdateStatement extends AbstractStatement {
     
     @Override
     public String toString() {
-        this.paramList.clear();
+        this.getParams().clear();
         StringBuilder sb = new StringBuilder();
         
         sb.append(Token.UPDATE_AS_SET.apply(relRoot.getName(), relRoot.getAlias()));

@@ -1,6 +1,8 @@
 package org.smart.orm.operations;
 
 
+import org.smart.orm.data.StatementType;
+
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -9,9 +11,11 @@ public interface Statement {
     
     UUID getId();
     
-    List getParams();
+    List<Object> getParams();
     
-    String alias(String term);
+    List<SqlNode<?>> getNodes();
+    
+    StatementType getType();
     
     <T extends SqlNode<?>> T attach(T node);
     

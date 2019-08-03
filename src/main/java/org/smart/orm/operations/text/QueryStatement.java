@@ -1,9 +1,11 @@
 package org.smart.orm.operations.text;
 
-import org.smart.orm.Func;
+import org.smart.orm.data.StatementType;
+import org.smart.orm.functions.Func;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Token;
 
@@ -11,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class QueryStatement extends AbstractStatement {
-    
     
     private RelationNode<QueryStatement> relRoot;
     
@@ -25,12 +26,16 @@ public class QueryStatement extends AbstractStatement {
     
     private GroupByNode<QueryStatement> groupByRoot;
     
-    
     private LimitNode<QueryStatement> limitRoot;
+    
+    @Override
+    public StatementType getType() {
+        return StatementType.DQL;
+    }
     
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends SqlNode<?>> T attach(T node) {
+    protected  <T extends SqlNode<?>> void doAttach(T node) {
         
         switch (node.getType()) {
             case NodeType.RELATION:
@@ -56,8 +61,6 @@ public class QueryStatement extends AbstractStatement {
                 limitRoot = limitRoot == null ? limitNode : limitRoot;
                 break;
         }
-        nodeList.add(node);
-        return node;
     }
     
     public RelationNode<QueryStatement> from(String rel) {
@@ -193,12 +196,12 @@ public class QueryStatement extends AbstractStatement {
     @SuppressWarnings("unchecked")
     @Override
     public String toString() {
-        this.paramList.clear();
+        this.getParams().clear();
         StringBuilder sb = new StringBuilder();
         
         sb.append(Token.SELECT);
         
-        List<AttributeNode<QueryStatement>> attrList = nodeList
+        List<AttributeNode<QueryStatement>> attrList = getNodes()
                 .stream().filter(t -> t.getType() == NodeType.ATTRIBUTE)
                 .map(t -> (AttributeNode<QueryStatement>) t)
                 .collect(Collectors.toList());

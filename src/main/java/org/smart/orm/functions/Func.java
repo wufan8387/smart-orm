@@ -1,4 +1,4 @@
-package org.smart.orm;
+package org.smart.orm.functions;
 
 @FunctionalInterface
 public interface Func<T> {

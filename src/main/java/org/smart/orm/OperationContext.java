@@ -1,101 +1,93 @@
 package org.smart.orm;
 
-import org.apache.commons.lang3.StringUtils;
-import org.smart.orm.execution.Executor;
-import org.smart.orm.execution.ResultHandler;
-import org.smart.orm.operations.Expression;
+import javafx.stage.StageStyle;
+import org.smart.orm.data.NodeType;
+import org.smart.orm.data.StatementType;
+import org.smart.orm.execution.*;
 import org.smart.orm.operations.Statement;
-import org.smart.orm.reflect.TableInfo;
+import org.smart.orm.operations.type.AttributeNode;
 
-import javax.sql.RowSet;
-import javax.sql.RowSetListener;
-import javax.sql.rowset.CachedRowSet;
-import javax.sql.rowset.JdbcRowSet;
-import javax.sql.rowset.RowSetWarning;
-import java.io.InputStream;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.sql.*;
-import java.sql.Date;
+import java.sql.Connection;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class OperationContext {
     
-    private final static Map<UUID, Statement> statementMap = new HashMap<>();
+    private final static Map<UUID, List<Statement>> statementMap = new HashMap<>();
     
     private Executor executor;
     
+    private UUID batchId = UUID.randomUUID();
     
-    public Executor getExecutor() {
-        return executor;
+    public UUID getBatchId() {
+        return batchId;
     }
+    
+    public void add(Statement statement) {
+        statementMap.putIfAbsent(batchId, new ArrayList<>());
+        statementMap.get(batchId).add(statement);
+    }
+    
+    public void include(Statement statement) {
+    
+    }
+    
+    public void saveChanges(Connection connection) {
+//        List<Statement> statementList = statementMap.get(batchId)
+//                .stream()
+//                .filter(t -> t.getType() == StatementType
+//                        .DML)
+//                .collect(Collectors.toList());
+//        for (Statement statement : statementList) {
+//            executor.insert(connection, statement.toString(), statement.getParams().toArray());
+//        }
+    }
+    
     
     public void setExecutor(Executor executor) {
         this.executor = executor;
     }
     
-    public <T> void query(Connection connection, Executor executor, ResultHandler<T> handler, Statement statement) {
+    public <T extends Model<T>> ResultHandler<T> query(Class<T> cls, Connection connection, Statement statement) {
+        
         String sql = statement.toString();
-        List<Object> paramList = statement.getParams();
-        executor.executeQuery(connection, handler, sql, paramList.toArray());
+        System.out.println(sql);
+        
+        ObjectHandler<T> handler = new ObjectHandler<>(cls);
+        
+        List<AttributeNode<?, ?>> attrList = statement.getNodes()
+                .stream().filter(t -> t.getType() == NodeType.ATTRIBUTE)
+                .map(t -> (AttributeNode<?, ?>) t)
+                .collect(Collectors.toList());
+        
+        attrList.forEach(t -> handler.add(t.getAlias(), t.getProp()));
+        
+        executor.executeQuery(connection, sql, handler, statement.getParams().toArray());
+        
+        return handler;
     }
     
-    public CachedRowSet query(Connection connection, Statement statement) {
+    
+    public void update(Statement statement) {
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <T extends Model<T>> void insert(Class<T> cls, Connection connection, Statement statement, T... data) {
         String sql = statement.toString();
-        List<Object> paramList = statement.getParams();
-        return executor.executeQuery(connection, sql, paramList.toArray());
+        System.out.println(sql);
+        
+        GeneratedKeysHandler<T> handler = new GeneratedKeysHandler<>(Model.getMeta(cls));
+        
+        handler.getAll().addAll(Arrays.asList(data));
+        
+        List<Object> params = statement.getParams();
+        
+        executor.insert(connection, sql, handler, handler.autoGenerateKeys(), params.toArray());
+        
     }
     
-    public void update(UUID batchId) {
-//        ExecuteData data = build(batchId);
-//        executor.update(null, data.sql, data.paramList);
-    }
+    public void delete(Statement statement) {
     
-    public void insert(UUID batchId) {
-//        ExecuteData data = build(batchId);
-//        executor.insert(null, data.sql, data.withKeys, data.paramList);
-    }
-    
-    public void delete(UUID batchId) {
-//        ExecuteData data = build(batchId);
-//        executor.delete(null, data.sql, data.paramList);
-    }
-
-
-//    public ExecuteData build(UUID batchId) {
-//
-//        List<Expression> expressionList = operationMap.get(batchId);
-//
-//        expressionList.sort((o1, o2) -> {
-//            if (o1.getPriority() < o2.getPriority())
-//                return -1;
-//            return 1;
-//        });
-//        operationMap.remove(batchId);
-//
-//        StringBuilder sb = new StringBuilder();
-//        List<Object> paramList = new ArrayList<>();
-//        for (Expression op : expressionList) {
-//            op.build();
-//            sb.append(op.build());
-//            paramList.addAll(op.getParams());
-//        }
-//        ExecuteData data = new ExecuteData();
-//        data.sql = sb.toString();
-//        data.paramList = paramList.toArray();
-//
-//        return data;
-//    }
-    
-    public static class ExecuteData {
-        
-        public String sql;
-        
-        public Object[] paramList;
-        
-        public boolean withKeys;
-        
     }
     
     

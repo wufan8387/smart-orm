@@ -2,6 +2,7 @@ package org.smart.orm.operations.text;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.functions.Func;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
@@ -17,6 +18,8 @@ public class AttributeNode<T extends Statement> implements SqlNode<T> {
     private SqlNode<T> expNode;
     
     private RelationNode<T> rel;
+    
+    private Func<String> op = Token.REL_ATTR_AS;
     
     public AttributeNode(T statement, String name) {
         this.statement = statement;
@@ -48,6 +51,15 @@ public class AttributeNode<T extends Statement> implements SqlNode<T> {
     public AttributeNode<T> setAlias(String alias) {
         this.alias = alias;
         return this;
+    }
+    
+    
+    public Func<String> getOp() {
+        return op;
+    }
+    
+    public void setOp(Func<String> op) {
+        this.op = op;
     }
     
     @Override
@@ -88,7 +100,7 @@ public class AttributeNode<T extends Statement> implements SqlNode<T> {
     @Override
     public void toString(StringBuilder sb) {
         if (expNode == null) {
-            sb.append(Token.ATTR_AS.apply(rel.getAlias(), name, getAlias()));
+            sb.append(Token.REL_ATTR_AS.apply(rel.getAlias(), name, getAlias()));
             
         } else {
             

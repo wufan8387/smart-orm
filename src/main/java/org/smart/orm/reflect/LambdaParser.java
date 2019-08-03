@@ -1,6 +1,7 @@
 package org.smart.orm.reflect;
 
 import org.smart.orm.SmartORMException;
+import org.smart.orm.functions.PropertyGetter;
 
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;

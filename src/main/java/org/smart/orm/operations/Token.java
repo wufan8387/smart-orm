@@ -1,6 +1,6 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.Func;
+import org.smart.orm.functions.Func;
 import org.smart.orm.data.JoinType;
 
 public class Token {
@@ -43,16 +43,20 @@ public class Token {
     
     public final static Func<String> AS = t -> String.format(" AS `%s` ", t);
     
-    public final static Func<String> DEL_FROM_AS = t->String.format(" DELETE FROM `%s` AS `%s` ",t);
+    public final static Func<String> DEL_FROM_AS = t -> String.format(" DELETE FROM `%s` AS `%s` ", t);
     
     
     public final static Func<String> REL = t -> String.format(" `%s` ", t);
     
     public final static Func<String> REL_AS = t -> String.format(" `%s` AS `%s` ", t);
     
-    public final static Func<String> ATTR = t -> String.format(" `%s`.`%s` ", t);
     
-    public final static Func<String> ATTR_AS = t -> String.format(" `%s`.`%s` AS `%s` ", t);
+    public final static Func<String> ATTR_INSERT = t -> String.format(" `%s` ", t[1]);
+    
+    public final static Func<String> REL_ATTR = t -> String.format(" `%s`.`%s` ", t);
+    
+    public final static Func<String> REL_ATTR_AS = t -> String.format(" `%s`.`%s` AS `%s` ", t);
+    
     
     public final static Func<String> FUNC = t -> String.format(" `%s` ", t);
     

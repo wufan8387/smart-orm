@@ -5,7 +5,7 @@ import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
-import org.smart.orm.reflect.PropertyGetter;
+import org.smart.orm.functions.PropertyGetter;
 
 import java.util.ArrayList;
 import java.util.List;

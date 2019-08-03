@@ -2,6 +2,7 @@ package org.smart.orm.reflect;
 
 import org.junit.Test;
 import org.smart.orm.AuthGroup;
+import org.smart.orm.functions.PropertyGetter;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

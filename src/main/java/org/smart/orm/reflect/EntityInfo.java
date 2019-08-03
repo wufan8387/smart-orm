@@ -2,6 +2,7 @@ package org.smart.orm.reflect;
 
 import org.smart.orm.Model;
 import org.smart.orm.SmartORMException;
+import org.smart.orm.functions.PropertyGetter;
 
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;

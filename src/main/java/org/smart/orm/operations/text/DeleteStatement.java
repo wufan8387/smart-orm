@@ -1,17 +1,12 @@
 package org.smart.orm.operations.text;
 
-import org.smart.orm.Func;
+import org.smart.orm.data.StatementType;
+import org.smart.orm.functions.Func;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
-import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public class DeleteStatement extends AbstractStatement {
     
@@ -29,15 +24,20 @@ public class DeleteStatement extends AbstractStatement {
     public DeleteStatement(String rel) {
         relRoot = new RelationNode<>(this, rel);
     }
-
+    
     public DeleteStatement(String rel, String alias) {
         relRoot = new RelationNode<>(this, rel).setAlias(alias);
+    }
+    
+    @Override
+    public StatementType getType() {
+        return StatementType.DML;
     }
     
     
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends SqlNode<?>> T attach(T node) {
+    protected  <T extends SqlNode<?>> void doAttach(T node) {
         
         switch (node.getType()) {
             case NodeType.LIMIT:
@@ -54,8 +54,6 @@ public class DeleteStatement extends AbstractStatement {
                 whereLast = whereNode;
                 break;
         }
-        
-        return node;
     }
     
     public ConditionNode<DeleteStatement> where(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
@@ -133,7 +131,7 @@ public class DeleteStatement extends AbstractStatement {
     
     @Override
     public String toString() {
-        this.paramList.clear();
+        this.getParams().clear();
         StringBuilder sb = new StringBuilder();
         
         sb.append(Token.DEL_FROM_AS.apply(relRoot.getName(), relRoot.getAlias()));

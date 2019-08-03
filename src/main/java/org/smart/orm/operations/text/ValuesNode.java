@@ -1,5 +1,6 @@
 package org.smart.orm.operations.text;
 
+import org.smart.orm.Model;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
@@ -14,25 +15,16 @@ public class ValuesNode<T extends Statement> implements SqlNode<T> {
     
     private T statement;
     
-    private final List<Object> valueList = new ArrayList<>();
+    private Object[] params;
     
-    public ValuesNode(T statement) {
+    public ValuesNode(T statement,Object[] params) {
         this.statement = statement;
-        statement.attach(this);
-    }
-    
-    public List<Object> getValueList() {
-        return valueList;
-    }
-    
-    public ValuesNode<T> addValue(Object... value) {
-        this.valueList.addAll(Arrays.asList(value));
-        return this;
+        this.params = params;
     }
     
     
-    public ValuesNode<T> values(Object... value) {
-        return new ValuesNode<>(statement).addValue(value);
+    public Object[] getParams() {
+        return params;
     }
     
     @Override
@@ -50,10 +42,10 @@ public class ValuesNode<T extends Statement> implements SqlNode<T> {
         
         sb.append("(");
         
-        int len = valueList.size();
+        int len = params.length;
         for (int i = 0; i < len; i++) {
             sb.append("?");
-            statement.getParams().add(valueList.get(i));
+            statement.getParams().add(params[i]);
             if (i < len - 1) {
                 sb.append(", ");
             }

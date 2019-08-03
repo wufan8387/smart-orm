@@ -1,7 +1,7 @@
 package org.smart.orm.operations.text;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smart.orm.Func;
+import org.smart.orm.functions.Func;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.*;

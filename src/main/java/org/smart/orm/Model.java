@@ -3,15 +3,12 @@ package org.smart.orm;
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.Table;
 
-import org.smart.orm.operations.text.QueryStatement;
-import org.smart.orm.operations.type.QueryObject;
-import org.smart.orm.operations.type.RelationNode;
+import org.smart.orm.functions.PropertyGetter;
+import org.smart.orm.operations.type.*;
 import org.smart.orm.reflect.*;
 
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +18,7 @@ public abstract class Model<T extends Model<T>> {
     
     private final static Map<String, EntityInfo> metaMap = new HashMap<>();
     
-    private List<ChangeInfo> changeList = new ArrayList<>();
+    private Map<String, PropertyGetter<T>> changeMap = new HashMap<>();
     
     public static Map<String, EntityInfo> getMetaMap() {
         return metaMap;
@@ -29,7 +26,9 @@ public abstract class Model<T extends Model<T>> {
     
     private EntityInfo entityInfo;
     
-    private OperationContext context;
+    public Map<String, PropertyGetter<T>> getChangeMap() {
+        return changeMap;
+    }
     
     public EntityInfo getMeta() {
         if (entityInfo == null) {
@@ -87,66 +86,38 @@ public abstract class Model<T extends Model<T>> {
         
     }
     
-    protected void propertyChange(String property, Object value) {
-        
-        ChangeInfo changeInfo = new ChangeInfo();
-        changeInfo.propertyName = property;
-        // changeInfo.item2 = item2;
-        
-        changeList.remove(changeInfo);
-        changeList.add(changeInfo);
-        
+    
+    protected void propertyChange(String name, PropertyGetter<T> property) {
+        changeMap.put(name, property);
     }
     
-    protected void propertyChange(PropertyGetter<T> property, Object value) {
-        String propertyName = LambdaParser.getGetter(property).getName();
-        this.propertyChange(propertyName, value);
+    @SuppressWarnings("unchecked")
+    public void insert(OperationContext context) {
+        InsertObject insOp = new InsertObject();
+        insOp.into(this.getClass());
+        context.add(insOp);
     }
-
-
-//    public InsertStatement<T> insert() {
-//        InsertStatement<T> insOp = new InsertStatement<>();
-//        return insOp;
-//    }
-//
-//    public DeleteStatement<T> delete() {
-//        DeleteStatement<T> delOp = new DeleteStatement<>();
-//        return delOp;
-//    }
-
-//    @SuppressWarnings("unchecked")
-//    public UpdateStatement<T> update() {
-//        UpdateStatement<T> upOp = new UpdateStatement<>(context, (T) this);
-//        return upOp;
-//    }
     
-    private static class ChangeInfo {
+    
+    @SuppressWarnings("unchecked")
+    public void delete(OperationContext context) {
+        DeleteObject delOp = new DeleteObject();
+        delOp.from(this.getClass());
+        context.add(delOp);
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    public void update(OperationContext context) {
+        UpdateObject upOp = new UpdateObject();
+        upOp.update(this.getClass());
         
-        public String propertyName;
-        
-        // public Object item2;
-        
-        @Override
-        public int hashCode() {
-            return this.propertyName.hashCode();
+        for (String name : changeMap.keySet()) {
+            PropertyGetter<T> getter = changeMap.get(name);
+            upOp.set(getter, getter.apply((T) this));
         }
         
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj)
-                return false;
-            if (obj.getClass() == this.getClass()) {
-                ChangeInfo changeInfo = (ChangeInfo) obj;
-                
-                if (this.propertyName.equals(changeInfo.propertyName))
-                    return true;
-            } else {
-                if (this.propertyName.equals(obj))
-                    return true;
-            }
-            
-            return false;
-        }
+        context.add(upOp);
         
     }
     

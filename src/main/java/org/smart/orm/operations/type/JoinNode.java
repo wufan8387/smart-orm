@@ -1,6 +1,6 @@
 package org.smart.orm.operations.type;
 
-import org.smart.orm.Func;
+import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
@@ -8,7 +8,7 @@ import org.smart.orm.operations.Op;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.reflect.LambdaParser;
-import org.smart.orm.reflect.PropertyGetter;
+import org.smart.orm.functions.PropertyGetter;
 
 public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R>> implements SqlNode<T> {
     
@@ -37,8 +37,8 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
         
         Class<?> leftCls = LambdaParser.getGetter(leftAttr).getDeclaringClass();
         Class<?> rightCls = LambdaParser.getGetter(rightAttr).getDeclaringClass();
-    
-    
+        
+        
         this.leftRel = statement.findFirst(NodeType.RELATION
                 , t -> t.getName().equals(Model.getMeta(leftCls).getTable().getName()));
         this.rightRel = statement.findFirst(NodeType.RELATION
@@ -146,9 +146,13 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
         
         sb.append(Op.LOGICAL.apply(logicalType));
         
-        String leftTextAttr = Model.getMeta(leftRel.getRelClass()).getPropInfo(leftAttr).getColumnName();
-        String rightTextAttr = Model.getMeta(rightRel.getRelClass()).getPropInfo(rightAttr).getColumnName();
-    
+        String leftTextAttr = Model
+                .getMeta(leftRel.getEntityInfo().getEntityClass())
+                .getPropInfo(leftAttr).getColumnName();
+        String rightTextAttr = Model
+                .getMeta(rightRel.getEntityInfo().getEntityClass())
+                .getPropInfo(rightAttr).getColumnName();
+        
         sb.append(op.apply(leftRel.getAlias(), leftTextAttr, rightRel.getAlias(), rightTextAttr));
         if (child != null)
             child.toString(sb);

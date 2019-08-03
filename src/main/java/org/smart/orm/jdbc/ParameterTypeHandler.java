@@ -1,5 +1,8 @@
 package org.smart.orm.jdbc;
 
+import org.smart.orm.functions.ParameterSetter;
+
+import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
@@ -10,21 +13,21 @@ import java.util.Map;
 
 public class ParameterTypeHandler {
     
-    private final Map<Class<?>, DataSetter<?>> setterMap = new HashMap<>();
+    private final Map<Class<?>, ParameterSetter<?>> setterMap = new HashMap<>();
     
     public ParameterTypeHandler() {
         initializeDefaultSetter();
     }
     
-    public <T> void register(Class<T> cls, DataSetter<T> setter) {
+    public <T> void register(Class<T> cls, ParameterSetter<T> setter) {
         setterMap.put(cls, setter);
     }
     
     @SuppressWarnings("unchecked")
     public <T> void handle(PreparedStatement st, int index, T value) throws SQLException {
         Class<?> cls = value.getClass();
-        DataSetter<T> setter = (DataSetter<T>)setterMap.get(cls);
-        setter.setValue(st, index, value);
+        ParameterSetter<T> setter = (ParameterSetter<T>) setterMap.get(cls);
+        setter.set(st, index, value);
     }
     
     private <T> void checkNull(PreparedStatement statement, int index, T value, SetParameter<T>
@@ -35,6 +38,15 @@ public class ParameterTypeHandler {
             consumer.set(index, value);
         }
         
+    }
+    
+    
+    private static byte[] convertToPrimitiveArray(Byte[] objects) {
+        final byte[] bytes = new byte[objects.length];
+        for (int i = 0; i < objects.length; i++) {
+            bytes[i] = objects[i];
+        }
+        return bytes;
     }
     
     private void initializeDefaultSetter() {
@@ -57,6 +69,8 @@ public class ParameterTypeHandler {
         register(Timestamp.class, PreparedStatement::setTimestamp);
         register(URL.class, PreparedStatement::setURL);
         register(Object.class, PreparedStatement::setObject);
+        
+        register(byte[].class, PreparedStatement::setBytes);
         
         
         register(Integer.class, (st, index, value) -> checkNull(st, index, value, st::setInt));
@@ -87,7 +101,14 @@ public class ParameterTypeHandler {
             checkNull(st, index, value, (t, v) -> st.setString(t, v.toString()));
         });
         
+        register(Byte[].class, (st, index, value) -> {
+            st.setBinaryStream(index, new ByteArrayInputStream(convertToPrimitiveArray(value)), value.length);
+        });
+    
+ 
     }
     
+    
+
     
 }

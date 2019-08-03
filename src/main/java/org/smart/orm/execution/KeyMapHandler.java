@@ -2,29 +2,40 @@ package org.smart.orm.execution;
 
 import org.smart.orm.SmartORMException;
 import org.smart.orm.jdbc.ResultTypeHandler;
+import org.smart.orm.reflect.EntityInfo;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
 
-public class KeyMapHandler implements ResultHandler<List<Map<String, Object>>> {
-
+public class KeyMapHandler implements ResultHandler<Map<String, Object>> {
+    
     private ResultTypeHandler resultTypeHandler = new ResultTypeHandler();
-
-    private ResultListener<List<Map<String, Object>>> listener;
-
+    
+    private List<Map<String, Object>> result = new ArrayList<>();
+    
+    @Override
+    public Map<String, Object> getFirst() {
+        if (result.size() > 0)
+            return result.get(0);
+        return null;
+    }
+    
+    @Override
+    public List<Map<String, Object>> getAll() {
+        return result;
+    }
+    
     @Override
     public void handle(ResultSet resultset) {
-
-        List<Map<String, Object>> list = new ArrayList<>();
+        
         List<String> nameList = new ArrayList<>();
         List<Class<?>> typeList = new ArrayList<>();
-
+        
         try {
-
             ResultSetMetaData metaData = resultset.getMetaData();
-
+            
             for (int i = 0, n = metaData.getColumnCount(); i < n; i++) {
                 nameList.add(metaData.getColumnLabel(i + 1));
                 typeList.add(Class.forName(metaData.getColumnClassName(i + 1)));
@@ -36,25 +47,14 @@ public class KeyMapHandler implements ResultHandler<List<Map<String, Object>>> {
                     Class<?> cls = typeList.get(i);
                     row.put(name.toUpperCase(Locale.ENGLISH), resultTypeHandler.handle(cls, resultset, i));
                 }
-                list.add(row);
+                result.add(row);
             }
-
-            if (listener != null)
-                listener.handle(list);
-
-        } catch (ClassNotFoundException ex) {
-            throw new SmartORMException(ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             throw new SmartORMException(ex);
         }
-
-
+        
+        
     }
-
-    @Override
-    public void addListener(ResultListener<List<Map<String, Object>>> listener) {
-        this.listener = listener;
-    }
-
-
+    
+    
 }

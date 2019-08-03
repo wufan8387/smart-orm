@@ -3,7 +3,7 @@
 //import org.smart.orm.data.WhereType;
 //import org.smart.orm.operations.Statement;
 //import org.smart.orm.operations.type.*;
-//import org.smart.orm.reflect.PropertyGetter;
+//import org.smart.orm.functions.PropertyGetter;
 //
 //import java.util.UUID;
 //

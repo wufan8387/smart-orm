@@ -1,6 +1,6 @@
 package org.smart.orm.operations.text;
 
-import org.smart.orm.Func;
+import org.smart.orm.functions.Func;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.Op;

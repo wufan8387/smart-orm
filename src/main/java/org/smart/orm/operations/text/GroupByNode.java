@@ -53,7 +53,7 @@ public class GroupByNode<T extends Statement> implements SqlNode<T> {
         for (int i = 0; i < len; i++) {
             GroupByInfo<T> item = groupByList.get(i);
             
-            sb.append(Token.ATTR.apply(item.rel.getAlias(), item.attr));
+            sb.append(Token.REL_ATTR.apply(item.rel.getAlias(), item.attr));
             if (i < len - 1)
                 sb.append(", ");
             

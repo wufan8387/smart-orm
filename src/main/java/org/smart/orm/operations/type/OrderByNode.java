@@ -6,8 +6,7 @@ import org.smart.orm.data.OrderbyType;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
-import org.smart.orm.reflect.LambdaParser;
-import org.smart.orm.reflect.PropertyGetter;
+import org.smart.orm.functions.PropertyGetter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,8 +73,11 @@ public class OrderByNode<T extends Statement> implements SqlNode<T> {
         
         
         for (int i = 0; i < len; i++) {
-            OrderByInfo<T,?> item = orderByList.get(i);
-            String attr = Model.getMeta(item.rel.getRelClass()).getPropInfo(item.attr).getColumnName();
+            OrderByInfo<T, ?> item = orderByList.get(i);
+            String attr = Model
+                    .getMeta(item.rel.getEntityInfo().getEntityClass())
+                    .getPropInfo(item.attr)
+                    .getColumnName();
             switch (item.type) {
                 case ASC:
                     sb.append(Token.ASC.apply(item.rel.getAlias(), attr));

@@ -1,28 +1,23 @@
 package org.smart.orm.operations.type;
 
-import org.smart.orm.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.data.StatementType;
+import org.smart.orm.functions.Func;
+import org.smart.orm.functions.PropertyGetter;
+import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
-import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 import org.smart.orm.operations.text.LimitNode;
-import org.smart.orm.reflect.PropertyGetter;
+import org.smart.orm.reflect.PropertyInfo;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class QueryObject implements Statement {
+public class QueryObject extends AbstractStatement {
     
-    private final List paramList = new ArrayList();
-    
-    private final List<SqlNode<?>> nodeList = new ArrayList<>();
     
     private RelationNode<QueryObject, ?> relRoot;
     
@@ -40,17 +35,13 @@ public class QueryObject implements Statement {
     private LimitNode<QueryObject> limitRoot;
     
     @Override
-    public UUID getId() {
-        return null;
+    public StatementType getType() {
+        return StatementType.DQL;
     }
     
+    @SuppressWarnings("unchecked")
     @Override
-    public List getParams() {
-        return paramList;
-    }
-    
-    @Override
-    public <T extends SqlNode<?>> T attach(T node) {
+    protected <T extends SqlNode<?>> void doAttach(T node) {
         switch (node.getType()) {
             case NodeType.RELATION:
                 RelationNode<QueryObject, ?> relNode = (RelationNode<QueryObject, ?>) node;
@@ -75,42 +66,6 @@ public class QueryObject implements Statement {
                 limitRoot = limitRoot == null ? limitNode : limitRoot;
                 break;
         }
-        if (!nodeList.contains(node))
-            nodeList.add(node);
-        return node;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends SqlNode<?>> List<T> find(int nodeType, Predicate<T> predicate) {
-        return nodeList.stream()
-                .filter(t -> t.getType() == nodeType)
-                .map(t -> (T) t)
-                .filter(predicate)
-                .collect(Collectors.toList());
-    }
-    
-    public <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate) {
-        return findFirst(nodeType, predicate, () -> null);
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate, Supplier<T> other) {
-        return nodeList.stream()
-                .filter(t -> t.getType() == nodeType)
-                .map(t -> (T) t)
-                .filter(predicate)
-                .findFirst()
-                .orElseGet(other);
-    }
-    
-    private int sn = 0;
-    
-    @Override
-    public String alias(String term) {
-        sn++;
-        return term + "_" + sn;
     }
     
     
@@ -122,7 +77,6 @@ public class QueryObject implements Statement {
         );
         
     }
-    
     
     public <K extends Model<K>> RelationNode<QueryObject, K> join(Class<K> cls) {
         
@@ -136,7 +90,6 @@ public class QueryObject implements Statement {
         return node.setJoinType(JoinType.INNER);
         
     }
-    
     
     public <T extends Model<T>> AttributeNode<QueryObject, T> select(PropertyGetter<T> attr) {
         return new AttributeNode<>(this, attr);
@@ -229,31 +182,47 @@ public class QueryObject implements Statement {
     @SuppressWarnings("unchecked")
     @Override
     public String toString() {
-        this.paramList.clear();
+        this.getParams().clear();
         StringBuilder sb = new StringBuilder();
         
         sb.append(Token.SELECT);
         
-        List<AttributeNode<QueryObject, ?>> attrList = nodeList
+        List<AttributeNode<QueryObject, ?>> attrList = getNodes()
                 .stream().filter(t -> t.getType() == NodeType.ATTRIBUTE)
                 .map(t -> (AttributeNode<QueryObject, ?>) t)
                 .collect(Collectors.toList());
         
         int attrSize = attrList.size();
-        if (attrSize > 0) {
-            for (int i = 0; i < attrSize; i++) {
-                SqlNode<?> node = attrList.get(i);
-                node.toString(sb);
-                if (i < attrSize - 1)
-                    sb.append(",");
+        
+        if (attrSize == 0) {
+            List<RelationNode<QueryObject, ?>> relList = getNodes()
+                    .stream().filter(t -> t.getType() == NodeType.RELATION)
+                    .map(t -> (RelationNode<QueryObject, ?>) t)
+                    .collect(Collectors.toList());
+            for (RelationNode<QueryObject, ?> rel : relList) {
+                List<PropertyInfo> propList = rel.getEntityInfo().getPropList();
+                for (PropertyInfo prop : propList) {
+                    AttributeNode<QueryObject, ?> attrNode = new AttributeNode<>(this, rel, prop);
+                    attrList.add(attrNode);
+                    attach(attrNode);
+                }
             }
-        } else {
-            sb.append(" * ");
         }
+        
+        attrSize = attrList.size();
+        
+        for (int i = 0; i < attrSize; i++) {
+            SqlNode<?> node = attrList.get(i);
+            node.toString(sb);
+            if (i < attrSize - 1)
+                sb.append(",");
+        }
+        
         
         sb.append(Token.FROM);
         
         relRoot.toString(sb);
+        
         
         if (whereRoot != null) {
             sb.append(Token.WHERE);

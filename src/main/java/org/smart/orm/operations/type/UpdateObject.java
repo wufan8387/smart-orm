@@ -1,27 +1,18 @@
 package org.smart.orm.operations.type;
 
-import org.smart.orm.Func;
+import org.smart.orm.data.StatementType;
+import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
-import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 import org.smart.orm.operations.text.LimitNode;
-import org.smart.orm.reflect.PropertyGetter;
+import org.smart.orm.functions.PropertyGetter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-public class UpdateObject implements Statement {
+public class UpdateObject extends AbstractStatement {
     
-    private final List<SqlNode<?>> nodeList = new ArrayList<>();
-    
-    private final List paramList = new ArrayList();
     
     private ConditionNode<UpdateObject, ?, ?> whereRoot;
     
@@ -36,8 +27,8 @@ public class UpdateObject implements Statement {
     private SetNode<UpdateObject> setRoot;
     
     @Override
-    public List getParams() {
-        return paramList;
+    public StatementType getType() {
+        return StatementType.DML;
     }
     
     public <K extends Model<K>> UpdateObject update(Class<K> rel) {
@@ -52,7 +43,7 @@ public class UpdateObject implements Statement {
     
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends SqlNode<?>> T attach(T node) {
+    protected  <T extends SqlNode<?>> void doAttach(T node) {
         
         switch (node.getType()) {
             case NodeType.CONDITION:
@@ -68,50 +59,7 @@ public class UpdateObject implements Statement {
                 OrderByNode<UpdateObject> orderByNode = (OrderByNode<UpdateObject>) node;
                 orderByRoot = orderByRoot == null ? orderByNode : orderByRoot;
                 break;
-            
         }
-        if (!nodeList.contains(node))
-            nodeList.add(node);
-        return node;
-    }
-    
-    @Override
-    public UUID getId() {
-        return null;
-    }
-    
-    
-    private int sn = 0;
-    
-    @Override
-    public String alias(String term) {
-        sn++;
-        return term + "_" + sn;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends SqlNode<?>> List<T> find(int nodeType, Predicate<T> predicate) {
-        return nodeList.stream()
-                .filter(t -> t.getType() == nodeType)
-                .map(t -> (T) t)
-                .filter(predicate)
-                .collect(Collectors.toList());
-    }
-    
-    public <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate) {
-        return findFirst(nodeType, predicate, () -> null);
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate, Supplier<T> other) {
-        return nodeList.stream()
-                .filter(t -> t.getType() == nodeType)
-                .map(t -> (T) t)
-                .filter(predicate)
-                .findFirst()
-                .orElseGet(other);
     }
     
     
@@ -203,7 +151,7 @@ public class UpdateObject implements Statement {
     
     @Override
     public String toString() {
-        this.paramList.clear();
+        this.getParams().clear();
         StringBuilder sb = new StringBuilder();
         
         sb.append(Token.UPDATE_AS_SET.apply(relRoot.getName(), relRoot.getAlias()));
