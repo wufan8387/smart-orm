@@ -1,6 +1,8 @@
 package org.smart.orm.operations.type;
 
 import org.smart.orm.data.StatementType;
+import org.smart.orm.execution.Executor;
+import org.smart.orm.execution.ResultData;
 import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.LogicalType;
@@ -10,28 +12,30 @@ import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Token;
 import org.smart.orm.operations.text.LimitNode;
 import org.smart.orm.functions.PropertyGetter;
+import org.smart.orm.reflect.PropertyInfo;
 
-public class DeleteObject extends AbstractStatement {
+import java.sql.Connection;
+import java.util.List;
+
+public class DeleteObject<T extends Model<T>> extends AbstractStatement {
     
-    private ConditionNode<DeleteObject, ?, ?> whereRoot;
+    private ConditionNode<DeleteObject<T>, ?, ?> whereRoot;
     
-    private ConditionNode<DeleteObject, ?, ?> whereLast;
+    private ConditionNode<DeleteObject<T>, ?, ?> whereLast;
     
-    private LimitNode<DeleteObject> limitRoot;
+    private LimitNode<DeleteObject<T>> limitRoot;
     
-    private OrderByNode<DeleteObject> orderByRoot;
+    private OrderByNode<DeleteObject<T>> orderByRoot;
     
-    private RelationNode<DeleteObject, ?> relRoot;
+    private RelationNode<DeleteObject<T>, T> relRoot;
     
     
-    public <K extends Model<K>> DeleteObject from(Class<K> cls) {
-        relRoot = new RelationNode<>(this, cls);
-        return this;
+    public DeleteObject(Class<T> cls) {
+        relRoot = new RelationNode<DeleteObject<T>, T>(cls).attach(this);
     }
     
-    public <K extends Model<K>> DeleteObject from(Class<K> cls, String alias) {
-        relRoot = new RelationNode<>(this, cls).setAlias(alias);
-        return this;
+    public DeleteObject(Class<T> cls, String alias) {
+        relRoot = new RelationNode<DeleteObject<T>, T>(cls).setAlias(alias).attach(this);
     }
     
     
@@ -42,19 +46,19 @@ public class DeleteObject extends AbstractStatement {
     
     @SuppressWarnings("unchecked")
     @Override
-    protected <T extends SqlNode<?>> void doAttach(T node) {
+    protected <K extends SqlNode<?, ?>> void doAttach(K node) {
         
         switch (node.getType()) {
             case NodeType.LIMIT:
-                LimitNode<DeleteObject> limitNode = (LimitNode<DeleteObject>) node;
+                LimitNode<DeleteObject<T>> limitNode = (LimitNode<DeleteObject<T>>) node;
                 limitRoot = limitRoot == null ? limitNode : limitRoot;
                 break;
             case NodeType.ORDER_BY:
-                OrderByNode<DeleteObject> orderByNode = (OrderByNode<DeleteObject>) node;
+                OrderByNode<DeleteObject<T>> orderByNode = (OrderByNode<DeleteObject<T>>) node;
                 orderByRoot = orderByRoot == null ? orderByNode : orderByRoot;
                 break;
             case NodeType.CONDITION:
-                ConditionNode<DeleteObject, ?, ?> whereNode = (ConditionNode<DeleteObject, ?, ?>) node;
+                ConditionNode<DeleteObject<T>, ?, ?> whereNode = (ConditionNode<DeleteObject<T>, ?, ?>) node;
                 whereRoot = whereRoot == null ? whereNode : whereRoot;
                 whereLast = whereNode;
                 break;
@@ -62,84 +66,117 @@ public class DeleteObject extends AbstractStatement {
     }
     
     
-    public <L extends Model<L>, R extends Model<R>> ConditionNode<DeleteObject, L, R> where(PropertyGetter<L> leftAttr
+    public <L extends Model<L>, R extends Model<R>> ConditionNode<DeleteObject<T>, L, R> where(PropertyGetter<L> leftAttr
             , Func<String> op
             , PropertyGetter<R> rightAttr) {
         
         if (whereRoot == null) {
-            return new ConditionNode<>(this, leftAttr, op, rightAttr, this.whereLast);
+            return new ConditionNode<>(leftAttr, op, rightAttr, this.whereLast).attach(this);
         } else {
-            return new ConditionNode<>(this, leftAttr, op, rightAttr, this.whereLast)
-                    .setLogicalType(LogicalType.AND);
+            return new ConditionNode<>(leftAttr, op, rightAttr, this.whereLast)
+                    .setLogicalType(LogicalType.AND)
+                    .attach(this);
         }
     }
     
-    public <T extends Model<T>> ConditionNode<DeleteObject, T, ?> where(PropertyGetter<T> attr, Func<String> op, Object... params) {
+    public <K extends Model<K>> ConditionNode<DeleteObject<T>, K, ?> where(PropertyGetter<K> attr
+            , Func<String> op
+            , Object... params) {
         
         if (whereRoot == null) {
-            return new ConditionNode<>(this, attr, op, this.whereLast, params);
+            return new ConditionNode<>(attr, op, this.whereLast, params).attach(this);
         } else {
-            return new ConditionNode<>(this, attr, op, this.whereLast, params)
-                    .setLogicalType(LogicalType.AND);
+            return new ConditionNode<>(attr, op, this.whereLast, params)
+                    .setLogicalType(LogicalType.AND)
+                    .attach(this);
         }
     }
     
+    public ConditionNode<DeleteObject<T>, T, ?> where(PropertyInfo attr
+            , Func<String> op
+            , Object... params) {
+        
+        ConditionNode<DeleteObject<T>, T, ?> node = new ConditionNode<>(relRoot, attr, op, this.whereLast, params);
+        if (whereRoot != null) {
+            node.setLogicalType(LogicalType.AND);
+        }
+        node.attach(this);
+        return node;
+    }
     
-    public <L extends Model<L>, R extends Model<R>> ConditionNode<DeleteObject, L, R> and(PropertyGetter<L> leftAttr
+    
+    public <L extends Model<L>, R extends Model<R>> ConditionNode<DeleteObject<T>, L, R> and(PropertyGetter<L> leftAttr
             , Func<String> op
             , PropertyGetter<R> rightAttr) {
-        return new ConditionNode<>(this, leftAttr, op, rightAttr, this.whereLast)
-                .setLogicalType(LogicalType.AND);
+        return new ConditionNode<>(leftAttr, op, rightAttr, this.whereLast)
+                .setLogicalType(LogicalType.AND)
+                .attach(this);
     }
     
-    public <T extends Model<T>> ConditionNode<DeleteObject, T, ?> and(PropertyGetter<T> attr, Func<String> op, Object... params) {
-        return new ConditionNode<>(this, attr, op, this.whereLast, params)
-                .setLogicalType(LogicalType.AND);
+    public <K extends Model<K>> ConditionNode<DeleteObject<T>, K, ?> and(PropertyGetter<K> attr
+            , Func<String> op
+            , Object... params) {
+        return new ConditionNode<>(attr, op, this.whereLast, params)
+                .setLogicalType(LogicalType.AND)
+                .attach(this);
     }
     
-    public <L extends Model<L>, R extends Model<R>> ConditionNode<DeleteObject, L, R> or(PropertyGetter<L> leftAttr
+    public <L extends Model<L>, R extends Model<R>> ConditionNode<DeleteObject<T>, L, R> or(PropertyGetter<L> leftAttr
             , Func<String> op
             , PropertyGetter<R> rightAttr) {
-        return new ConditionNode<>(this, leftAttr, op, rightAttr, this.whereLast)
-                .setLogicalType(LogicalType.OR);
+        return new ConditionNode<>(leftAttr, op, rightAttr, this.whereLast)
+                .setLogicalType(LogicalType.OR)
+                .attach(this);
     }
     
-    public <T extends Model<T>> ConditionNode<DeleteObject, T, ?> or(PropertyGetter<T> attr, Func<String> op, Object... params) {
-        return new ConditionNode<>(this, attr, op, this.whereLast, params)
-                .setLogicalType(LogicalType.OR);
+    public <K extends Model<K>> ConditionNode<DeleteObject<T>, K, ?> or(PropertyGetter<K> attr
+            , Func<String> op
+            , Object... params) {
+        return new ConditionNode<>(attr, op, this.whereLast, params)
+                .setLogicalType(LogicalType.OR)
+                .attach(this);
     }
     
     
-    public LimitNode<DeleteObject> limit(int start) {
+    public LimitNode<DeleteObject<T>> limit(int start) {
         if (limitRoot == null)
-            limitRoot = new LimitNode<>(this);
+            limitRoot = new LimitNode<DeleteObject<T>>().attach(this);
         limitRoot.setStart(start);
         return limitRoot;
     }
     
-    public DeleteObject limit(int start, int end) {
+    public DeleteObject<T> limit(int start, int end) {
         if (limitRoot == null)
-            limitRoot = new LimitNode<>(this);
+            limitRoot = new LimitNode<DeleteObject<T>>().attach(this);
         limitRoot.setStart(start).setEnd(end);
         return this;
     }
     
-    public <T extends Model<T>> OrderByNode<DeleteObject> orderBy(Class<T> rel, PropertyGetter<T> attr) {
+    public <K extends Model<K>> OrderByNode<DeleteObject<T>> orderBy(Class<K> rel, PropertyGetter<K> attr) {
         if (orderByRoot == null) {
-            attach(new OrderByNode<>(this));
+            new OrderByNode<DeleteObject<T>>().attach(this);
         }
         orderByRoot.asc(rel, attr);
         return orderByRoot;
     }
     
-    public <T extends Model<T>> OrderByNode<DeleteObject> orderByDesc(Class<T> rel, PropertyGetter<T> attr) {
+    public <K extends Model<K>> OrderByNode<DeleteObject<T>> orderByDesc(Class<K> rel, PropertyGetter<K> attr) {
         if (orderByRoot == null) {
-            attach(new OrderByNode<>(this));
+            new OrderByNode<DeleteObject<T>>().attach(this);
         }
         orderByRoot.desc(rel, attr);
         return orderByRoot;
     }
     
+    
+    @Override
+    public ResultData execute(Connection connection, Executor executor) {
+        String sql = toString();
+        List<Object> params = getParams();
+        System.out.println(sql);
+        int cnt = executor.update(connection, sql, params.toArray());
+        return new ResultData<>(cnt);
+    }
     
     @Override
     public String toString() {

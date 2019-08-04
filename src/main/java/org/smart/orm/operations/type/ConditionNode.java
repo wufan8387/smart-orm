@@ -4,6 +4,7 @@ import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.Op;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
@@ -11,94 +12,103 @@ import org.smart.orm.reflect.LambdaParser;
 import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.reflect.PropertyInfo;
 
-public class ConditionNode<T extends Statement, L extends Model<L>, R extends Model<R>> implements SqlNode<T> {
+import java.lang.reflect.Field;
+
+public class ConditionNode<T extends Statement, L extends Model<L>, R extends Model<R>> extends AbstractSqlNode<T, ConditionNode<T, L, R>> {
     
     private RelationNode<T, L> leftRel;
     
     private RelationNode<T, R> rightRel;
     
-    private PropertyGetter<L> leftAttr;
-    
-    private PropertyGetter<R> rightAttr;
-    
     private PropertyInfo leftProp;
     
     private PropertyInfo rightProp;
-    
-    
-    private Object[] params;
     
     private Func<String> op;
     
     
     private ConditionNode<T, ?, ?> child;
     
-    private T statement;
     
     private LogicalType logicalType = null;
     
     
-    public ConditionNode(T statement, PropertyGetter<L> leftAttr, Func<String> op, PropertyGetter<R> rightAttr) {
-        this.statement = statement;
-        Class<?> leftCls = LambdaParser.getGetter(leftAttr).getDeclaringClass();
-        Class<?> rightCls = LambdaParser.getGetter(rightAttr).getDeclaringClass();
-        this.leftRel = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(leftCls).getTable().getName()));
-        this.rightRel = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(rightCls).getTable().getName()));
-        this.leftAttr = leftAttr;
-        this.rightAttr = rightAttr;
+    public ConditionNode(PropertyGetter<L> leftAttr, Func<String> op, PropertyGetter<R> rightAttr) {
+        Field leftField = LambdaParser.getGetter(leftAttr);
+        Field rightFiled = LambdaParser.getGetter(leftAttr);
+        Class<?> leftCls = leftField.getDeclaringClass();
+        Class<?> rightCls = rightFiled.getDeclaringClass();
+//        leftRel = statement.findFirst(NodeType.RELATION
+//                , t -> t.getName().equals(Model.getMeta(leftCls).getTable().getName()));
+//        rightRel = statement.findFirst(NodeType.RELATION
+//                , t -> t.getName().equals(Model.getMeta(rightCls).getTable().getName()));
+        this.leftProp = leftRel.getEntityInfo().getProp(leftField.getName());
+        this.rightProp = rightRel.getEntityInfo().getProp(rightFiled.getName());
         this.op = op;
-        statement.attach(this);
     }
     
-    public ConditionNode(T statement, PropertyGetter<L> leftAttr
+    public ConditionNode(PropertyGetter<L> leftAttr
             , Func<String> op
             , PropertyGetter<R> rightAttr
             , ConditionNode<T, ?, ?> parent) {
-        this(statement, leftAttr, op, rightAttr);
+        this(leftAttr, op, rightAttr);
         parent.child = this;
-        statement.attach(this);
     }
     
-    public ConditionNode(T statement
-            , RelationNode<T, L> leftRel, PropertyGetter<L> leftAttr
+    public ConditionNode(RelationNode<T, L> leftRel, PropertyGetter<L> leftAttr
             , Func<String> op
             , RelationNode<T, R> rightRel, PropertyGetter<R> rightAttr) {
-        this.statement = statement;
         this.leftRel = leftRel;
         this.rightRel = rightRel;
-        this.leftAttr = leftAttr;
-        this.rightAttr = rightAttr;
+        
+        Field leftField = LambdaParser.getGetter(leftAttr);
+        Field rightFiled = LambdaParser.getGetter(leftAttr);
+        
+        leftProp = leftRel.getEntityInfo().getProp(leftField.getName());
+        rightProp = rightRel.getEntityInfo().getProp(rightFiled.getName());
         this.op = op;
-        statement.attach(this);
     }
     
-    public ConditionNode(T statement
-            , RelationNode<T, L> leftRel, PropertyGetter<L> leftAttr
+    public ConditionNode(RelationNode<T, L> leftRel, PropertyGetter<L> leftAttr
             , Func<String> op
             , RelationNode<T, R> rightRel, PropertyGetter<R> rightAttr
             , ConditionNode<T, ?, ?> parent) {
-        this(statement, leftRel, leftAttr, op, rightRel, rightAttr);
+        this(leftRel, leftAttr, op, rightRel, rightAttr);
         if (parent != null)
             parent.child = this;
     }
     
     
-    public ConditionNode(T statement, PropertyGetter<L> attr, Func<String> op, Object... params) {
-        this.statement = statement;
-        Class<?> cls = LambdaParser.getGetter(attr).getDeclaringClass();
+    public ConditionNode(PropertyGetter<L> attr, Func<String> op, Object... params) {
         
-        this.leftRel = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(cls).getTable().getName()));
-        this.leftAttr = attr;
-        this.params = params;
+        Field field = LambdaParser.getGetter(attr);
+        
+        Class<?> cls = field.getDeclaringClass();
+
+//        leftRel = statement.findFirst(NodeType.RELATION
+//                , t -> t.getName().equals(Model.getMeta(cls).getTable().getName()));
+        leftProp = leftRel.getEntityInfo().getProp(field.getName());
         this.op = op;
-        statement.attach(this);
+        setParams(params);
     }
     
-    public ConditionNode(T statement, PropertyGetter<L> attr, Func<String> op, ConditionNode<T, ?, ?> parent, Object... params) {
-        this(statement, attr, op, params);
+    public ConditionNode(RelationNode<T, L> rel, PropertyInfo attr, Func<String> op, Object... params) {
+        
+        this.leftRel = rel;
+        this.leftProp = attr;
+        this.op = op;
+        setParams(params);
+    }
+    
+    public ConditionNode(RelationNode<T, L> rel, PropertyInfo attr, Func<String> op, ConditionNode<T, ?, ?> parent, Object... params) {
+        this(rel, attr, op, params);
+        if (parent != null)
+            parent.child = this;
+    }
+    
+    
+    public ConditionNode(PropertyGetter<L> attr, Func<String> op, ConditionNode<T, ?, ?> parent, Object... params) {
+        this(attr, op, params);
         if (parent != null)
             parent.child = this;
     }
@@ -110,22 +120,25 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
             , RelationNode<T, NR> rightRel
             , PropertyGetter<NR> rightAttr) {
         
-        return new ConditionNode<>(statement, leftRel, leftAttr, op, rightRel, rightAttr, this)
-                .setLogicalType(LogicalType.AND);
+        return new ConditionNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this)
+                .setLogicalType(LogicalType.AND)
+                .attach(statement());
     }
     
     public <NL extends Model<NL>, NR extends Model<NR>> ConditionNode<T, NL, NR> and(PropertyGetter<NL> leftAttr
             , Func<String> op
             , PropertyGetter<NR> rightAttr) {
-        return new ConditionNode<>(statement, leftAttr, op, rightAttr, this)
-                .setLogicalType(LogicalType.AND);
+        return new ConditionNode<>(leftAttr, op, rightAttr, this)
+                .setLogicalType(LogicalType.AND)
+                .attach(statement());
     }
     
     public <NL extends Model<NL>> ConditionNode<T, NL, ?> and(PropertyGetter<NL> attr
             , Func<String> op
             , Object... params) {
-        return new ConditionNode<>(statement, attr, op, this, params)
-                .setLogicalType(LogicalType.AND);
+        return new ConditionNode<>(attr, op, this, params)
+                .setLogicalType(LogicalType.AND)
+                .attach(statement());
     }
     
     
@@ -134,20 +147,23 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
             , Func<String> op
             , RelationNode<T, NR> rightRel
             , PropertyGetter<NR> rightAttr) {
-        return new ConditionNode<>(statement, leftRel, leftAttr, op, rightRel, rightAttr, this)
-                .setLogicalType(LogicalType.OR);
+        return new ConditionNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this)
+                .setLogicalType(LogicalType.OR)
+                .attach(statement());
     }
     
     public <NL extends Model<NL>, NR extends Model<NR>> ConditionNode<T, NL, NR> or(PropertyGetter<NL> leftAttr
             , Func<String> op
             , PropertyGetter<NR> rightAttr) {
-        return new ConditionNode<>(statement, leftAttr, op, rightAttr, this)
-                .setLogicalType(LogicalType.OR);
+        return new ConditionNode<>(leftAttr, op, rightAttr, this)
+                .setLogicalType(LogicalType.OR)
+                .attach(statement());
     }
     
     public <NL extends Model<NL>> ConditionNode<T, NL, ?> or(PropertyGetter<NL> attr, Func<String> op, Object... params) {
-        return new ConditionNode<>(statement, attr, op, this, params)
-                .setLogicalType(LogicalType.OR);
+        return new ConditionNode<>(attr, op, this, params)
+                .setLogicalType(LogicalType.OR)
+                .attach(statement());
     }
     
     
@@ -167,22 +183,16 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     }
     
     @Override
-    public T statement() {
-        return statement;
-    }
-    
-    @Override
     public void toString(StringBuilder sb) {
         
         sb.append(Op.LOGICAL.apply(logicalType));
-        String leftTextAttr = LambdaParser.getGetter(leftAttr).getName();
-        
+        Object[] params = getParams();
         if (rightRel != null) {
-            String rightTextAttr = LambdaParser.getGetter(rightAttr).getName();
-            sb.append(op.apply(leftRel.getAlias(), leftTextAttr, rightRel.getAlias(), rightTextAttr, params));
+            sb.append(op.apply(leftRel.getAlias(), leftProp.getColumnName(), rightRel.getAlias(), rightProp.getColumnName(), params));
         } else {
-            sb.append(op.apply(leftRel.getAlias(), leftTextAttr, params));
+            sb.append(op.apply(leftRel.getAlias(), leftProp.getColumnName(), params));
         }
+        T statement = statement();
         if (params != null && params.length > 0) {
             for (Object param : params) {
                 statement.getParams().add(param);

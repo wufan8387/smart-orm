@@ -4,13 +4,14 @@ import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.Op;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.reflect.LambdaParser;
 import org.smart.orm.functions.PropertyGetter;
 
-public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R>> implements SqlNode<T> {
+public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R>> extends AbstractSqlNode<T, JoinNode<T, L, R>> {
     
     private RelationNode<T, L> leftRel;
     
@@ -24,64 +25,54 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
     
     private JoinNode<T, ?, ?> child;
     
-    private T statement;
-    
     private LogicalType logicalType = null;
     
     
-    public JoinNode(T statement
-            , PropertyGetter<L> leftAttr
+    public JoinNode(PropertyGetter<L> leftAttr
             , Func<String> op
             , PropertyGetter<R> rightAttr) {
-        this.statement = statement;
         
         Class<?> leftCls = LambdaParser.getGetter(leftAttr).getDeclaringClass();
         Class<?> rightCls = LambdaParser.getGetter(rightAttr).getDeclaringClass();
         
         
-        this.leftRel = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(leftCls).getTable().getName()));
-        this.rightRel = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(rightCls).getTable().getName()));
+//        this.leftRel = statement.findFirst(NodeType.RELATION
+//                , t -> t.getName().equals(Model.getMeta(leftCls).getTable().getName()));
+//        this.rightRel = statement.findFirst(NodeType.RELATION
+//                , t -> t.getName().equals(Model.getMeta(rightCls).getTable().getName()));
         this.leftAttr = leftAttr;
         this.rightAttr = rightAttr;
         this.op = op;
-        statement.attach(this);
     }
     
-    public JoinNode(T statement
-            , PropertyGetter<L> leftAttr
+    public JoinNode(PropertyGetter<L> leftAttr
             , Func<String> op
             , PropertyGetter<R> rightAttr
             , JoinNode<T, ?, ?> parent) {
-        this(statement, leftAttr, op, rightAttr);
+        this( leftAttr, op, rightAttr);
         if (parent != null)
             parent.child = this;
     }
     
-    public JoinNode(T statement
-            , RelationNode<T, L> leftRel
+    public JoinNode(RelationNode<T, L> leftRel
             , PropertyGetter<L> leftAttr
             , Func<String> op
             , RelationNode<T, R> rightRel
             , PropertyGetter<R> rightAttr) {
-        this.statement = statement;
         this.leftRel = leftRel;
         this.rightRel = rightRel;
         this.leftAttr = leftAttr;
         this.rightAttr = rightAttr;
         this.op = op;
-        statement.attach(this);
     }
     
-    public JoinNode(T statement
-            , RelationNode<T, L> leftRel
+    public JoinNode(RelationNode<T, L> leftRel
             , PropertyGetter<L> leftAttr
             , Func<String> op
             , RelationNode<T, R> rightRel
             , PropertyGetter<R> rightAttr
             , JoinNode<T, ?, ?> parent) {
-        this(statement, leftRel, leftAttr, op, rightRel, rightAttr);
+        this( leftRel, leftAttr, op, rightRel, rightAttr);
         if (parent != null)
             parent.child = this;
     }
@@ -92,15 +83,17 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
             , Func<String> op
             , RelationNode<T, NR> rightRel
             , PropertyGetter<NR> rightAttr) {
-        return new JoinNode<>(statement, leftRel, leftAttr, op, rightRel, rightAttr, this)
-                .setLogicalType(LogicalType.AND);
+        return new JoinNode<>( leftRel, leftAttr, op, rightRel, rightAttr, this)
+                .setLogicalType(LogicalType.AND)
+                .attach(statement());
     }
     
     public <NL extends Model<NL>, NR extends Model<NR>> JoinNode<T, NL, NR> and(PropertyGetter<NL> leftAttr
             , Func<String> op
             , PropertyGetter<NR> rightAttr) {
-        return new JoinNode<>(statement, leftAttr, op, rightAttr, this)
-                .setLogicalType(LogicalType.AND);
+        return new JoinNode<>( leftAttr, op, rightAttr, this)
+                .setLogicalType(LogicalType.AND)
+                .attach(statement());
     }
     
     
@@ -109,16 +102,18 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
             , Func<String> op
             , RelationNode<T, NR> rightRel
             , PropertyGetter<NR> rightAttr) {
-        return new JoinNode<>(statement, leftRel, leftAttr, op, rightRel, rightAttr, this)
-                .setLogicalType(LogicalType.OR);
+        return new JoinNode<>( leftRel, leftAttr, op, rightRel, rightAttr, this)
+                .setLogicalType(LogicalType.OR)
+                .attach(statement());
     }
     
     
     public <NL extends Model<NL>, NR extends Model<NR>> JoinNode<T, NL, NR> or(PropertyGetter<NL> leftAttr
             , Func<String> op
             , PropertyGetter<NR> rightAttr) {
-        return new JoinNode<>(statement, leftAttr, op, rightAttr, this)
-                .setLogicalType(LogicalType.OR);
+        return new JoinNode<>( leftAttr, op, rightAttr, this)
+                .setLogicalType(LogicalType.OR)
+                .attach(statement());
     }
     
     public LogicalType getLogicalType() {
@@ -136,10 +131,6 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
         return NodeType.CONDITION_JOIN;
     }
     
-    @Override
-    public T statement() {
-        return statement;
-    }
     
     @Override
     public void toString(StringBuilder sb) {
@@ -148,10 +139,10 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
         
         String leftTextAttr = Model
                 .getMeta(leftRel.getEntityInfo().getEntityClass())
-                .getPropInfo(leftAttr).getColumnName();
+                .getProp(leftAttr).getColumnName();
         String rightTextAttr = Model
                 .getMeta(rightRel.getEntityInfo().getEntityClass())
-                .getPropInfo(rightAttr).getColumnName();
+                .getProp(rightAttr).getColumnName();
         
         sb.append(op.apply(leftRel.getAlias(), leftTextAttr, rightRel.getAlias(), rightTextAttr));
         if (child != null)

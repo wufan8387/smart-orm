@@ -6,9 +6,10 @@ import org.smart.orm.data.JoinType;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.*;
 
-public class RelationNode<T extends Statement> implements SqlNode<T> {
+import javax.persistence.criteria.From;
+
+public class RelationNode<T extends Statement> extends AbstractSqlNode<T, RelationNode<T>> {
     
-    private T statement;
     
     private String name;
     
@@ -24,19 +25,12 @@ public class RelationNode<T extends Statement> implements SqlNode<T> {
     
     private JoinNode<T> joinLast;
     
-    @Override
-    public T statement() {
-        return statement;
-    }
-    
-    public RelationNode(T statement, String name) {
-        this.statement = statement;
+    public RelationNode(String name) {
         this.name = name;
-        statement.attach(this);
     }
     
-    public RelationNode(T statement, String name, RelationNode<T> parent) {
-        this(statement, name);
+    public RelationNode(String name, RelationNode<T> parent) {
+        this(name);
         this.parent = parent;
         if (parent != null)
             parent.child = this;
@@ -69,17 +63,16 @@ public class RelationNode<T extends Statement> implements SqlNode<T> {
     }
     
     public RelationNode<T> join(String rel) {
-        return statement.findFirst(NodeType.RELATION,
+        return statement().findFirst(NodeType.RELATION,
                 t -> t.getName().equals(rel),
-                () -> new RelationNode<>(statement, rel, this)
-        )
-                .setJoinType(JoinType.INNER);
+                () -> new RelationNode<>(rel, this).attach(statement())
+        ).setJoinType(JoinType.INNER);
     }
     
     public RelationNode<T> join(String rel, String alias) {
-        return statement.findFirst(NodeType.RELATION,
+        return statement().findFirst(NodeType.RELATION,
                 t -> t.getName().equals(rel),
-                () -> new RelationNode<>(statement, rel, this)
+                () -> new RelationNode<>(rel, this).attach(statement())
         )
                 .setAlias(alias)
                 .setJoinType(JoinType.INNER);
@@ -87,26 +80,32 @@ public class RelationNode<T extends Statement> implements SqlNode<T> {
     
     
     public JoinNode<T> on(String leftAttr, Func<String> op, String rightAttr) {
-        joinLast = new JoinNode<>(statement, this.parent, leftAttr, op, this, rightAttr, joinLast);
+        joinLast = new JoinNode<>(this.parent, leftAttr, op, this, rightAttr, joinLast)
+                .attach(statement());
         joinRoot = joinRoot == null ? joinLast : joinRoot;
         return joinLast;
     }
     
     public JoinNode<T> on(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
+        T statement = statement();
         RelationNode<T> leftNode = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(leftRel));
         RelationNode<T> rightNode = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rightRel));
-        joinLast = new JoinNode<>(statement, leftNode, leftAttr, op, rightNode, rightAttr, joinLast);
+        joinLast = new JoinNode<>(leftNode, leftAttr, op, rightNode, rightAttr, joinLast)
+                .attach(statement);
         joinRoot = joinRoot == null ? joinLast : joinRoot;
         return joinLast;
     }
     
     
     public RelationNode<T> select(String attr) {
-        return statement.attach(new AttributeNode<>(statement, attr)).from(this);
+        AttributeNode<T> node = new AttributeNode<>(attr);
+        return node.attach(statement()).from(this);
+        
     }
     
     public RelationNode<T> select(String attr, String alias) {
-        return statement.attach(new AttributeNode<>(statement, attr, alias)).from(this);
+        AttributeNode<T> node = new AttributeNode<>(attr, alias);
+        return node.attach(statement()).from(this);
     }
     
     

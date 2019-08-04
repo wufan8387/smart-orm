@@ -7,7 +7,7 @@ import org.smart.orm.annotations.Table;
 @Table("ocenter_auth_group")
 public class AuthGroup extends Model<AuthGroup> {
     
-    @Column(idType = IdType.Auto)
+    @Column(isPrimaryKey = true, idType = IdType.Auto)
     private int id;
     
     @Column

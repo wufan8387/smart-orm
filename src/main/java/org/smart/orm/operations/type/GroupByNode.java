@@ -2,6 +2,7 @@ package org.smart.orm.operations.type;
 
 import org.smart.orm.Model;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
@@ -10,20 +11,15 @@ import org.smart.orm.functions.PropertyGetter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupByNode<T extends Statement> implements SqlNode<T> {
+public class GroupByNode<T extends Statement> extends AbstractSqlNode<T, GroupByNode<T>> {
     
-    private T statement;
-    
+
     private List<GroupByInfo<T, ?>> groupByList = new ArrayList<>();
     
     
-    public GroupByNode(T statement) {
-        this.statement = statement;
-        statement.attach(this);
-    }
     
     public <K extends Model<K>> GroupByNode<T> add(Class<K> rel, PropertyGetter<K> attr) {
-        RelationNode<T, K> relNode = statement.findFirst(NodeType.RELATION
+        RelationNode<T, K> relNode = statement().findFirst(NodeType.RELATION
                 , t -> t.getName().equals(Model.getMeta(rel).getTable().getName()));
         GroupByInfo<T, K> orderByInfo = new GroupByInfo<>();
         orderByInfo.attr = attr;
@@ -37,11 +33,7 @@ public class GroupByNode<T extends Statement> implements SqlNode<T> {
         return NodeType.GROUP_BY;
     }
     
-    @Override
-    public T statement() {
-        return statement;
-    }
-    
+
     @Override
     public void toString(StringBuilder sb) {
         
@@ -57,7 +49,7 @@ public class GroupByNode<T extends Statement> implements SqlNode<T> {
             GroupByInfo<T, ?> item = groupByList.get(i);
             String attr = Model
                     .getMeta(item.rel.getEntityInfo().getEntityClass())
-                    .getPropInfo(item.attr)
+                    .getProp(item.attr)
                     .getColumnName();
             sb.append(Token.REL_ATTR.apply(item.rel.getAlias(), attr));
             if (i < len - 1)

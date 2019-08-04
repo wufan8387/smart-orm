@@ -3,37 +3,33 @@ package org.smart.orm.operations.text;
 import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.functions.Func;
+import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 
 
-public class AttributeNode<T extends Statement> implements SqlNode<T> {
-    
-    private T statement;
+public class AttributeNode<T extends Statement> extends AbstractSqlNode<T, AttributeNode<T>> {
     
     private String name;
     private String alias;
     
-    private SqlNode<T> expNode;
+    private SqlNode<T, ?> expNode;
     
     private RelationNode<T> rel;
     
     private Func<String> op = Token.REL_ATTR_AS;
     
-    public AttributeNode(T statement, String name) {
-        this.statement = statement;
+    public AttributeNode(String name) {
         this.name = name;
     }
     
-    public AttributeNode(T statement, String name, String alias) {
-        this.statement = statement;
+    public AttributeNode(String name, String alias) {
         this.name = name;
         this.alias = alias;
     }
     
-    public AttributeNode(T statement, SqlNode<T> expNode, String alias) {
-        this.statement = statement;
+    public AttributeNode(SqlNode<T, ?> expNode, String alias) {
         this.expNode = expNode;
         this.alias = alias;
     }
@@ -67,33 +63,31 @@ public class AttributeNode<T extends Statement> implements SqlNode<T> {
         return NodeType.ATTRIBUTE;
     }
     
-    @Override
-    public T statement() {
-        return statement;
-    }
     
     public RelationNode<T> from(String rel) {
+        T statement = statement();
         this.rel = statement.findFirst(NodeType.RELATION,
                 t -> t.getName().equals(rel),
-                () -> statement.attach(new RelationNode<>(statement, rel))
+                () -> new RelationNode<T>(rel).attach(statement)
         );
-        statement.attach(this);
+        attach(statement);
         return this.rel;
     }
     
     public RelationNode<T> from(String rel, String alias) {
+        T statement = statement();
         this.rel = statement.findFirst(NodeType.RELATION,
                 t -> t.getName().equals(rel),
-                () -> statement.attach(new RelationNode<>(statement, rel))
+                () -> new RelationNode<T>(rel).attach(statement)
         )
                 .setAlias(alias);
-        statement.attach(this);
+        attach(statement);
         return this.rel;
     }
     
     public RelationNode<T> from(RelationNode<T> rel) {
         this.rel = rel;
-        statement.attach(this);
+        attach(statement());
         return rel;
     }
     

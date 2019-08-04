@@ -1,12 +1,16 @@
 package org.smart.orm.operations.text;
 
 import org.smart.orm.data.StatementType;
+import org.smart.orm.execution.Executor;
+import org.smart.orm.execution.ResultData;
 import org.smart.orm.functions.Func;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Token;
+
+import java.sql.Connection;
 
 public class DeleteStatement extends AbstractStatement {
     
@@ -22,11 +26,11 @@ public class DeleteStatement extends AbstractStatement {
     private final RelationNode<DeleteStatement> relRoot;
     
     public DeleteStatement(String rel) {
-        relRoot = new RelationNode<>(this, rel);
+        relRoot = new RelationNode<DeleteStatement>(rel).attach(this);
     }
     
     public DeleteStatement(String rel, String alias) {
-        relRoot = new RelationNode<>(this, rel).setAlias(alias);
+        relRoot = new RelationNode<DeleteStatement>(rel).setAlias(alias).attach(this);
     }
     
     @Override
@@ -37,7 +41,7 @@ public class DeleteStatement extends AbstractStatement {
     
     @SuppressWarnings("unchecked")
     @Override
-    protected  <T extends SqlNode<?>> void doAttach(T node) {
+    protected <T extends SqlNode<?, ?>> void doAttach(T node) {
         
         switch (node.getType()) {
             case NodeType.LIMIT:
@@ -59,62 +63,69 @@ public class DeleteStatement extends AbstractStatement {
     public ConditionNode<DeleteStatement> where(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
         
         if (whereRoot == null) {
-            return new ConditionNode<>(this, leftRel, leftAttr, op, rightRel, rightAttr, this.whereLast);
+            return new ConditionNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this.whereLast)
+                    .attach(this);
         } else {
-            return new ConditionNode<>(this, leftRel, leftAttr, op, rightRel, rightAttr, this.whereLast)
-                    .setLogicalType(LogicalType.AND);
+            return new ConditionNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this.whereLast)
+                    .setLogicalType(LogicalType.AND)
+                    .attach(this);
         }
     }
     
     public ConditionNode<DeleteStatement> where(String rel, String attr, Func<String> op, Object... params) {
         
         if (whereRoot == null) {
-            return new ConditionNode<>(this, rel, attr, op, this.whereLast, params);
+            return new ConditionNode<>(rel, attr, op, this.whereLast, params).attach(this);
         } else {
-            return new ConditionNode<>(this, rel, attr, op, this.whereLast, params)
-                    .setLogicalType(LogicalType.AND);
+            return new ConditionNode<>(rel, attr, op, this.whereLast, params)
+                    .setLogicalType(LogicalType.AND)
+                    .attach(this);
         }
     }
     
     
     public ConditionNode<DeleteStatement> and(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
-        return new ConditionNode<>(this, leftRel, leftAttr, op, rightRel, rightAttr, this.whereLast)
-                .setLogicalType(LogicalType.AND);
+        return new ConditionNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this.whereLast)
+                .setLogicalType(LogicalType.AND)
+                .attach(this);
     }
     
     public ConditionNode<DeleteStatement> and(String rel, String attr, Func<String> op, Object... params) {
-        return new ConditionNode<>(this, rel, attr, op, this.whereLast, params)
-                .setLogicalType(LogicalType.AND);
+        return new ConditionNode<>(rel, attr, op, this.whereLast, params)
+                .setLogicalType(LogicalType.AND)
+                .attach(this);
     }
     
     public ConditionNode<DeleteStatement> or(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
-        return new ConditionNode<>(this, leftRel, leftAttr, op, rightRel, rightAttr, this.whereLast)
-                .setLogicalType(LogicalType.OR);
+        return new ConditionNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this.whereLast)
+                .setLogicalType(LogicalType.OR)
+                .attach(this);
     }
     
     public ConditionNode<DeleteStatement> or(String rel, String attr, Func<String> op, Object... params) {
-        return new ConditionNode<>(this, rel, attr, op, this.whereLast, params)
-                .setLogicalType(LogicalType.OR);
+        return new ConditionNode<>(rel, attr, op, this.whereLast, params)
+                .setLogicalType(LogicalType.OR)
+                .attach(this);
     }
     
     
     public LimitNode<DeleteStatement> limit(int start) {
         if (limitRoot == null)
-            limitRoot = new LimitNode<>(this);
+            limitRoot = new LimitNode<DeleteStatement>().attach(this);
         limitRoot.setStart(start);
         return limitRoot;
     }
     
     public DeleteStatement limit(int start, int end) {
         if (limitRoot == null)
-            limitRoot = new LimitNode<>(this);
+            limitRoot = new LimitNode<DeleteStatement>().attach(this);
         limitRoot.setStart(start).setEnd(end);
         return this;
     }
     
     public OrderByNode<DeleteStatement> orderBy(String rel, String attr) {
         if (orderByRoot == null) {
-            attach(new OrderByNode<>(this));
+            new OrderByNode<DeleteStatement>().attach(this);
         }
         orderByRoot.asc(rel, attr);
         return orderByRoot;
@@ -122,12 +133,16 @@ public class DeleteStatement extends AbstractStatement {
     
     public OrderByNode<DeleteStatement> orderByDesc(String rel, String attr) {
         if (orderByRoot == null) {
-            attach(new OrderByNode<>(this));
+            new OrderByNode<DeleteStatement>().attach(this);
         }
         orderByRoot.desc(rel, attr);
         return orderByRoot;
     }
     
+    @Override
+    public ResultData execute(Connection connection, Executor executor) {
+        return null;
+    }
     
     @Override
     public String toString() {

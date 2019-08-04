@@ -2,6 +2,7 @@ package org.smart.orm.operations.text;
 
 import org.smart.orm.data.NodeType;
 import org.smart.orm.data.OrderbyType;
+import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
@@ -9,21 +10,16 @@ import org.smart.orm.operations.Token;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderByNode<T extends Statement> implements SqlNode<T> {
+public class OrderByNode<T extends Statement> extends AbstractSqlNode<T, OrderByNode<T>> {
     
     
-    private T statement;
-    
+  
     private List<OrderByInfo<T>> orderByList = new ArrayList<>();
     
-    public OrderByNode(T statement) {
-        this.statement = statement;
-        statement.attach(this);
-    }
-    
+
     public final OrderByNode<T> asc(String rel, String attr) {
         
-        RelationNode<T> relNode = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rel));
+        RelationNode<T> relNode = statement().findFirst(NodeType.RELATION, t -> t.getName().equals(rel));
         
         OrderByInfo<T> orderByInfo = new OrderByInfo<>();
         orderByInfo.type = OrderbyType.ASC;
@@ -36,7 +32,7 @@ public class OrderByNode<T extends Statement> implements SqlNode<T> {
     
     public final OrderByNode<T> desc(String rel, String attr) {
         
-        RelationNode<T> relNode = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rel));
+        RelationNode<T> relNode = statement().findFirst(NodeType.RELATION, t -> t.getName().equals(rel));
         
         OrderByInfo<T> orderByInfo = new OrderByInfo<>();
         orderByInfo.type = OrderbyType.DESC;
@@ -54,20 +50,15 @@ public class OrderByNode<T extends Statement> implements SqlNode<T> {
     }
     
     @Override
-    public T statement() {
-        return statement;
-    }
-    
-    @Override
     public void toString(StringBuilder sb) {
         
         int len = orderByList.size();
         
-        if (len==0)
+        if (len == 0)
             return;
-    
+        
         sb.append(Token.ORDER_BY);
-    
+        
         for (int i = 0; i < len; i++) {
             OrderByInfo<T> item = orderByList.get(i);
             switch (item.type) {

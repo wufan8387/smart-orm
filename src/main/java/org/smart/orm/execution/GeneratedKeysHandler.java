@@ -22,17 +22,17 @@ public class GeneratedKeysHandler<T extends Model<T>> implements ResultHandler<T
     private List<T> result = new ArrayList<>();
     
     
-    private Map<String, PropertyInfo> propMap;
+    private List<PropertyInfo> propList;
     
     public GeneratedKeysHandler(EntityInfo entityInfo) {
-        propMap = entityInfo
-                .getPropList()
+        propList = entityInfo
+                .getKeyList()
                 .stream().filter(t -> t.getIdType() == IdType.Auto)
-                .collect(Collectors.toMap(PropertyInfo::getColumnName, t -> t));
+                .collect(Collectors.toList());
     }
     
     public int autoGenerateKeys() {
-        if (propMap.size() > 0)
+        if (propList.size() > 0)
             return Statement.RETURN_GENERATED_KEYS;
         return Statement.NO_GENERATED_KEYS;
     }
@@ -51,19 +51,13 @@ public class GeneratedKeysHandler<T extends Model<T>> implements ResultHandler<T
     
     @Override
     public void handle(ResultSet resultset) {
-        List<String> nameList = new ArrayList<>();
-        
         
         try {
             ResultSetMetaData metaData = resultset.getMetaData();
             
-            for (int i = 0, n = metaData.getColumnCount(); i < n; i++) {
-                nameList.add(metaData.getColumnLabel(i + 1));
-            }
             while (resultset.next()) {
-                for (int i = 0, n = nameList.size(); i < n; i++) {
-                    String name = nameList.get(i);
-                    PropertyInfo prop = propMap.get(name);
+                for (int i = 0, n = metaData.getColumnCount(); i < n; i++) {
+                    PropertyInfo prop = propList.get(i);
                     if (prop == null)
                         continue;
                     Field field = prop.getField();

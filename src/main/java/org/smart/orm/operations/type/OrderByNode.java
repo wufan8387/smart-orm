@@ -3,6 +3,7 @@ package org.smart.orm.operations.type;
 import org.smart.orm.Model;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.data.OrderbyType;
+import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
@@ -11,19 +12,13 @@ import org.smart.orm.functions.PropertyGetter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderByNode<T extends Statement> implements SqlNode<T> {
-    
-    private T statement;
+public class OrderByNode<T extends Statement> extends AbstractSqlNode<T, OrderByNode<T>> {
     
     private List<OrderByInfo<T, ?>> orderByList = new ArrayList<>();
     
-    public OrderByNode(T statement) {
-        this.statement = statement;
-        statement.attach(this);
-    }
-    
     public <K extends Model<K>> OrderByNode<T> asc(Class<K> rel, PropertyGetter<K> attr) {
         
+        T statement = statement();
         RelationNode<T, K> relNode = statement.findFirst(NodeType.RELATION
                 , t -> t.getName().equals(Model.getMeta(rel).getTable().getName()));
         
@@ -37,7 +32,7 @@ public class OrderByNode<T extends Statement> implements SqlNode<T> {
     }
     
     public <K extends Model<K>> OrderByNode<T> desc(Class<K> rel, PropertyGetter<K> attr) {
-        
+        T statement = statement();
         RelationNode<T, K> relNode = statement.findFirst(NodeType.RELATION
                 , t -> t.getName().equals(Model.getMeta(rel).getTable().getName()));
         
@@ -56,11 +51,7 @@ public class OrderByNode<T extends Statement> implements SqlNode<T> {
         return NodeType.ORDER_BY;
     }
     
-    @Override
-    public T statement() {
-        return statement;
-    }
-    
+ 
     @Override
     public void toString(StringBuilder sb) {
         
@@ -76,7 +67,7 @@ public class OrderByNode<T extends Statement> implements SqlNode<T> {
             OrderByInfo<T, ?> item = orderByList.get(i);
             String attr = Model
                     .getMeta(item.rel.getEntityInfo().getEntityClass())
-                    .getPropInfo(item.attr)
+                    .getProp(item.attr)
                     .getColumnName();
             switch (item.type) {
                 case ASC:

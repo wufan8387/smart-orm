@@ -1,8 +1,5 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.operations.SqlNode;
-import org.smart.orm.operations.Statement;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +11,7 @@ public abstract class AbstractStatement implements Statement {
     
     private UUID id = UUID.randomUUID();
     
-    private final List<SqlNode<?>> nodeList = new ArrayList<>();
+    private final List<SqlNode<?, ?>> nodeList = new ArrayList<>();
     
     private List<Object> paramList = new ArrayList<>();
     
@@ -26,7 +23,7 @@ public abstract class AbstractStatement implements Statement {
     
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends SqlNode<?>> List<T> find(int nodeType, Predicate<T> predicate) {
+    public <T extends SqlNode<?, ?>> List<T> find(int nodeType, Predicate<T> predicate) {
         return nodeList.stream()
                 .filter(t -> t.getType() == nodeType)
                 .map(t -> (T) t)
@@ -34,13 +31,13 @@ public abstract class AbstractStatement implements Statement {
                 .collect(Collectors.toList());
     }
     
-    public <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate) {
+    public <T extends SqlNode<?, ?>> T findFirst(int nodeType, Predicate<T> predicate) {
         return findFirst(nodeType, predicate, () -> null);
     }
     
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends SqlNode<?>> T findFirst(int nodeType, Predicate<T> predicate, Supplier<T> other) {
+    public <T extends SqlNode<?, ?>> T findFirst(int nodeType, Predicate<T> predicate, Supplier<T> other) {
         return nodeList.stream()
                 .filter(t -> t.getType() == nodeType)
                 .map(t -> (T) t)
@@ -50,10 +47,10 @@ public abstract class AbstractStatement implements Statement {
     }
     
     
-    protected abstract <T extends SqlNode<?>> void doAttach(T node);
+    protected abstract <T extends SqlNode<?, ?>> void doAttach(T node);
     
     @Override
-    public <T extends SqlNode<?>> T attach(T node) {
+    public <T extends SqlNode<?, ?>> T attach(T node) {
         doAttach(node);
         if (!nodeList.contains(node))
             nodeList.add(node);
@@ -66,7 +63,7 @@ public abstract class AbstractStatement implements Statement {
     }
     
     @Override
-    public List<SqlNode<?>> getNodes() {
+    public List<SqlNode<?, ?>> getNodes() {
         return nodeList;
     }
 }

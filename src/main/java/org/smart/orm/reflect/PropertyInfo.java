@@ -1,5 +1,6 @@
 package org.smart.orm.reflect;
 
+import org.smart.orm.SmartORMException;
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.ColumnFillType;
 import org.smart.orm.annotations.IdType;
@@ -14,7 +15,7 @@ public class PropertyInfo {
     
     private ColumnFillType[] fillType;
     
-    private boolean isPrimaryKey;
+    private boolean primaryKey;
     
     private IdType idType;
     
@@ -26,7 +27,7 @@ public class PropertyInfo {
     public PropertyInfo(Column column, Field field) {
         this.columnName = column.value();
         this.fillType = column.fillType();
-        this.isPrimaryKey = column.isPrimaryKey();
+        this.primaryKey = column.isPrimaryKey();
         this.idType = column.idType();
         this.propertyName = field.getName();
         this.field = field;
@@ -69,12 +70,19 @@ public class PropertyInfo {
     }
     
     public boolean isPrimaryKey() {
-        return isPrimaryKey;
+        return primaryKey;
     }
     
     public void setPrimaryKey(boolean primaryKey) {
-        isPrimaryKey = primaryKey;
+        this.primaryKey = primaryKey;
     }
-
-
+    
+    public Object get(Object obj) {
+        try {
+            return field.get(obj);
+        } catch (IllegalAccessException ex) {
+            throw new SmartORMException(ex);
+        }
+    }
+    
 }

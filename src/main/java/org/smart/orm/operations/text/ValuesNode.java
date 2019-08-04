@@ -1,31 +1,17 @@
 package org.smart.orm.operations.text;
 
-import org.smart.orm.Model;
 import org.smart.orm.data.NodeType;
-import org.smart.orm.operations.SqlNode;
+import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.Statement;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-
-public class ValuesNode<T extends Statement> implements SqlNode<T> {
+public class ValuesNode<T extends Statement> extends AbstractSqlNode<T, ValuesNode<T>> {
     
     
-    private T statement;
-    
-    private Object[] params;
-    
-    public ValuesNode(T statement,Object[] params) {
-        this.statement = statement;
-        this.params = params;
+    public ValuesNode(Object[] params) {
+        setParams(params);
     }
     
-    
-    public Object[] getParams() {
-        return params;
-    }
     
     @Override
     public int getType() {
@@ -33,15 +19,11 @@ public class ValuesNode<T extends Statement> implements SqlNode<T> {
     }
     
     @Override
-    public T statement() {
-        return statement;
-    }
-    
-    @Override
     public void toString(StringBuilder sb) {
         
         sb.append("(");
-        
+        Object[] params = getParams();
+        T statement = statement();
         int len = params.length;
         for (int i = 0; i < len; i++) {
             sb.append("?");

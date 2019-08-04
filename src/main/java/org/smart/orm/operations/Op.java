@@ -41,37 +41,37 @@ public class Op {
     
     
     public final static Func<String> EQUAL = t -> {
-        if (t.length == 2)
+        if (t.length == 3)
             return String.format(TEXT_EQUAL_PARAMS, t);
         return String.format(TEXT_EQUAL_ATTR, t);
     };
     
     public final static Func<String> GREATER_THAN = t -> {
-        if (t.length == 2)
+        if (t.length == 3)
             return String.format(TEXT_GREAT_THAN_PARAMS, t);
         return String.format(TEXT_GREAT_THAN_ATTR, t[0], t);
     };
     
     public final static Func<String> GREATER_THAN_EQUAL = t -> {
-        if (t.length == 2)
+        if (t.length == 3)
             return String.format(TEXT_GREAT_THAN_EQUAL_PARAMS, t);
         return String.format(TEXT_GREAT_THAN_EQUAL_ATTR, t);
     };
     
     public final static Func<String> LESS_THAN = t -> {
-        if (t.length == 2)
+        if (t.length == 3)
             return String.format(TEXT_LESS_THAN_PARAMS, t);
         return String.format(TEXT_LESS_THAN_ATTR, t);
     };
     
     public final static Func<String> LESS_THAN_EQUAL = t -> {
-        if (t.length == 2)
+        if (t.length == 3)
             return String.format(TEXT_LESS_THAN_EQUAL_PARAMS, t);
         return String.format(TEXT_LESS_THAN_EQUAL_ATTR, t);
     };
     
     public final static Func<String> NOT_EQUAL = t -> {
-        if (t.length == 2)
+        if (t.length == 3)
             return String.format(TEXT_NOT_EQUAL_PARAMS, t);
         return String.format(TEXT_NOT_EQUAL_ATTR, t);
     };

@@ -31,10 +31,9 @@ public class Token {
         }
     };
     
-    
     public final static Func<String> UPDATE_AS_SET = t -> String.format(" UPDATE `%s` AS `%s` SET ", t);
     
-    public final static Func<String> ASSIGN = t -> String.format(" `%s` = `%s` ", t);
+    public final static Func<String> ASSIGN = t -> String.format(" `%s` = %s ", t);
     
     
     public final static Func<String> INSERT_INTO = t -> String.format(" INSERT INTO `%s` ", t);

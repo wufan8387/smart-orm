@@ -32,62 +32,25 @@ public class OperationContext {
     
     }
     
-    public void saveChanges(Connection connection) {
-//        List<Statement> statementList = statementMap.get(batchId)
-//                .stream()
-//                .filter(t -> t.getType() == StatementType
-//                        .DML)
-//                .collect(Collectors.toList());
-//        for (Statement statement : statementList) {
-//            executor.insert(connection, statement.toString(), statement.getParams().toArray());
-//        }
-    }
-    
     
     public void setExecutor(Executor executor) {
         this.executor = executor;
     }
     
-    public <T extends Model<T>> ResultHandler<T> query(Class<T> cls, Connection connection, Statement statement) {
-        
-        String sql = statement.toString();
-        System.out.println(sql);
-        
-        ObjectHandler<T> handler = new ObjectHandler<>(cls);
-        
-        List<AttributeNode<?, ?>> attrList = statement.getNodes()
-                .stream().filter(t -> t.getType() == NodeType.ATTRIBUTE)
-                .map(t -> (AttributeNode<?, ?>) t)
+    public void saveChanges(Connection connection) {
+        List<Statement> statementList = statementMap.get(batchId)
+                .stream()
+                .filter(t -> t.getType() == StatementType.DML)
                 .collect(Collectors.toList());
-        
-        attrList.forEach(t -> handler.add(t.getAlias(), t.getProp()));
-        
-        executor.executeQuery(connection, sql, handler, statement.getParams().toArray());
-        
-        return handler;
+        for (Statement statement : statementList) {
+            statement.execute(connection, executor);
+        }
     }
     
-    
-    public void update(Statement statement) {
-    }
     
     @SuppressWarnings("unchecked")
-    public <T extends Model<T>> void insert(Class<T> cls, Connection connection, Statement statement, T... data) {
-        String sql = statement.toString();
-        System.out.println(sql);
-        
-        GeneratedKeysHandler<T> handler = new GeneratedKeysHandler<>(Model.getMeta(cls));
-        
-        handler.getAll().addAll(Arrays.asList(data));
-        
-        List<Object> params = statement.getParams();
-        
-        executor.insert(connection, sql, handler, handler.autoGenerateKeys(), params.toArray());
-        
-    }
-    
-    public void delete(Statement statement) {
-    
+    public <T> ResultData<T> query(Statement statement, Connection connection) {
+        return (ResultData<T>) statement.execute(connection, executor);
     }
     
     

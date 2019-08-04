@@ -1,9 +1,13 @@
 package org.smart.orm.operations.type;
 
+import com.sun.media.sound.PortMixerProvider;
 import org.smart.orm.Model;
 import org.smart.orm.annotations.IdType;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.data.StatementType;
+import org.smart.orm.execution.Executor;
+import org.smart.orm.execution.GeneratedKeysHandler;
+import org.smart.orm.execution.ResultData;
 import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
@@ -11,6 +15,7 @@ import org.smart.orm.operations.Token;
 import org.smart.orm.operations.text.ValuesNode;
 import org.smart.orm.reflect.PropertyInfo;
 
+import java.sql.Connection;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,8 +24,11 @@ public class InsertObject<T extends Model<T>> extends AbstractStatement {
     private RelationNode<InsertObject<T>, ?> relRoot;
     
     
-    private Map<String, PropertyInfo> propMap;
+    private List<T> modelList = new ArrayList<>();
     
+    public InsertObject(Class<T> cls) {
+        relRoot = new RelationNode<InsertObject<T>, T>(cls).attach(this);
+    }
     
     @Override
     public StatementType getType() {
@@ -29,48 +37,36 @@ public class InsertObject<T extends Model<T>> extends AbstractStatement {
     
     @SuppressWarnings("unchecked")
     @Override
-    protected <K extends SqlNode<?>> void doAttach(K node) {
+    protected <K extends SqlNode<?, ?>> void doAttach(K node) {
     }
     
+    public List<T> getModelList() {
+        return modelList;
+    }
     
-    public InsertObject<T> into(Class<T> cls) {
-        relRoot = new RelationNode<>(this, cls);
-        propMap = relRoot.getEntityInfo()
-                .getPropList()
-                .stream()
-                .filter(t -> t.getIdType() != IdType.Auto)
-                .collect(Collectors.toMap(PropertyInfo::getColumnName, t -> t));
+    public InsertObject<T> values(Object... value) {
+        new ValuesNode<InsertObject>(value).attach(this);
         return this;
     }
     
-    public InsertObject<T> values(T... data) {
-        
-        
-        for (T obj : data) {
-            Map<String, PropertyGetter<T>> changeMap = obj.getChangeMap();
-            
-            List<Object> dataList = new ArrayList<>();
-            
-            for (String key : propMap.keySet()) {
-                PropertyInfo prop = propMap.get(key);
-                
-                PropertyGetter<T> getter = changeMap.get(prop.getPropertyName());
-                if (getter == null) {
-                    dataList.add(null);
-                } else {
-                    dataList.add(getter.apply(obj));
-                }
-                
-                
-            }
-            
-            attach(new ValuesNode<InsertObject>(this, dataList.toArray()));
-            
-        }
-        
-        return this;
-    }
     
+    @Override
+    public ResultData<T> execute(Connection connection, Executor executor) {
+        
+        String sql = toString();
+        System.out.println(sql);
+        
+        GeneratedKeysHandler<T> handler = new GeneratedKeysHandler<>(relRoot.getEntityInfo());
+        
+        handler.getAll().addAll(modelList);
+        
+        List<Object> params = getParams();
+        
+        int cnt = executor.insert(connection, sql, handler, handler.autoGenerateKeys(), params.toArray());
+        
+        return new ResultData<>(cnt);
+        
+    }
     
     @SuppressWarnings("unchecked")
     @Override
@@ -89,12 +85,15 @@ public class InsertObject<T extends Model<T>> extends AbstractStatement {
         
         if (attrSize == 0) {
             
-            for (String key : propMap.keySet()) {
-                PropertyInfo prop = propMap.get(key);
-                AttributeNode<InsertObject<T>, ?> attrNode = new AttributeNode<>(this, relRoot, prop);
+            List<PropertyInfo> propList = relRoot.getEntityInfo().getPropList();
+            
+            for (PropertyInfo prop : propList) {
+                if (prop.getIdType() == IdType.Auto)
+                    continue;
+                AttributeNode<InsertObject<T>, ?> attrNode = new AttributeNode<>(relRoot, prop);
                 attrNode.setOp(Token.ATTR_INSERT);
                 attrList.add(attrNode);
-                attach(attrNode);
+                attrNode.attach(this);
             }
         }
         

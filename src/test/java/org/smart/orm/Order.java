@@ -6,7 +6,7 @@ import org.smart.orm.annotations.Table;
 @Table("order")
 public class Order extends Model<Order> {
     
-    @Column
+    @Column(isPrimaryKey = true)
     private int id;
     
     @Column

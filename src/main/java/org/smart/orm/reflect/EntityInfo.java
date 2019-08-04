@@ -2,6 +2,7 @@ package org.smart.orm.reflect;
 
 import org.smart.orm.Model;
 import org.smart.orm.SmartORMException;
+import org.smart.orm.annotations.IdType;
 import org.smart.orm.functions.PropertyGetter;
 
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,9 @@ public class EntityInfo {
     private final Map<Field, PropertyInfo> fieldPropMap = new HashMap<>();
     
     private final List<PropertyInfo> propList = new ArrayList<>();
+    
+    private final List<PropertyInfo> keyList = new ArrayList<>();
+    
     
     public Class<?> getEntityClass() {
         return entityClass;
@@ -41,19 +45,25 @@ public class EntityInfo {
         return Collections.unmodifiableList(propList);
     }
     
+    public List<PropertyInfo> getKeyList() {
+        return Collections.unmodifiableList(keyList);
+    }
+    
+    
     public void add(PropertyInfo prop) {
         textPropMap.putIfAbsent(prop.getPropertyName(), prop);
         fieldPropMap.putIfAbsent(prop.getField(), prop);
         propList.add(prop);
+        if (prop.isPrimaryKey()) {
+            keyList.add(prop);
+        }
     }
     
-
-    
-    public PropertyInfo getPropInfo(String name) {
+    public PropertyInfo getProp(String name) {
         return textPropMap.get(name);
     }
     
-    public <T extends Model<T>> PropertyInfo getPropInfo(PropertyGetter<T> getter) {
+    public <T extends Model<T>> PropertyInfo getProp(PropertyGetter<T> getter) {
         Field field = LambdaParser.getGetter(getter);
         return fieldPropMap.get(field);
     }
@@ -69,4 +79,5 @@ public class EntityInfo {
         }
         
     }
+    
 }

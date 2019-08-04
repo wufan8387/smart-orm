@@ -1,18 +1,19 @@
 package org.smart.orm;
 
 import org.smart.orm.annotations.Column;
+import org.smart.orm.annotations.IdType;
 import org.smart.orm.annotations.Table;
 
 import org.smart.orm.functions.PropertyGetter;
+import org.smart.orm.operations.Op;
+import org.smart.orm.operations.Statement;
+import org.smart.orm.operations.text.ValuesNode;
 import org.smart.orm.operations.type.*;
 import org.smart.orm.reflect.*;
 
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Model<T extends Model<T>> {
     
@@ -93,32 +94,62 @@ public abstract class Model<T extends Model<T>> {
     
     @SuppressWarnings("unchecked")
     public void insert(OperationContext context) {
-        InsertObject insOp = new InsertObject();
-        insOp.into(this.getClass());
+        InsertObject<T> insOp = new InsertObject(this.getClass());
+        
+        T data = (T) this;
+        
+        insOp.getModelList().add(data);
+        
+        List<Object> valueList = new ArrayList<>();
+        
+        List<PropertyInfo> propList = getMeta().getPropList();
+        
+        for (PropertyInfo prop : propList) {
+            if (prop.getIdType() == IdType.Auto)
+                continue;
+            PropertyGetter<T> getter = changeMap.get(prop.getPropertyName());
+            if (getter == null) {
+                valueList.add(null);
+            } else {
+                valueList.add(getter.apply(data));
+            }
+        }
+        
+        insOp.values(valueList.toArray());
+        
         context.add(insOp);
     }
     
     
     @SuppressWarnings("unchecked")
     public void delete(OperationContext context) {
-        DeleteObject delOp = new DeleteObject();
-        delOp.from(this.getClass());
+        DeleteObject<T> delOp = new DeleteObject(this.getClass());
+    
+        for (PropertyInfo prop : getMeta().getKeyList()) {
+            delOp.where(prop, Op.EQUAL, prop.get(this));
+        }
+        
         context.add(delOp);
     }
     
     
     @SuppressWarnings("unchecked")
     public void update(OperationContext context) {
-        UpdateObject upOp = new UpdateObject();
-        upOp.update(this.getClass());
+        UpdateObject<T> statement = new UpdateObject(this.getClass());
         
         for (String name : changeMap.keySet()) {
             PropertyGetter<T> getter = changeMap.get(name);
-            upOp.set(getter, getter.apply((T) this));
+            statement.assign(getter, getter.apply((T) this));
         }
         
-        context.add(upOp);
+        
+        for (PropertyInfo prop : getMeta().getKeyList()) {
+            statement.where(prop, Op.EQUAL, prop.get(this));
+        }
+        
+        context.add(statement);
         
     }
+    
     
 }

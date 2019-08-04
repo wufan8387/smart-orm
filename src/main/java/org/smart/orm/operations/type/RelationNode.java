@@ -5,15 +5,14 @@ import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 import org.smart.orm.reflect.EntityInfo;
 import org.smart.orm.functions.PropertyGetter;
 
-public class RelationNode<T extends Statement, K extends Model<K>> implements SqlNode<T> {
-    
-    private T statement;
+public class RelationNode<T extends Statement, K extends Model<K>> extends AbstractSqlNode<T, RelationNode<T, K>> {
     
     private String alias;
     
@@ -29,23 +28,17 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     
     private EntityInfo entityInfo;
     
-    public RelationNode(T statement, Class<K> cls) {
-        this.statement = statement;
+    public RelationNode(Class<K> cls) {
         entityInfo = Model.getMeta(cls);
-        statement.attach(this);
     }
     
-    public RelationNode(T statement, Class<K> cls, RelationNode<T, ?> parent) {
-        this(statement, cls);
+    public RelationNode(Class<K> cls, RelationNode<T, ?> parent) {
+        this(cls);
         this.parent = parent;
         if (parent != null)
             parent.child = this;
     }
     
-    @Override
-    public T statement() {
-        return statement;
-    }
     
     @Override
     public int getType() {
@@ -73,9 +66,10 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     }
     
     public <U extends Model<U>> RelationNode<T, U> join(Class<U> rel) {
+        T statement = statement();
         RelationNode<T, U> node = statement.findFirst(NodeType.RELATION,
                 t -> t.getName().equals(Model.getMeta(rel).getTable().getName()),
-                () -> new RelationNode<>(statement, rel, this));
+                () -> new RelationNode<>(rel, this).attach(statement));
         return node.setJoinType(JoinType.INNER);
     }
     
@@ -83,18 +77,19 @@ public class RelationNode<T extends Statement, K extends Model<K>> implements Sq
     public <L extends Model<L>, R extends Model<R>> JoinNode<T, L, R> on(PropertyGetter<L> leftAttr
             , Func<String> op
             , PropertyGetter<R> rightAttr) {
-        joinLast = new JoinNode<>(statement, leftAttr, op, rightAttr, joinLast);
+        joinLast = new JoinNode<>(leftAttr, op, rightAttr, joinLast)
+                .attach(statement());
         joinRoot = joinRoot == null ? joinLast : joinRoot;
         return (JoinNode<T, L, R>) joinLast;
     }
     
     
     public RelationNode<T, K> select(PropertyGetter<K> attr) {
-        return statement.attach(new AttributeNode<>(statement, attr)).from(this);
+        return new AttributeNode<T, K>(attr).attach(statement()).from(this);
     }
     
     public RelationNode<T, K> select(PropertyGetter<K> attr, String alias) {
-        return statement.attach(new AttributeNode<>(statement, attr, alias)).from(this);
+        return new AttributeNode<T, K>(attr, alias).attach(statement()).from(this);
     }
     
     @SuppressWarnings("unchecked")

@@ -36,50 +36,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TypeStatementTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/TypeStatementTest.java">
+      <file leaf-file-name="InsertStatement.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/InsertStatement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="88" column="8" lean-forward="true" selection-start-line="88" selection-start-column="8" selection-end-line="88" selection-end-column="8" />
-              <folding>
-                <element signature="method#buildTest#0;class#TypeStatementTest#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GeneratedKeysHandler.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/GeneratedKeysHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="62" selection-start-line="62" selection-end-line="62" />
+            <state relative-caret-position="317">
+              <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#579#580#0" expanded="true" />
+                <element signature="e#634#635#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SimpleExecutor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/SimpleExecutor.java">
+      <file leaf-file-name="UpdateObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/UpdateObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="55" selection-start-line="55" selection-end-line="55" />
+            <state relative-caret-position="538">
+              <caret line="138" column="5" lean-forward="true" selection-start-line="138" selection-start-column="5" selection-end-line="138" selection-end-column="5" />
               <folding>
-                <element signature="method#executeQuery#1;class#SimpleExecutor#0" />
+                <element signature="e#1192#1193#0" expanded="true" />
+                <element signature="e#1272#1273#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ParameterTypeHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/jdbc/ParameterTypeHandler.java">
+      <file leaf-file-name="QueryStatement.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/QueryStatement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="30" selection-start-line="30" selection-end-line="30" />
-              <folding>
-                <element signature="method#checkNull#0;class#ParameterTypeHandler#0" />
-              </folding>
+            <state relative-caret-position="304">
+              <caret line="107" column="4" lean-forward="true" selection-start-line="107" selection-start-column="4" selection-end-line="107" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -87,63 +75,46 @@
       <file leaf-file-name="InsertObject.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/InsertObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="50" column="12" lean-forward="true" selection-start-line="50" selection-start-column="12" selection-end-line="50" selection-end-column="12" />
+            <state relative-caret-position="291">
+              <caret line="95" column="36" selection-start-line="95" selection-start-column="36" selection-end-line="95" selection-end-column="36" />
               <folding>
-                <element signature="e#819#820#0" expanded="true" />
-                <element signature="e#859#860#0" expanded="true" />
+                <element signature="e#962#963#0" expanded="true" />
+                <element signature="e#1017#1018#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ValuesNode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/ValuesNode.java">
+      <file leaf-file-name="AssignNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/AssignNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="48" column="30" lean-forward="true" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+            <state relative-caret-position="379">
+              <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InsertStatement.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/InsertStatement.java">
+      <file leaf-file-name="UpdateStatement.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/UpdateStatement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="515">
-              <caret line="53" selection-start-line="53" selection-end-line="53" />
+            <state relative-caret-position="18">
+              <caret line="156" column="5" selection-start-line="156" selection-start-column="5" selection-end-line="156" selection-end-column="5" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#463#464#0" expanded="true" />
-                <element signature="e#518#519#0" expanded="true" />
-                <element signature="e#574#575#0" expanded="true" />
-                <element signature="e#614#615#0" expanded="true" />
+                <element signature="e#898#899#0" expanded="true" />
+                <element signature="e#953#954#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Token.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Token.java">
+      <file leaf-file-name="DeleteStatement.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/DeleteStatement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="413">
-              <caret line="53" column="84" selection-start-line="53" selection-start-column="84" selection-end-line="53" selection-end-column="84" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AttributeNode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/AttributeNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="102" column="58" selection-start-line="102" selection-start-column="50" selection-end-line="102" selection-end-column="58" />
+            <state relative-caret-position="44">
+              <caret line="81" column="32" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
               <folding>
-                <element signature="method#AttributeNode#0;class#AttributeNode#0" />
-                <element signature="method#AttributeNode#1;class#AttributeNode#0" />
-                <element signature="method#AttributeNode#2;class#AttributeNode#0" />
-                <element signature="e#1426#1427#0" expanded="true" />
-                <element signature="e#1451#1452#0" expanded="true" />
-                <element signature="e#1497#1498#0" expanded="true" />
-                <element signature="e#1525#1526#0" expanded="true" />
+                <element signature="e#838#839#0" expanded="true" />
+                <element signature="e#893#894#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -152,22 +123,39 @@
       <file leaf-file-name="AttributeNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/AttributeNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="487">
-              <caret line="118" column="12" lean-forward="true" selection-start-line="118" selection-start-column="12" selection-end-line="118" selection-end-column="12" />
+            <state relative-caret-position="252">
+              <caret line="89" column="10" selection-start-line="89" selection-start-column="10" selection-end-line="89" selection-end-column="10" />
               <folding>
-                <element signature="method#AttributeNode#0;class#AttributeNode#0" />
-                <element signature="method#AttributeNode#1;class#AttributeNode#0" />
-                <element signature="method#AttributeNode#2;class#AttributeNode#0" />
-                <element signature="method#AttributeNode#3;class#AttributeNode#0" />
+                <element signature="e#995#996#0" expanded="true" />
+                <element signature="e#1027#1028#0" expanded="true" />
                 <element signature="method#getAlias#0;class#AttributeNode#0" />
-                <element signature="method#setAlias#0;class#AttributeNode#0" />
-                <element signature="e#1970#1971#0" expanded="true" />
-                <element signature="e#1995#1996#0" expanded="true" />
-                <element signature="e#2041#2042#0" expanded="true" />
-                <element signature="e#2069#2070#0" expanded="true" />
-                <element signature="method#from#0;class#AttributeNode#0" />
-                <element signature="method#from#1;class#AttributeNode#0" />
-                <element signature="method#equals#0;class#AttributeNode#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QueryObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/QueryObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="317">
+              <caret line="241" column="13" lean-forward="true" selection-start-line="241" selection-start-column="13" selection-end-line="241" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1290#1291#0" expanded="true" />
+                <element signature="e#1354#1355#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DeleteObject.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/DeleteObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="317">
+              <caret line="77" column="32" selection-start-line="77" selection-start-column="32" selection-end-line="77" selection-end-column="32" />
+              <folding>
+                <element signature="e#1052#1053#0" expanded="true" />
+                <element signature="e#1134#1135#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -201,57 +189,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/data/Tuple3.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/SetNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/ConditionNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/SetNode.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/TypeStatementTEst.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/jdbc/ArrayType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/jdbc/ParameterTypeHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/ConditionNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Op.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/AbstractStatement.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/AbstractObject.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/jdbc/ResultTypeHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/AbstractStatement.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/Order.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/functions/ResultGetter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/functions/ParameterSetter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/OrderByNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/JoinNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/GroupByNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/ModelHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/RelationNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/ResultHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/ModelObjectHandler.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/TextExpressionTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/IncludeNode.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/IncludeStatement.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/data/StatementType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Statement.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/DeleteObject.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/UpdateObject.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/QueryObject.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/DeleteStatement.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/QueryStatement.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/UpdateStatement.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/EntityInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/SimpleExecutor.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/KeyMapHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/ObjectHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/GenerateKeysHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/Executor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/Model.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/ValuesNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/OperationContext.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/GeneratedKeysHandler.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/AuthGroup.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/AttributeNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/AttributeNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/SetNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/data/KeyValuePair.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/SetNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/data/NodeType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Op.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Token.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/InsertStatement.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/InsertObject.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/AuthGroup.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/Order.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/GeneratedKeysHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/EntityInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/PropertyInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/execution/ResultData.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/Model.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/smart/orm/TypeStatementTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/OperationContext.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Statement.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/AbstractStatement.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/AbstractSqlNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/ConditionNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/GroupByNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/LimitNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/OrderByNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/RelationNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/ValuesNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/GroupByNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/JoinNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/OrderByNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/ConditionNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/SqlNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/JoinNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/AttributeNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/RelationNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/AssignNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/UpdateObject.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/QueryStatement.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/AssignNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/UpdateStatement.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/DeleteStatement.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/InsertStatement.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/AttributeNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/QueryObject.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/InsertObject.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/DeleteObject.java" />
       </list>
     </option>
   </component>
@@ -275,10 +263,10 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
     <option name="width" value="1040" />
-    <option name="height" value="744" />
+    <option name="height" value="745" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -286,7 +274,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -428,6 +415,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -473,43 +461,20 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TypeStatementTest.insertTest">
+  <component name="RunManager" selected="JUnit.TypeStatementTest.deleteTest">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method>
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LambdaParserTest.getSet" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="smart-orm" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.smart.orm.reflect.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="org.smart.orm.reflect" />
-      <option name="MAIN_CLASS_NAME" value="org.smart.orm.reflect.LambdaParserTest" />
-      <option name="METHOD_NAME" value="getSet" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
-    <configuration name="TypeStatementTest.buildTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TypeStatementTest.deleteTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="smart-orm" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="org.smart.orm" />
       <option name="MAIN_CLASS_NAME" value="org.smart.orm.TypeStatementTest" />
-      <option name="METHOD_NAME" value="buildTest" />
+      <option name="METHOD_NAME" value="deleteTest" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" />
@@ -571,6 +536,23 @@
       </option>
       <patterns />
     </configuration>
+    <configuration name="TypeStatementTest.updateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="smart-orm" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.smart.orm" />
+      <option name="MAIN_CLASS_NAME" value="org.smart.orm.TypeStatementTest" />
+      <option name="METHOD_NAME" value="updateTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -600,19 +582,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.TypeStatementTest.buildTest" />
-      <item itemvalue="JUnit.LambdaParserTest.getSet" />
       <item itemvalue="JUnit.TypeStatementTest.modelTest" />
       <item itemvalue="JUnit.TypeStatementTest.queryTest" />
       <item itemvalue="JUnit.TypeStatementTest.insertTest" />
+      <item itemvalue="JUnit.TypeStatementTest.updateTest" />
+      <item itemvalue="JUnit.TypeStatementTest.deleteTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TypeStatementTest.deleteTest" />
+        <item itemvalue="JUnit.TypeStatementTest.updateTest" />
         <item itemvalue="JUnit.TypeStatementTest.insertTest" />
         <item itemvalue="JUnit.TypeStatementTest.queryTest" />
         <item itemvalue="JUnit.TypeStatementTest.modelTest" />
-        <item itemvalue="JUnit.LambdaParserTest.getSet" />
-        <item itemvalue="JUnit.TypeStatementTest.buildTest" />
       </list>
     </recent_temporary>
   </component>
@@ -656,65 +638,67 @@
       <workItem from="1564661287923" duration="6128000" />
       <workItem from="1564820702575" duration="12049000" />
       <workItem from="1564836985483" duration="12222000" />
+      <workItem from="1564893964047" duration="22741000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 00h 03m 19s.xml">
+    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 18h 04m 41s.xml">
       <configuration name="TypeStatementTest.insertTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 00h 04m 41s.xml">
+    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 18h 05m 31s.xml">
       <configuration name="TypeStatementTest.insertTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 00h 05m 13s.xml">
+    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 18h 08m 51s.xml">
       <configuration name="TypeStatementTest.insertTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 00h 11m 41s.xml">
-      <configuration name="TypeStatementTest.insertTest" configurationId="JUnit" />
+    <history-entry file="TypeStatementTest_updateTest - 2019.08.04 at 18h 14m 58s.xml">
+      <configuration name="TypeStatementTest.updateTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 00h 14m 07s.xml">
-      <configuration name="TypeStatementTest.insertTest" configurationId="JUnit" />
+    <history-entry file="TypeStatementTest_updateTest - 2019.08.04 at 18h 15m 19s.xml">
+      <configuration name="TypeStatementTest.updateTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 00h 15m 41s.xml">
-      <configuration name="TypeStatementTest.insertTest" configurationId="JUnit" />
+    <history-entry file="TypeStatementTest_updateTest - 2019.08.04 at 18h 16m 45s.xml">
+      <configuration name="TypeStatementTest.updateTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 00h 18m 16s.xml">
-      <configuration name="TypeStatementTest.insertTest" configurationId="JUnit" />
+    <history-entry file="TypeStatementTest_deleteTest - 2019.08.04 at 18h 21m 54s.xml">
+      <configuration name="TypeStatementTest.deleteTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 00h 19m 26s.xml">
-      <configuration name="TypeStatementTest.insertTest" configurationId="JUnit" />
+    <history-entry file="TypeStatementTest_deleteTest - 2019.08.04 at 18h 23m 04s.xml">
+      <configuration name="TypeStatementTest.deleteTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 00h 20m 19s.xml">
-      <configuration name="TypeStatementTest.insertTest" configurationId="JUnit" />
+    <history-entry file="TypeStatementTest_deleteTest - 2019.08.04 at 18h 25m 07s.xml">
+      <configuration name="TypeStatementTest.deleteTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TypeStatementTest_insertTest - 2019.08.04 at 00h 21m 01s.xml">
-      <configuration name="TypeStatementTest.insertTest" configurationId="JUnit" />
+    <history-entry file="TypeStatementTest_deleteTest - 2019.08.04 at 18h 26m 01s.xml">
+      <configuration name="TypeStatementTest.deleteTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="308312000" />
+    <option name="totallyTimeSpent" value="331053000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.26091704" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.27292576" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="5" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3930131" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3941048" />
       <window_info anchor="bottom" id="Spring" order="12" weight="0.32969433" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.2183406" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23134328" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23400854" />
       <window_info anchor="right" id="Bean Validation" order="6" />
       <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.24126637" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.45196506" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.54366815" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Capture Tool" order="2" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -727,7 +711,6 @@
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.33515283" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -777,27 +760,9 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/JoinNode.java</url>
-          <line>155</line>
+          <line>146</line>
           <properties />
           <option name="timeStamp" value="104" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/QueryObject.java</url>
-          <line>187</line>
-          <properties />
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/smart/orm/OperationContext.java</url>
-          <line>35</line>
-          <properties />
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/GeneratedKeysHandler.java</url>
-          <line>53</line>
-          <properties />
-          <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/SimpleExecutor.java</url>
@@ -811,306 +776,17 @@
           <properties />
           <option name="timeStamp" value="24" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/InsertObject.java</url>
+          <line>55</line>
+          <properties />
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="25" />
+      <option name="time" value="47" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/jdbc/ArrayType.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/jdbc/ResultTypeHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="82" column="18" selection-start-line="82" selection-start-column="18" selection-end-line="82" selection-end-column="18" />
-          <folding>
-            <element signature="e#434#435#0" expanded="true" />
-            <element signature="e#475#476#0" expanded="true" />
-            <element signature="e#3702#3766#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/AbstractStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#find#0;class#AbstractStatement#0" />
-            <element signature="method#findFirst#0;class#AbstractStatement#0" />
-            <element signature="method#findFirst#1;class#AbstractStatement#0" />
-            <element signature="e#1917#1918#0" expanded="true" />
-            <element signature="e#1948#1949#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/Order.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="603">
-          <caret line="39" column="28" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/functions/PropertySetter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/functions/PropertyGetter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/functions/ResultGetter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="8" column="9" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/functions/ParameterSetter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="7" column="30" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/functions/Func.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/OrderByNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1768">
-          <caret line="81" column="25" selection-start-line="81" selection-start-column="25" selection-end-line="81" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/GroupByNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="63" column="32" selection-start-line="63" selection-start-column="32" selection-end-line="63" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/SmartORMException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/RelationNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="473">
-          <caret line="138" selection-start-line="138" selection-end-line="158" selection-end-column="4" />
-          <folding>
-            <element signature="method#RelationNode#1;class#RelationNode#0" />
-            <element signature="method#getAlias#0;class#RelationNode#0" />
-            <element signature="method#setAlias#0;class#RelationNode#0" />
-            <element signature="method#join#0;class#RelationNode#0" />
-            <element signature="method#toString#0;class#RelationNode#0" />
-            <element signature="e#3972#3973#0" expanded="true" />
-            <element signature="e#4036#4037#0" expanded="true" />
-            <element signature="method#equals#0;class#RelationNode#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/ConditionNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="185" column="16" selection-start-line="185" selection-start-column="16" selection-end-line="185" selection-end-column="16" />
-          <folding>
-            <element signature="method#ConditionNode#0;class#ConditionNode#0" />
-            <element signature="method#ConditionNode#1;class#ConditionNode#0" />
-            <element signature="method#ConditionNode#2;class#ConditionNode#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/ResultListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="17" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/ResultHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/TextExpressionTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="21" selection-start-line="21" selection-start-column="2" selection-end-line="31" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/JoinNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="159" selection-start-line="14" selection-end-line="159" />
-          <folding>
-            <element signature="method#JoinNode#0;class#JoinNode#0" />
-            <element signature="method#JoinNode#1;class#JoinNode#0" />
-            <element signature="method#JoinNode#2;class#JoinNode#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/IncludeStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="15" column="4" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/data/StatementType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="22" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.5.1/mybatis-3.5.1-sources.jar!/org/apache/ibatis/mapping/StatementType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Statement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/DeleteObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="37" selection-start-line="37" selection-end-line="40" selection-end-column="5" />
-          <folding>
-            <element signature="e#1158#1159#0" expanded="true" />
-            <element signature="e#1185#1186#0" expanded="true" />
-            <element signature="method#where#0;class#DeleteObject#0" />
-            <element signature="method#where#1;class#DeleteObject#0" />
-            <element signature="method#and#0;class#DeleteObject#0" />
-            <element signature="method#and#1;class#DeleteObject#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/UpdateObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="31" column="5" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
-          <folding>
-            <element signature="e#901#902#0" expanded="true" />
-            <element signature="e#941#942#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/DeleteStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="676">
-          <caret line="35" column="4" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
-          <folding>
-            <element signature="e#971#972#0" expanded="true" />
-            <element signature="e#1011#1012#0" expanded="true" />
-            <element signature="method#where#0;class#DeleteStatement#0" />
-            <element signature="method#where#1;class#DeleteStatement#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/QueryStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
-          <folding>
-            <element signature="e#931#932#0" expanded="true" />
-            <element signature="e#971#972#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/UpdateStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
-          <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
-          <folding>
-            <element signature="e#1033#1034#0" expanded="true" />
-            <element signature="e#1073#1074#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/annotations/ColumnFillType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="38" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/annotations/IdType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/annotations/Column.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="17" column="34" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/data/OperationPriority.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/data/OrderByInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#149#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/EntityInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="43" column="40" selection-start-line="43" selection-start-column="40" selection-end-line="43" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/KeyMapHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
@@ -1143,171 +819,452 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/QueryObject.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/data/KeyValuePair.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="197" column="2" selection-start-line="197" selection-start-column="2" selection-end-line="208" selection-end-column="13" />
+        <state relative-caret-position="681">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#doAttach#0;class#QueryObject#0" />
-            <element signature="method#from#0;class#QueryObject#0" />
-            <element signature="method#join#0;class#QueryObject#0" />
-            <element signature="method#where#0;class#QueryObject#0" />
+            <element signature="e#238#239#0" expanded="true" />
+            <element signature="e#264#265#0" expanded="true" />
+            <element signature="e#301#302#0" expanded="true" />
+            <element signature="e#331#332#0" expanded="true" />
+            <element signature="e#362#363#0" expanded="true" />
+            <element signature="e#390#391#0" expanded="true" />
+            <element signature="e#431#432#0" expanded="true" />
+            <element signature="e#465#466#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/AuthGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="44" column="22" selection-start-line="44" selection-start-column="8" selection-end-line="44" selection-end-column="22" />
-          <folding>
-            <element signature="e#575#576#0" expanded="true" />
-            <element signature="e#600#601#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/Model.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="90" selection-start-line="90" selection-end-line="90" />
-          <folding>
-            <element signature="e#797#798#0" expanded="true" />
-            <element signature="e#829#830#0" expanded="true" />
-            <element signature="method#getMeta#0;class#Model#0" />
-            <element signature="method#getMeta#1;class#Model#0" />
-            <element signature="method#buildEntityInfo#0;class#Model#0" />
-            <element signature="e#2658#2659#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/AttributeNode.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/data/NodeType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
-          <caret line="102" column="58" selection-start-line="102" selection-start-column="50" selection-end-line="102" selection-end-column="58" />
-          <folding>
-            <element signature="method#AttributeNode#0;class#AttributeNode#0" />
-            <element signature="method#AttributeNode#1;class#AttributeNode#0" />
-            <element signature="method#AttributeNode#2;class#AttributeNode#0" />
-            <element signature="e#1426#1427#0" expanded="true" />
-            <element signature="e#1451#1452#0" expanded="true" />
-            <element signature="e#1497#1498#0" expanded="true" />
-            <element signature="e#1525#1526#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/AttributeNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="118" column="12" lean-forward="true" selection-start-line="118" selection-start-column="12" selection-end-line="118" selection-end-column="12" />
-          <folding>
-            <element signature="method#AttributeNode#0;class#AttributeNode#0" />
-            <element signature="method#AttributeNode#1;class#AttributeNode#0" />
-            <element signature="method#AttributeNode#2;class#AttributeNode#0" />
-            <element signature="method#AttributeNode#3;class#AttributeNode#0" />
-            <element signature="method#getAlias#0;class#AttributeNode#0" />
-            <element signature="method#setAlias#0;class#AttributeNode#0" />
-            <element signature="e#1970#1971#0" expanded="true" />
-            <element signature="e#1995#1996#0" expanded="true" />
-            <element signature="e#2041#2042#0" expanded="true" />
-            <element signature="e#2069#2070#0" expanded="true" />
-            <element signature="method#from#0;class#AttributeNode#0" />
-            <element signature="method#from#1;class#AttributeNode#0" />
-            <element signature="method#equals#0;class#AttributeNode#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/ValuesNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="48" column="30" lean-forward="true" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/OperationContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="74" column="37" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#add#0;class#OperationContext#0" />
-            <element signature="e#2209#2239#0" expanded="true" />
-          </folding>
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Token.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="53" column="84" selection-start-line="53" selection-start-column="84" selection-end-line="53" selection-end-column="84" />
+        <state relative-caret-position="203">
+          <caret line="33" column="97" selection-start-line="33" selection-start-column="97" selection-end-line="33" selection-end-column="97" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/InsertStatement.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/annotations/Column.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="17" column="17" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/Order.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/GeneratedKeysHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="515">
-          <caret line="53" selection-start-line="53" selection-end-line="53" />
+          <caret line="53" column="8" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#463#464#0" expanded="true" />
-            <element signature="e#518#519#0" expanded="true" />
-            <element signature="e#574#575#0" expanded="true" />
-            <element signature="e#614#615#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/TypeStatementTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/EntityInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="88" column="8" lean-forward="true" selection-start-line="88" selection-start-column="8" selection-end-line="88" selection-end-column="8" />
+        <state relative-caret-position="825">
+          <caret line="68" column="5" lean-forward="true" selection-start-line="68" selection-start-column="5" selection-end-line="68" selection-end-column="5" />
           <folding>
-            <element signature="method#buildTest#0;class#TypeStatementTest#0" />
+            <element signature="e#1160#1161#0" expanded="true" />
+            <element signature="e#1217#1218#0" expanded="true" />
+            <element signature="e#1296#1297#0" expanded="true" />
+            <element signature="e#1340#1341#0" expanded="true" />
+            <element signature="e#1541#1571#0" expanded="true" />
+            <element signature="method#newInstance#0;class#EntityInfo#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/InsertObject.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Op.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="50" column="12" lean-forward="true" selection-start-line="50" selection-start-column="12" selection-end-line="50" selection-end-column="12" />
-          <folding>
-            <element signature="e#819#820#0" expanded="true" />
-            <element signature="e#859#860#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="312">
+          <caret line="45" column="17" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/AuthGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/reflect/PropertyInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="624">
+          <caret line="29" column="45" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/jdbc/ParameterTypeHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        <state relative-caret-position="364">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
           <folding>
             <element signature="method#checkNull#0;class#ParameterTypeHandler#0" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.11/junit-4.11-sources.jar!/org/junit/internal/runners/model/ReflectiveCallable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.11/junit-4.11-sources.jar!/org/junit/runners/BlockJUnit4ClassRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="71" selection-start-line="71" selection-end-line="71" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/SimpleExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="55" selection-start-line="55" selection-end-line="55" />
+        <state relative-caret-position="308">
+          <caret line="105" column="32" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="32" />
           <folding>
             <element signature="method#executeQuery#1;class#SimpleExecutor#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/GeneratedKeysHandler.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.11/junit-4.11-sources.jar!/org/junit/runners/ParentRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="62" selection-start-line="62" selection-end-line="62" />
+        <state relative-caret-position="271">
+          <caret line="67" column="9" lean-forward="true" selection-start-line="67" selection-start-column="9" selection-end-line="67" selection-end-column="9" />
+          <folding>
+            <element signature="e#2542#2543#0" expanded="true" />
+            <element signature="e#2586#2587#0" expanded="true" />
+            <element signature="e#9300#9448#0" expanded="true" />
+            <element signature="e#9447#9448#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/execution/ResultData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="521">
+          <caret line="31" column="4" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="4" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/OperationContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="464">
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#add#0;class#OperationContext#0" />
+            <element signature="method#include#0;class#OperationContext#0" />
+            <element signature="e#1349#1379#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/smart/orm/TypeStatementTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="824">
+          <caret line="63" column="20" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="20" />
+          <folding>
+            <element signature="e#2731#2742#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/Model.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="17" column="28" lean-forward="true" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="46" />
+          <folding>
+            <element signature="method#getMeta#0;class#Model#0" />
+            <element signature="method#getMeta#1;class#Model#0" />
+            <element signature="method#buildEntityInfo#0;class#Model#0" />
+            <element signature="method#insert#0;class#Model#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/AbstractStatement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/Statement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="22" column="34" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/AbstractSqlNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding>
+            <element signature="e#423#424#0" expanded="true" />
+            <element signature="e#450#451#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/ConditionNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="151" column="1" lean-forward="true" selection-start-line="151" selection-start-column="1" selection-end-line="151" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/GroupByNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/LimitNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="28" column="30" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/OrderByNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-364">
+          <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/RelationNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-840">
+          <caret line="108" column="5" lean-forward="true" selection-start-line="108" selection-start-column="5" selection-end-line="108" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#639#640#0" expanded="true" />
+            <element signature="e#671#672#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/ValuesNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#342#343#0" expanded="true" />
+            <element signature="e#375#376#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/GroupByNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-39">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/JoinNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="133" column="4" selection-start-line="133" selection-start-column="4" selection-end-line="133" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/OrderByNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="53" column="1" selection-start-line="53" selection-start-column="1" selection-end-line="53" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/ConditionNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="81" column="25" selection-start-line="81" selection-start-column="25" selection-end-line="81" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/SqlNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="8" column="26" lean-forward="true" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/JoinNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/AttributeNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="90" column="19" lean-forward="true" selection-start-line="90" selection-start-column="19" selection-end-line="90" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getAlias#0;class#AttributeNode#0" />
+            <element signature="method#setAlias#0;class#AttributeNode#0" />
+            <element signature="method#toString#0;class#AttributeNode#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/RelationNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="71" column="41" selection-start-line="71" selection-start-column="41" selection-end-line="71" selection-end-column="41" />
+          <folding>
+            <element signature="e#943#944#0" expanded="true" />
+            <element signature="e#990#991#0" expanded="true" />
+            <element signature="method#getAlias#0;class#RelationNode#0" />
+            <element signature="method#setAlias#0;class#RelationNode#0" />
+            <element signature="e#3087#3088#0" expanded="true" />
+            <element signature="e#3137#3138#0" expanded="true" />
+            <element signature="method#toString#0;class#RelationNode#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/AssignNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="37" column="34" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/UpdateObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="138" column="5" lean-forward="true" selection-start-line="138" selection-start-column="5" selection-end-line="138" selection-end-column="5" />
+          <folding>
+            <element signature="e#1192#1193#0" expanded="true" />
+            <element signature="e#1272#1273#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/QueryStatement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="107" column="4" lean-forward="true" selection-start-line="107" selection-start-column="4" selection-end-line="107" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/AssignNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/UpdateStatement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="156" column="5" selection-start-line="156" selection-start-column="5" selection-end-line="156" selection-end-column="5" />
+          <folding>
+            <element signature="e#898#899#0" expanded="true" />
+            <element signature="e#953#954#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/DeleteStatement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="81" column="32" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
+          <folding>
+            <element signature="e#838#839#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/text/InsertStatement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#579#580#0" expanded="true" />
+            <element signature="e#634#635#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/AttributeNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="89" column="10" selection-start-line="89" selection-start-column="10" selection-end-line="89" selection-end-column="10" />
+          <folding>
+            <element signature="e#995#996#0" expanded="true" />
+            <element signature="e#1027#1028#0" expanded="true" />
+            <element signature="method#getAlias#0;class#AttributeNode#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/QueryObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="241" column="13" lean-forward="true" selection-start-line="241" selection-start-column="13" selection-end-line="241" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1290#1291#0" expanded="true" />
+            <element signature="e#1354#1355#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/InsertObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="95" column="36" selection-start-line="95" selection-start-column="36" selection-end-line="95" selection-end-column="36" />
+          <folding>
+            <element signature="e#962#963#0" expanded="true" />
+            <element signature="e#1017#1018#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/smart/orm/operations/type/DeleteObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="77" column="32" selection-start-line="77" selection-start-column="32" selection-end-line="77" selection-end-column="32" />
+          <folding>
+            <element signature="e#1052#1053#0" expanded="true" />
+            <element signature="e#1134#1135#0" expanded="true" />
           </folding>
         </state>
       </provider>

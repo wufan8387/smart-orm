@@ -3,10 +3,13 @@ package org.smart.orm.operations.text;
 
 import org.smart.orm.data.NodeType;
 import org.smart.orm.data.StatementType;
+import org.smart.orm.execution.Executor;
+import org.smart.orm.execution.ResultData;
 import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Token;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +18,7 @@ public class InsertStatement extends AbstractStatement {
     private RelationNode<InsertStatement> relRoot;
     
     public InsertStatement(String rel) {
-        relRoot = new RelationNode<>(this, rel);
+        relRoot = new RelationNode<InsertStatement>(rel).attach(this);
     }
     
     @Override
@@ -24,12 +27,17 @@ public class InsertStatement extends AbstractStatement {
     }
     
     @Override
-    protected <T extends SqlNode<?>> void doAttach(T node) {
+    protected <T extends SqlNode<?, ?>> void doAttach(T node) {
     }
     
     public InsertStatement values(Object[] params) {
-        attach(new ValuesNode<>(this, params));
+        new ValuesNode<>(params).attach(this);
         return this;
+    }
+    
+    @Override
+    public ResultData execute(Connection connection, Executor executor) {
+        return null;
     }
     
     @SuppressWarnings("unchecked")
