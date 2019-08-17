@@ -4,11 +4,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.Model;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.functions.Func;
+import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
-import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.reflect.PropertyInfo;
 
 public class AttributeNode<T extends Statement, K extends Model<K>> extends AbstractSqlNode<T, AttributeNode<T, K>> {
@@ -85,10 +85,10 @@ public class AttributeNode<T extends Statement, K extends Model<K>> extends Abst
     public RelationNode<T, K> from(Class<K> cls) {
         T statement = statement();
         rel = statement.findFirst(NodeType.RELATION,
-                t -> t.getName().equals(Model.getMeta(cls).getTable().getName()),
+                t -> t.getName().equals(Model.getMetaManager().findEntityInfo(cls).getTableName()),
                 () -> new RelationNode<T, K>(cls).attach(statement)
         );
-        prop = Model.getMeta(cls).getProp(this.name);
+        prop = Model.getMetaManager().findEntityInfo(cls).getProp(this.name);
         attach(statement);
         return rel;
     }

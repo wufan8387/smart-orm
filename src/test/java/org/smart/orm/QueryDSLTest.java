@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.sql.*;
 import org.junit.Test;
+import org.smart.orm.entities.light.AuthGroup;
 
 import java.sql.Types;
 

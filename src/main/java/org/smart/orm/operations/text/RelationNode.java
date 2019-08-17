@@ -1,12 +1,12 @@
 package org.smart.orm.operations.text;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smart.orm.functions.Func;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.NodeType;
-import org.smart.orm.operations.*;
-
-import javax.persistence.criteria.From;
+import org.smart.orm.functions.Func;
+import org.smart.orm.operations.AbstractSqlNode;
+import org.smart.orm.operations.Statement;
+import org.smart.orm.operations.Token;
 
 public class RelationNode<T extends Statement> extends AbstractSqlNode<T, RelationNode<T>> {
     

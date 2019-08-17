@@ -1,16 +1,16 @@
 package org.smart.orm.operations.text;
 
+import org.smart.orm.data.LogicalType;
+import org.smart.orm.data.NodeType;
 import org.smart.orm.data.StatementType;
 import org.smart.orm.execution.Executor;
 import org.smart.orm.execution.ResultData;
 import org.smart.orm.functions.Func;
-import org.smart.orm.data.LogicalType;
-import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Token;
 
-import java.sql.Connection;
+import java.util.List;
 
 public class DeleteStatement extends AbstractStatement {
     
@@ -140,8 +140,12 @@ public class DeleteStatement extends AbstractStatement {
     }
     
     @Override
-    public ResultData execute(Connection connection, Executor executor) {
-        return null;
+    public ResultData execute(Executor executor) {
+        String sql = toString();
+        List<Object> params = this.getParams();
+        System.out.println(sql);
+        int cnt = executor.delete(sql, params.toArray());
+        return new ResultData<>(cnt);
     }
     
     @Override

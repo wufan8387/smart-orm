@@ -1,16 +1,15 @@
 package org.smart.orm.operations.type;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.functions.Func;
+import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractSqlNode;
-import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 import org.smart.orm.reflect.EntityInfo;
-import org.smart.orm.functions.PropertyGetter;
 
 public class RelationNode<T extends Statement, K extends Model<K>> extends AbstractSqlNode<T, RelationNode<T, K>> {
     
@@ -29,7 +28,7 @@ public class RelationNode<T extends Statement, K extends Model<K>> extends Abstr
     private EntityInfo entityInfo;
     
     public RelationNode(Class<K> cls) {
-        entityInfo = Model.getMeta(cls);
+        entityInfo = Model.getMetaManager().findEntityInfo(cls);
     }
     
     public RelationNode(Class<K> cls, RelationNode<T, ?> parent) {
@@ -50,7 +49,7 @@ public class RelationNode<T extends Statement, K extends Model<K>> extends Abstr
     }
     
     public String getName() {
-        return entityInfo.getTable().getName();
+        return entityInfo.getTableName();
     }
     
     public String getAlias() {
@@ -68,7 +67,7 @@ public class RelationNode<T extends Statement, K extends Model<K>> extends Abstr
     public <U extends Model<U>> RelationNode<T, U> join(Class<U> rel) {
         T statement = statement();
         RelationNode<T, U> node = statement.findFirst(NodeType.RELATION,
-                t -> t.getName().equals(Model.getMeta(rel).getTable().getName()),
+                t -> t.getName().equals(Model.getMetaManager().findEntityInfo(rel).getTableName()),
                 () -> new RelationNode<>(rel, this).attach(statement));
         return node.setJoinType(JoinType.INNER);
     }
@@ -117,7 +116,7 @@ public class RelationNode<T extends Statement, K extends Model<K>> extends Abstr
             sb.append(Token.JOIN.apply(joinType));
         }
         
-        sb.append(Token.REL_AS.apply(entityInfo.getTable().getName(), getAlias()));
+        sb.append(Token.REL_AS.apply(entityInfo.getTableName(), getAlias()));
         
         if (joinRoot != null) {
             sb.append(Token.ON);

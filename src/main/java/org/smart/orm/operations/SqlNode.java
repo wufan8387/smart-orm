@@ -1,5 +1,8 @@
 package org.smart.orm.operations;
 
+
+import java.util.function.Supplier;
+
 public interface SqlNode<T extends Statement, K extends SqlNode<T, K>> {
     
     int getType();
@@ -8,7 +11,7 @@ public interface SqlNode<T extends Statement, K extends SqlNode<T, K>> {
     
     K attach(T statement);
     
-    Object[] getParams();
+    Supplier<Object[]> getParams();
     
     void toString(StringBuilder sb);
     

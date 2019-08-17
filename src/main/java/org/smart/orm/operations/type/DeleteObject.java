@@ -1,20 +1,19 @@
 package org.smart.orm.operations.type;
 
+import org.smart.orm.Model;
+import org.smart.orm.data.LogicalType;
+import org.smart.orm.data.NodeType;
 import org.smart.orm.data.StatementType;
 import org.smart.orm.execution.Executor;
 import org.smart.orm.execution.ResultData;
 import org.smart.orm.functions.Func;
-import org.smart.orm.Model;
-import org.smart.orm.data.LogicalType;
-import org.smart.orm.data.NodeType;
+import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Token;
 import org.smart.orm.operations.text.LimitNode;
-import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.reflect.PropertyInfo;
 
-import java.sql.Connection;
 import java.util.List;
 
 public class DeleteObject<T extends Model<T>> extends AbstractStatement {
@@ -170,11 +169,11 @@ public class DeleteObject<T extends Model<T>> extends AbstractStatement {
     
     
     @Override
-    public ResultData execute(Connection connection, Executor executor) {
+    public ResultData execute(Executor executor) {
         String sql = toString();
         List<Object> params = getParams();
         System.out.println(sql);
-        int cnt = executor.update(connection, sql, params.toArray());
+        int cnt = executor.delete(sql, params.toArray());
         return new ResultData<>(cnt);
     }
     

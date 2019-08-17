@@ -2,7 +2,6 @@ package org.smart.orm.operations.text;
 
 import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.AbstractSqlNode;
-import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
 

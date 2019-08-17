@@ -1,13 +1,19 @@
-package org.smart.orm;
+package org.smart.orm.entities.jpa;
 
-import org.smart.orm.annotations.Column;
-import org.smart.orm.annotations.IdType;
-import org.smart.orm.annotations.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-@Table("ocenter_auth_group")
-public class AuthGroup extends Model<AuthGroup> {
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+
+@Entity
+@Table(name = "ocenter_auth_group")
+public class AuthGroup implements Serializable {
     
-    @Column(isPrimaryKey = true, idType = IdType.Auto)
+    @Id
+    @Column
     private int id;
     
     @Column
@@ -28,12 +34,15 @@ public class AuthGroup extends Model<AuthGroup> {
     @Column
     private String rules;
     
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
+    private List<AuthGroupAccess>  accessList;
+    
     public int getId() {
         return id;
     }
     
     public void setId(int id) {
-        propertyChange("id", AuthGroup::getId);
         this.id = id;
     }
     
@@ -42,7 +51,6 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setModule(String module) {
-        propertyChange("module", AuthGroup::getModule);
         this.module = module;
     }
     
@@ -51,7 +59,6 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setType(int type) {
-        propertyChange("type", AuthGroup::getType);
         this.type = type;
     }
     
@@ -60,7 +67,6 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setTitle(String title) {
-        propertyChange("title", AuthGroup::getTitle);
         this.title = title;
     }
     
@@ -69,7 +75,6 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setDescription(String description) {
-        propertyChange("description", AuthGroup::getDescription);
         this.description = description;
     }
     
@@ -78,7 +83,6 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setStatus(int status) {
-        propertyChange("status", AuthGroup::getStatus);
         this.status = status;
     }
     
@@ -88,8 +92,15 @@ public class AuthGroup extends Model<AuthGroup> {
     }
     
     public void setRules(String rules) {
-        propertyChange("rules", AuthGroup::getRules);
         this.rules = rules;
+    }
+    
+    public List<AuthGroupAccess> getAccessList() {
+        return accessList;
+    }
+    
+    public void setAccessList(List<AuthGroupAccess> accessList) {
+        this.accessList = accessList;
     }
     
     @Override

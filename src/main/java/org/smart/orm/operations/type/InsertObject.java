@@ -1,30 +1,27 @@
 package org.smart.orm.operations.type;
 
-import com.sun.media.sound.PortMixerProvider;
 import org.smart.orm.Model;
-import org.smart.orm.annotations.IdType;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.data.StatementType;
 import org.smart.orm.execution.Executor;
-import org.smart.orm.execution.GeneratedKeysHandler;
+import org.smart.orm.execution.KeyMapHandler;
 import org.smart.orm.execution.ResultData;
+import org.smart.orm.functions.ParameterGetter;
 import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Token;
-import org.smart.orm.operations.text.ValuesNode;
 import org.smart.orm.reflect.PropertyInfo;
 
-import java.sql.Connection;
-import java.util.*;
+import java.sql.Statement;
+import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class InsertObject<T extends Model<T>> extends AbstractStatement {
     
-    private RelationNode<InsertObject<T>, ?> relRoot;
+    private RelationNode<InsertObject<T>, T> relRoot;
     
-    
-    private List<T> modelList = new ArrayList<>();
     
     public InsertObject(Class<T> cls) {
         relRoot = new RelationNode<InsertObject<T>, T>(cls).attach(this);
@@ -39,32 +36,52 @@ public class InsertObject<T extends Model<T>> extends AbstractStatement {
     @Override
     protected <K extends SqlNode<?, ?>> void doAttach(K node) {
     }
-    
-    public List<T> getModelList() {
-        return modelList;
+
+    public InsertObject<T> attributes(PropertyGetter<T>... attributes) {
+        for (int i = 0; i < attributes.length; i++) {
+            PropertyGetter<T> attr = attributes[i];
+            new AttributeNode<>(attr).attach(this);
+        }
+        
+        return this;
     }
     
+    public InsertObject<T> attributes(PropertyInfo... attributes) {
+        for (int i = 0; i < attributes.length; i++) {
+            PropertyInfo attr = attributes[i];
+            new AttributeNode<>(relRoot, attr).attach(this);
+        }
+        
+        return this;
+    }
+    
+    
     public InsertObject<T> values(Object... value) {
-        new ValuesNode<InsertObject>(value).attach(this);
+        new ValuesNode<InsertObject<T>>(value).attach(this);
+        return this;
+    }
+    
+    
+    
+    public InsertObject<T> values(Supplier<Object[]> value) {
+        new ValuesNode<InsertObject<T>>(value).attach(this);
         return this;
     }
     
     
     @Override
-    public ResultData<T> execute(Connection connection, Executor executor) {
+    public ResultData execute(Executor executor) {
         
         String sql = toString();
         System.out.println(sql);
         
-        GeneratedKeysHandler<T> handler = new GeneratedKeysHandler<>(relRoot.getEntityInfo());
-        
-        handler.getAll().addAll(modelList);
+        KeyMapHandler handler = new KeyMapHandler();
         
         List<Object> params = getParams();
         
-        int cnt = executor.insert(connection, sql, handler, handler.autoGenerateKeys(), params.toArray());
+        int cnt = executor.insert(sql, handler, Statement.RETURN_GENERATED_KEYS, params.toArray());
         
-        return new ResultData<>(cnt);
+        return new ResultData<>(cnt, handler.getAll());
         
     }
     
@@ -83,22 +100,6 @@ public class InsertObject<T extends Model<T>> extends AbstractStatement {
         
         int attrSize = attrList.size();
         
-        if (attrSize == 0) {
-            
-            List<PropertyInfo> propList = relRoot.getEntityInfo().getPropList();
-            
-            for (PropertyInfo prop : propList) {
-                if (prop.getIdType() == IdType.Auto)
-                    continue;
-                AttributeNode<InsertObject<T>, ?> attrNode = new AttributeNode<>(relRoot, prop);
-                attrNode.setOp(Token.ATTR_INSERT);
-                attrList.add(attrNode);
-                attrNode.attach(this);
-            }
-        }
-        
-        
-        attrSize = attrList.size();
         
         sb.append("(");
         for (int i = 0; i < attrSize; i++) {

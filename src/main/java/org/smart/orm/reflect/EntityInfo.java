@@ -2,77 +2,68 @@ package org.smart.orm.reflect;
 
 import org.smart.orm.Model;
 import org.smart.orm.SmartORMException;
-import org.smart.orm.annotations.IdType;
+import org.smart.orm.annotations.Table;
 import org.smart.orm.functions.PropertyGetter;
 
-import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.util.*;
 
 public class EntityInfo {
     
-    private Class<?> entityClass;
+    private Class<?> type;
     
-    private TableInfo table;
+    private String tableName;
     
-    private final Map<String, PropertyInfo> textPropMap = new HashMap<>();
-    
-    private final Map<Field, PropertyInfo> fieldPropMap = new HashMap<>();
+    private final Map<String, PropertyInfo> propMap = new HashMap<>();
     
     private final List<PropertyInfo> propList = new ArrayList<>();
     
-    private final List<PropertyInfo> keyList = new ArrayList<>();
+    private final List<PropertyInfo> keyPropList = new ArrayList<>();
     
-    
-    public Class<?> getEntityClass() {
-        return entityClass;
+    public EntityInfo(Class<?> type, Table table) {
+        this.type = type;
+        this.tableName = table.value();
     }
     
-    public void setEntityClass(Class<?> entityClass) {
-        this.entityClass = entityClass;
+    public String getTableName() {
+        return tableName;
     }
     
-    @NotNull
-    public TableInfo getTable() {
-        return table;
-    }
-    
-    public void setTable(TableInfo table) {
-        this.table = table;
+    public Class<?> getType() {
+        return type;
     }
     
     public List<PropertyInfo> getPropList() {
         return Collections.unmodifiableList(propList);
     }
     
-    public List<PropertyInfo> getKeyList() {
-        return Collections.unmodifiableList(keyList);
+    public List<PropertyInfo> getKeys() {
+        return Collections.unmodifiableList(keyPropList);
     }
     
-    
     public void add(PropertyInfo prop) {
-        textPropMap.putIfAbsent(prop.getPropertyName(), prop);
-        fieldPropMap.putIfAbsent(prop.getField(), prop);
+        propMap.putIfAbsent(prop.getField().getName(), prop);
         propList.add(prop);
-        if (prop.isPrimaryKey()) {
-            keyList.add(prop);
+        if (prop.isKey()) {
+            keyPropList.add(prop);
         }
     }
     
     public PropertyInfo getProp(String name) {
-        return textPropMap.get(name);
+        return propMap.get(name);
     }
     
     public <T extends Model<T>> PropertyInfo getProp(PropertyGetter<T> getter) {
         Field field = LambdaParser.getGetter(getter);
-        return fieldPropMap.get(field);
+        return propMap.get(field.getName());
     }
+    
     
     @SuppressWarnings("unchecked")
     public <T> T newInstance() {
         
         try {
-            Object obj = this.entityClass.newInstance();
+            Object obj = this.type.newInstance();
             return (T) obj;
         } catch (Exception ex) {
             throw new SmartORMException(ex);

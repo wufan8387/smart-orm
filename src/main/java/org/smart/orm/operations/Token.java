@@ -1,7 +1,7 @@
 package org.smart.orm.operations;
 
-import org.smart.orm.functions.Func;
 import org.smart.orm.data.JoinType;
+import org.smart.orm.functions.Func;
 
 public class Token {
     

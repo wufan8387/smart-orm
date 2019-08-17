@@ -2,8 +2,8 @@ package org.smart.orm.operations;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.smart.orm.functions.Func;
 import org.smart.orm.data.LogicalType;
+import org.smart.orm.functions.Func;
 
 public class Op {
     

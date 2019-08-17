@@ -2,11 +2,10 @@ package org.smart.orm.operations.type;
 
 import org.smart.orm.Model;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractSqlNode;
-import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
-import org.smart.orm.functions.PropertyGetter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ public class GroupByNode<T extends Statement> extends AbstractSqlNode<T, GroupBy
     
     public <K extends Model<K>> GroupByNode<T> add(Class<K> rel, PropertyGetter<K> attr) {
         RelationNode<T, K> relNode = statement().findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(rel).getTable().getName()));
+                , t -> t.getName().equals(Model.getMetaManager().findEntityInfo(rel).getTableName()));
         GroupByInfo<T, K> orderByInfo = new GroupByInfo<>();
         orderByInfo.attr = attr;
         orderByInfo.rel = relNode;
@@ -48,7 +47,8 @@ public class GroupByNode<T extends Statement> extends AbstractSqlNode<T, GroupBy
         for (int i = 0; i < len; i++) {
             GroupByInfo<T, ?> item = groupByList.get(i);
             String attr = Model
-                    .getMeta(item.rel.getEntityInfo().getEntityClass())
+                    .getMetaManager()
+                    .findEntityInfo(item.rel.getEntityInfo().getType())
                     .getProp(item.attr)
                     .getColumnName();
             sb.append(Token.REL_ATTR.apply(item.rel.getAlias(), attr));

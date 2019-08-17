@@ -2,7 +2,6 @@ package org.smart.orm.execution;
 
 import org.smart.orm.SmartORMException;
 import org.smart.orm.jdbc.ResultTypeHandler;
-import org.smart.orm.reflect.EntityInfo;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

@@ -29,14 +29,13 @@ public class ResultData<T> {
         return count;
     }
     
-    
     public Optional<T> first() {
         if (list.size() > 0)
             return Optional.of(list.get(0));
         return Optional.empty();
     }
     
-    public List<T> getList() {
+    public List<T> all() {
         return list;
     }
 }

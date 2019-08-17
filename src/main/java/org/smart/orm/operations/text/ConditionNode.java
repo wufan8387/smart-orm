@@ -1,12 +1,11 @@
 package org.smart.orm.operations.text;
 
-import org.smart.orm.functions.Func;
+import org.apache.commons.lang3.StringUtils;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
-import org.smart.orm.jdbc.SetParameter;
+import org.smart.orm.functions.Func;
 import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.Op;
-import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 
 
@@ -16,6 +15,10 @@ public class ConditionNode<T extends Statement> extends AbstractSqlNode<T, Condi
     private RelationNode<T> leftRel;
     
     private RelationNode<T> rightRel;
+    
+    private String leftRelName;
+    
+    private String rightRelName;
     
     private String leftAttr;
     
@@ -29,9 +32,9 @@ public class ConditionNode<T extends Statement> extends AbstractSqlNode<T, Condi
     
     
     public ConditionNode(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
-//        this.leftRel = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(leftRel));
-//        this.rightRel = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rightRel));
         
+        this.leftRelName = leftRel;
+        this.rightRelName = rightRel;
         this.leftAttr = leftAttr;
         this.rightAttr = rightAttr;
         this.op = op;
@@ -60,8 +63,8 @@ public class ConditionNode<T extends Statement> extends AbstractSqlNode<T, Condi
     
     
     public ConditionNode(String rel, String attr, Func<String> op, Object... params) {
-
-//        this.leftRel = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rel));
+        
+        this.leftRelName = rel;
         this.leftAttr = attr;
         setParams(params);
         this.op = op;
@@ -92,26 +95,26 @@ public class ConditionNode<T extends Statement> extends AbstractSqlNode<T, Condi
     }
     
     public ConditionNode<T> and(String rel, String attr, Func<String> op, Object... params) {
-        return new ConditionNode<>( rel, attr, op, this, params)
+        return new ConditionNode<>(rel, attr, op, this, params)
                 .setLogicalType(LogicalType.AND)
                 .attach(statement());
     }
     
     
     public ConditionNode<T> or(RelationNode<T> leftRel, String leftAttr, Func<String> op, RelationNode<T> rightRel, String rightAttr) {
-        return new ConditionNode<>( leftRel, leftAttr, op, rightRel, rightAttr, this)
+        return new ConditionNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this)
                 .setLogicalType(LogicalType.OR)
                 .attach(statement());
     }
     
     public ConditionNode<T> or(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
-        return new ConditionNode<>( leftRel, leftAttr, op, rightRel, rightAttr, this)
+        return new ConditionNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this)
                 .setLogicalType(LogicalType.OR)
                 .attach(statement());
     }
     
     public ConditionNode<T> or(String rel, String attr, Func<String> op, Object... params) {
-        return new ConditionNode<>( rel, attr, op, this, params)
+        return new ConditionNode<>(rel, attr, op, this, params)
                 .setLogicalType(LogicalType.OR)
                 .attach(statement());
     }
@@ -128,11 +131,24 @@ public class ConditionNode<T extends Statement> extends AbstractSqlNode<T, Condi
     }
     
     @Override
+    public ConditionNode<T> attach(T statement) {
+        
+        if (leftRel == null) {
+            leftRel = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(leftRelName));
+        }
+        if (StringUtils.isNotEmpty(rightRelName) && rightRel == null) {
+            rightRel = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rightRelName));
+        }
+        
+        return super.attach(statement);
+    }
+    
+    @Override
     public int getType() {
         return NodeType.CONDITION;
     }
     
-  
+    
     @Override
     public void toString(StringBuilder sb) {
         
@@ -145,7 +161,7 @@ public class ConditionNode<T extends Statement> extends AbstractSqlNode<T, Condi
         }
         if (child != null)
             child.toString(sb);
-        Object[] params = getParams();
+        Object[] params = getParams().get();
         if (params != null && params.length > 0)
             statement().getParams().add(params);
     }

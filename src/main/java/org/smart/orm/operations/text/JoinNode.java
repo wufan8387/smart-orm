@@ -1,11 +1,10 @@
 package org.smart.orm.operations.text;
 
-import org.smart.orm.functions.Func;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.functions.Func;
 import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.Op;
-import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 
 public class JoinNode<T extends Statement> extends AbstractSqlNode<T, JoinNode<T>> {
@@ -14,6 +13,10 @@ public class JoinNode<T extends Statement> extends AbstractSqlNode<T, JoinNode<T
     private RelationNode<T> leftRel;
     
     private RelationNode<T> rightRel;
+    
+    private String leftRelName;
+    
+    private String rightRelName;
     
     private String leftAttr;
     
@@ -27,8 +30,8 @@ public class JoinNode<T extends Statement> extends AbstractSqlNode<T, JoinNode<T
     
     
     public JoinNode(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
-//        this.leftRel = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(leftRel));
-//        this.rightRel = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rightRel));
+        this.leftRelName = leftRel;
+        this.rightRelName = rightRel;
         this.leftAttr = leftAttr;
         this.rightAttr = rightAttr;
         this.op = op;
@@ -69,27 +72,27 @@ public class JoinNode<T extends Statement> extends AbstractSqlNode<T, JoinNode<T
     }
     
     public JoinNode<T> and(String leftAttr, Func<String> op, String rightAttr) {
-        return new JoinNode<>( leftRel, leftAttr, op, rightRel, rightAttr, this)
+        return new JoinNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this)
                 .setLogicalType(LogicalType.AND)
                 .attach(statement());
     }
     
     
     public JoinNode<T> or(RelationNode<T> leftRel, String leftAttr, Func<String> op, RelationNode<T> rightRel, String rightAttr) {
-        return new JoinNode<>( leftRel, leftAttr, op, rightRel, rightAttr, this)
+        return new JoinNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this)
                 .setLogicalType(LogicalType.OR)
                 .attach(statement());
     }
     
     public JoinNode<T> or(String leftRel, String leftAttr, Func<String> op, String rightRel, String rightAttr) {
-        return new JoinNode<>( leftRel, leftAttr, op, rightRel, rightAttr, this)
+        return new JoinNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this)
                 .setLogicalType(LogicalType.OR)
                 .attach(statement());
     }
     
     
     public JoinNode<T> or(String leftAttr, Func<String> op, String rightAttr) {
-        return new JoinNode<>( leftRel, leftAttr, op, rightRel, rightAttr, this)
+        return new JoinNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this)
                 .setLogicalType(LogicalType.OR)
                 .attach(statement());
     }
@@ -109,7 +112,19 @@ public class JoinNode<T extends Statement> extends AbstractSqlNode<T, JoinNode<T
         return NodeType.CONDITION_JOIN;
     }
     
-
+    @Override
+    public JoinNode<T> attach(T statement) {
+        
+        if (leftRel == null) {
+            leftRel = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(leftRelName));
+        }
+        if (rightRel == null) {
+            rightRel = statement.findFirst(NodeType.RELATION, t -> t.getName().equals(rightRelName));
+        }
+        
+        return super.attach(statement);
+    }
+    
     @Override
     public void toString(StringBuilder sb) {
         sb.append(Op.LOGICAL.apply(logicalType));

@@ -5,8 +5,8 @@ import org.smart.orm.data.StatementType;
 import org.smart.orm.execution.Executor;
 import org.smart.orm.execution.ResultData;
 
-import java.sql.Connection;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -28,6 +28,6 @@ public interface Statement {
     
     <T extends SqlNode<?, ?>> T findFirst(int nodeType, Predicate<T> predicate, Supplier<T> other);
     
-    ResultData execute(Connection connection, Executor executor);
+    ResultData execute(Executor executor);
     
 }

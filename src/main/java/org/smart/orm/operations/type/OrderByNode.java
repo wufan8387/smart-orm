@@ -3,11 +3,10 @@ package org.smart.orm.operations.type;
 import org.smart.orm.Model;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.data.OrderbyType;
+import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractSqlNode;
-import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
-import org.smart.orm.functions.PropertyGetter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ public class OrderByNode<T extends Statement> extends AbstractSqlNode<T, OrderBy
         
         T statement = statement();
         RelationNode<T, K> relNode = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(rel).getTable().getName()));
+                , t -> t.getName().equals(Model.getMetaManager().findEntityInfo(rel).getTableName()));
         
         OrderByInfo<T, K> orderByInfo = new OrderByInfo<>();
         orderByInfo.type = OrderbyType.ASC;
@@ -34,7 +33,7 @@ public class OrderByNode<T extends Statement> extends AbstractSqlNode<T, OrderBy
     public <K extends Model<K>> OrderByNode<T> desc(Class<K> rel, PropertyGetter<K> attr) {
         T statement = statement();
         RelationNode<T, K> relNode = statement.findFirst(NodeType.RELATION
-                , t -> t.getName().equals(Model.getMeta(rel).getTable().getName()));
+                , t -> t.getName().equals(Model.getMetaManager().findEntityInfo(rel).getTableName()));
         
         OrderByInfo<T, K> orderByInfo = new OrderByInfo<>();
         orderByInfo.type = OrderbyType.DESC;
@@ -66,7 +65,8 @@ public class OrderByNode<T extends Statement> extends AbstractSqlNode<T, OrderBy
         for (int i = 0; i < len; i++) {
             OrderByInfo<T, ?> item = orderByList.get(i);
             String attr = Model
-                    .getMeta(item.rel.getEntityInfo().getEntityClass())
+                    .getMetaManager()
+                    .findEntityInfo(item.rel.getEntityInfo().getType())
                     .getProp(item.attr)
                     .getColumnName();
             switch (item.type) {

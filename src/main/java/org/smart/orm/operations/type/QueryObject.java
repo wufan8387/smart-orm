@@ -1,6 +1,7 @@
 package org.smart.orm.operations.type;
 
 import org.smart.orm.Model;
+import org.smart.orm.SmartORMException;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
@@ -9,19 +10,25 @@ import org.smart.orm.execution.Executor;
 import org.smart.orm.execution.ObjectHandler;
 import org.smart.orm.execution.ResultData;
 import org.smart.orm.functions.Func;
+import org.smart.orm.functions.ParameterGetter;
 import org.smart.orm.functions.PropertyGetter;
-import org.smart.orm.operations.AbstractStatement;
-import org.smart.orm.operations.SqlNode;
-import org.smart.orm.operations.Token;
+import org.smart.orm.operations.*;
 import org.smart.orm.operations.text.LimitNode;
+import org.smart.orm.reflect.AssociationInfo;
+import org.smart.orm.reflect.EntityInfo;
 import org.smart.orm.reflect.PropertyInfo;
 
-import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class QueryObject<T extends Model<T>> extends AbstractStatement {
     
+    private QueryObject<?> parent;
+    
+    private ResultData<T> resultData;
+    
+    private List<QueryObject<?>> subStatementList;
     
     private final RelationNode<QueryObject<T>, T> relRoot;
     
@@ -40,6 +47,17 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
     
     public QueryObject(Class<T> cls) {
         relRoot = new RelationNode<>(cls, relLast).attach(this);
+        subStatementList = new ArrayList<>();
+        subStatementList.add(this);
+    }
+    
+    public QueryObject(Class<T> cls, QueryObject<?> parent) {
+        relRoot = new RelationNode<>(cls, relLast).attach(this);
+        this.parent = parent;
+        this.subStatementList = parent.subStatementList;
+        this.subStatementList.add(this);
+        
+        
     }
     
     
@@ -75,10 +93,13 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
         }
     }
     
+    public ResultData<T> getResultData() {
+        return resultData;
+    }
     
     public <K extends Model<K>> RelationNode<QueryObject<T>, K> join(Class<K> cls) {
         
-        String rel = Model.getMeta(cls).getTable().getName();
+        String rel = Model.getMetaManager().findEntityInfo(cls).getTableName();
         
         RelationNode<QueryObject<T>, K> node = findFirst(NodeType.RELATION,
                 t -> t.getName().equals(rel),
@@ -117,8 +138,23 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
         }
     }
     
+    public ConditionNode<QueryObject<T>, T, ?> where(PropertyInfo attr
+            , Func<String> op
+            , ParameterGetter params) {
+        
+        if (whereRoot == null) {
+            return new ConditionNode<>(relRoot, attr, op, whereLast, params).attach(this);
+        } else {
+            return new ConditionNode<>(relRoot, attr, op, whereLast, params)
+                    .setLogicalType(LogicalType.AND)
+                    .attach(this);
+        }
+    }
     
-    public <L extends Model<L>, R extends Model<R>> ConditionNode<QueryObject<T>, L, R> and(PropertyGetter<L> leftAttr, Func<String> op, PropertyGetter<R> rightAttr) {
+    
+    public <L extends Model<L>, R extends Model<R>> ConditionNode<QueryObject<T>, L, R> and(PropertyGetter<L> leftAttr
+            , Func<String> op
+            , PropertyGetter<R> rightAttr) {
         
         return new ConditionNode<>(leftAttr, op, rightAttr, whereLast)
                 .setLogicalType(LogicalType.AND)
@@ -189,14 +225,35 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
         return this;
     }
     
+    
+    public <K extends Model<K>, V extends Model<V>> QueryObject<V> include(Class<K> thisEntity
+            , Class<V> otherEntity
+            , PropertyGetter<K> prop) {
+        
+        QueryObject<?> parent = subStatementList
+                .stream()
+                .filter(t -> t.relRoot.getEntityInfo().getType() == thisEntity)
+                .findFirst()
+                .orElseThrow(SmartORMException::new);
+        
+        QueryObject<V> child = new QueryObject<>(otherEntity, parent);
+        
+//        EntityInfo entityInfo = child.relRoot.getEntityInfo();
+
+//        AssociationInfo assoc = entityInfo.getAssoc(prop);
+        
+        
+        return child;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
-    public ResultData<T> execute(Connection connection, Executor executor) {
+    public ResultData<T> execute(Executor executor) {
         
         String sql = toString();
         System.out.println(sql);
         
-        ObjectHandler<T> handler = new ObjectHandler<>((Class<T>) relRoot.getEntityInfo().getEntityClass());
+        ObjectHandler<T> handler = new ObjectHandler<>((Class<T>) relRoot.getEntityInfo().getType());
         
         List<AttributeNode<?, ?>> attrList = getNodes()
                 .stream().filter(t -> t.getType() == NodeType.ATTRIBUTE)
@@ -205,9 +262,10 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
         
         attrList.forEach(t -> handler.add(t.getAlias(), t.getProp()));
         
-        executor.executeQuery(connection, sql, handler, getParams().toArray());
+        executor.executeQuery(sql, handler, getParams().toArray());
         
-        return new ResultData<>(handler.getAll());
+        resultData = new ResultData<>(handler.getAll());
+        return resultData;
         
         
     }

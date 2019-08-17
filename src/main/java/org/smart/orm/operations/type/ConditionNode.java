@@ -1,18 +1,19 @@
 package org.smart.orm.operations.type;
 
-import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.functions.Func;
+import org.smart.orm.functions.ParameterGetter;
+import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.Op;
-import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.reflect.LambdaParser;
-import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.reflect.PropertyInfo;
 
 import java.lang.reflect.Field;
+import java.util.function.Supplier;
 
 public class ConditionNode<T extends Statement, L extends Model<L>, R extends Model<R>> extends AbstractSqlNode<T, ConditionNode<T, L, R>> {
     
@@ -20,30 +21,26 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     
     private RelationNode<T, R> rightRel;
     
+    private PropertyGetter<L> leftAttr;
+    
+    private PropertyGetter<R> rightAttr;
+    
     private PropertyInfo leftProp;
     
     private PropertyInfo rightProp;
     
     private Func<String> op;
     
-    
     private ConditionNode<T, ?, ?> child;
-    
     
     private LogicalType logicalType = null;
     
     
+    private ParameterGetter parameterGetter;
+    
     public ConditionNode(PropertyGetter<L> leftAttr, Func<String> op, PropertyGetter<R> rightAttr) {
-        Field leftField = LambdaParser.getGetter(leftAttr);
-        Field rightFiled = LambdaParser.getGetter(leftAttr);
-        Class<?> leftCls = leftField.getDeclaringClass();
-        Class<?> rightCls = rightFiled.getDeclaringClass();
-//        leftRel = statement.findFirst(NodeType.RELATION
-//                , t -> t.getName().equals(Model.getMeta(leftCls).getTable().getName()));
-//        rightRel = statement.findFirst(NodeType.RELATION
-//                , t -> t.getName().equals(Model.getMeta(rightCls).getTable().getName()));
-        this.leftProp = leftRel.getEntityInfo().getProp(leftField.getName());
-        this.rightProp = rightRel.getEntityInfo().getProp(rightFiled.getName());
+        this.leftAttr = leftAttr;
+        this.rightAttr = rightAttr;
         this.op = op;
     }
     
@@ -61,11 +58,9 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
         this.leftRel = leftRel;
         this.rightRel = rightRel;
         
-        Field leftField = LambdaParser.getGetter(leftAttr);
-        Field rightFiled = LambdaParser.getGetter(leftAttr);
+        this.leftAttr = leftAttr;
+        this.rightAttr = rightAttr;
         
-        leftProp = leftRel.getEntityInfo().getProp(leftField.getName());
-        rightProp = rightRel.getEntityInfo().getProp(rightFiled.getName());
         this.op = op;
     }
     
@@ -80,14 +75,7 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     
     
     public ConditionNode(PropertyGetter<L> attr, Func<String> op, Object... params) {
-        
-        Field field = LambdaParser.getGetter(attr);
-        
-        Class<?> cls = field.getDeclaringClass();
-
-//        leftRel = statement.findFirst(NodeType.RELATION
-//                , t -> t.getName().equals(Model.getMeta(cls).getTable().getName()));
-        leftProp = leftRel.getEntityInfo().getProp(field.getName());
+        this.leftAttr = attr;
         this.op = op;
         setParams(params);
     }
@@ -100,7 +88,28 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
         setParams(params);
     }
     
-    public ConditionNode(RelationNode<T, L> rel, PropertyInfo attr, Func<String> op, ConditionNode<T, ?, ?> parent, Object... params) {
+    public ConditionNode(RelationNode<T, L> rel, PropertyInfo attr, Func<String> op, Supplier<Object[]> params) {
+        this.leftRel = rel;
+        this.leftProp = attr;
+        this.op = op;
+        setParams(params);
+    }
+    
+    public ConditionNode(RelationNode<T, L> rel
+            , PropertyInfo attr
+            , Func<String> op
+            , ConditionNode<T, ?, ?> parent
+            , Object... params) {
+        this(rel, attr, op, params);
+        if (parent != null)
+            parent.child = this;
+    }
+    
+    public ConditionNode(RelationNode<T, L> rel
+            , PropertyInfo attr
+            , Func<String> op
+            , ConditionNode<T, ?, ?> parent
+            , ParameterGetter params) {
         this(rel, attr, op, params);
         if (parent != null)
             parent.child = this;
@@ -178,6 +187,41 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     }
     
     @Override
+    public ConditionNode<T, L, R> attach(T statement) {
+        
+        if (leftProp == null) {
+            Field field = LambdaParser.getGetter(leftAttr);
+            Class<?> cls = field.getDeclaringClass();
+            
+            if (leftRel == null) {
+                leftRel = statement.findFirst(NodeType.RELATION
+                        , t -> t.getName().equals(Model.getMetaManager().findEntityInfo(cls).getTableName()));
+            }
+            if (leftProp == null) {
+                leftProp = leftRel.getEntityInfo().getProp(field.getName());
+            }
+        }
+        
+        
+        if (rightAttr != null && rightProp == null) {
+            
+            Field field = LambdaParser.getGetter(rightAttr);
+            Class<?> cls = field.getDeclaringClass();
+            
+            if (rightRel == null) {
+                rightRel = statement.findFirst(NodeType.RELATION
+                        , t -> t.getName().equals(Model.getMetaManager().findEntityInfo(cls).getTableName()));
+            }
+            if (rightProp == null) {
+                rightProp = rightRel.getEntityInfo().getProp(field.getName());
+            }
+        }
+        
+        
+        return super.attach(statement);
+    }
+    
+    @Override
     public int getType() {
         return NodeType.CONDITION;
     }
@@ -186,7 +230,7 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     public void toString(StringBuilder sb) {
         
         sb.append(Op.LOGICAL.apply(logicalType));
-        Object[] params = getParams();
+        Object[] params = getParams().get();
         if (rightRel != null) {
             sb.append(op.apply(leftRel.getAlias(), leftProp.getColumnName(), rightRel.getAlias(), rightProp.getColumnName(), params));
         } else {

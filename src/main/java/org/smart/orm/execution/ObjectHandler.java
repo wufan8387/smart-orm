@@ -6,7 +6,6 @@ import org.smart.orm.jdbc.ResultTypeHandler;
 import org.smart.orm.reflect.EntityInfo;
 import org.smart.orm.reflect.PropertyInfo;
 
-import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -50,7 +49,7 @@ public class ObjectHandler<T extends Model<T>> implements ResultHandler<T> {
     public void handle(ResultSet resultset) {
         
         
-        EntityInfo entityInfo = Model.getMeta(entityClass);
+        EntityInfo entityInfo = Model.getMetaManager().findEntityInfo(entityClass);
         
         List<String> nameList = new ArrayList<>();
         try {
@@ -68,16 +67,15 @@ public class ObjectHandler<T extends Model<T>> implements ResultHandler<T> {
                     PropertyInfo prop = aliasMap.get(name);
                     if (prop == null)
                         continue;
-                    Field field = prop.getField();
-                    Class<?> cls = field.getType();
+                    Class<?> cls = prop.getField().getType();
                     Object cellData = resultTypeHandler.handle(cls, resultset, i + 1);
-                    field.set(data, cellData);
+                    prop.set(data, cellData);
                 }
                 
                 result.add(data);
             }
             
-        } catch (SQLException | IllegalAccessException ex) {
+        } catch (SQLException ex) {
             throw new SmartORMException(ex);
         }
         

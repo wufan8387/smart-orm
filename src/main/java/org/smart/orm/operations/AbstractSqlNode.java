@@ -1,9 +1,12 @@
 package org.smart.orm.operations;
 
 
+
+import java.util.function.Supplier;
+
 public abstract class AbstractSqlNode<T extends Statement, K extends SqlNode<T, K>> implements SqlNode<T, K> {
     
-    private Object[] params;
+    private Supplier<Object[]> params;
     
     private T stat;
     
@@ -21,11 +24,15 @@ public abstract class AbstractSqlNode<T extends Statement, K extends SqlNode<T, 
     }
     
     public void setParams(Object[] params) {
+        this.params = () -> params;
+    }
+    
+    public void setParams(Supplier<Object[]> params) {
         this.params = params;
     }
     
     @Override
-    public Object[] getParams() {
+    public Supplier<Object[]> getParams() {
         return params;
     }
 }

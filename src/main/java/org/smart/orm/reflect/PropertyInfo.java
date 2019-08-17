@@ -1,9 +1,7 @@
 package org.smart.orm.reflect;
 
 import org.smart.orm.SmartORMException;
-import org.smart.orm.annotations.Column;
-import org.smart.orm.annotations.ColumnFillType;
-import org.smart.orm.annotations.IdType;
+import org.smart.orm.annotations.*;
 
 import java.lang.reflect.Field;
 
@@ -13,73 +11,59 @@ public class PropertyInfo {
     
     private Field field;
     
-    private ColumnFillType[] fillType;
+    private Key key;
     
-    private boolean primaryKey;
-    
-    private IdType idType;
-    
-    private String propertyName;
+    private EntityInfo entityInfo;
     
     public PropertyInfo() {
     }
     
-    public PropertyInfo(Column column, Field field) {
-        this.columnName = column.value();
-        this.fillType = column.fillType();
-        this.primaryKey = column.isPrimaryKey();
-        this.idType = column.idType();
-        this.propertyName = field.getName();
+    public PropertyInfo(EntityInfo entityInfo, Field field, Column column) {
+        this.entityInfo = entityInfo;
         this.field = field;
+        this.columnName = column.value();
         if (this.columnName.equals("")) {
-            this.columnName = this.propertyName;
+            this.columnName = this.field.getName();
         }
     }
     
-    public String getPropertyName() {
-        return propertyName;
+    public boolean isKey() {
+        return key != null;
+    }
+    
+    
+    public void setKey(Key key) {
+        this.key = key;
+    }
+    
+    public String getPropName() {
+        return field.getName();
     }
     
     public String getColumnName() {
         return columnName;
     }
     
+    public EntityInfo getEntityInfo() {
+        return entityInfo;
+    }
+    
     public Field getField() {
         return field;
     }
     
-    public void setField(Field field) {
-        this.field = field;
-        this.propertyName = field.getName();
-    }
-    
-    public ColumnFillType[] getFillType() {
-        return fillType;
-    }
-    
-    public void setFillType(ColumnFillType[] fillType) {
-        this.fillType = fillType;
-    }
-    
-    public IdType getIdType() {
-        return idType;
-    }
-    
-    public void setIdType(IdType idType) {
-        this.idType = idType;
-    }
-    
-    public boolean isPrimaryKey() {
-        return primaryKey;
-    }
-    
-    public void setPrimaryKey(boolean primaryKey) {
-        this.primaryKey = primaryKey;
-    }
-    
-    public Object get(Object obj) {
+    @SuppressWarnings("unchecked")
+    public <T> T get(Object obj) {
         try {
-            return field.get(obj);
+            return (T) field.get(obj);
+        } catch (IllegalAccessException ex) {
+            throw new SmartORMException(ex);
+        }
+    }
+    
+    public void set(Object obj, Object value) {
+        try {
+            field.set(obj, value);
         } catch (IllegalAccessException ex) {
             throw new SmartORMException(ex);
         }

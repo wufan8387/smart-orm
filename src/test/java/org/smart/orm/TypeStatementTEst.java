@@ -2,23 +2,19 @@ package org.smart.orm;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.smart.orm.data.NodeType;
+import org.smart.orm.entities.light.AuthGroup;
+import org.smart.orm.entities.light.AuthGroupAccess;
 import org.smart.orm.execution.*;
 import org.smart.orm.jdbc.ParameterTypeHandler;
 import org.smart.orm.operations.Op;
-import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.type.*;
-import sun.security.jca.GetInstance;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class TypeStatementTest {
     
-    private Connection conn;
     private OperationContext context;
     
     @Before
@@ -32,36 +28,45 @@ public class TypeStatementTest {
         
         Class.forName("com.mysql.cj.jdbc.Driver");
         String connStr = "jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC";
-        conn = DriverManager.getConnection(connStr, "root", "11301130");
+        Connection conn = DriverManager.getConnection(connStr, "root", "11301130");
+        executor.setConnection(conn);
     }
     
     @Test
     public void buildTest() {
-        QueryObject<AuthGroup> statement = new QueryObject(AuthGroup.class);
+        QueryObject<AuthGroup> statement = new QueryObject<>(AuthGroup.class);
         statement
                 .select(AuthGroup::getId)
                 .statement()
-                .join(Order.class)
-                .on(AuthGroup::getId, Op.EQUAL, Order::getUid)
+                .join(AuthGroupAccess.class)
+                .on(AuthGroup::getId, Op.EQUAL, AuthGroupAccess::getUid)
                 .statement()
-                .where(Order::getUid, Op.EQUAL, 100);
+                .where(AuthGroupAccess::getUid, Op.EQUAL, 100);
+        
+        QueryObject<AuthGroupAccess> orderStatement = statement
+                .include(AuthGroup.class, AuthGroupAccess.class, AuthGroup::getAccessList);
         
         System.out.print(statement.toString());
         System.out.print(statement.getParams());
+        
+        System.out.print(orderStatement.toString());
+        System.out.print(orderStatement.getParams());
+        
     }
     
     @SuppressWarnings("unchecked")
     @Test
     public void queryTest() {
         
-        QueryObject<AuthGroup> statement = new QueryObject(AuthGroup.class);
-        statement
-                .where(AuthGroup::getModule, Op.IN, "admin");
-
-
-//        ResultHandler<AuthGroup> handler = context.query(AuthGroup.class, conn, statement);
-//
-//        System.out.println(handler.getAll());
+        QueryObject<AuthGroup> statement = AuthGroup
+                .query(AuthGroup.class)
+                .where(AuthGroup::getModule, Op.IN, "admin")
+                .statement();
+        
+        
+        ResultData<AuthGroup> result = statement.execute(context.getExecutor());
+        
+        System.out.println(result.all());
         
     }
     
@@ -78,10 +83,9 @@ public class TypeStatementTest {
         group1.setStatus(1);
         group1.setRules(",338,340,341,344,10000");
         
-        
         group1.insert(context);
         
-        context.saveChanges(conn);
+        context.saveChanges();
         
     }
     
@@ -93,7 +97,7 @@ public class TypeStatementTest {
                 .where(AuthGroup::getId, Op.EQUAL, 8)
                 .statement();
         
-        AuthGroup group1 = context.<AuthGroup>query(queryObject, conn).first().get();
+        AuthGroup group1 = queryObject.execute(context.getExecutor()).first().get();
         
         
         group1.setTitle("VIP4");
@@ -101,7 +105,7 @@ public class TypeStatementTest {
         
         group1.update(context);
         
-        context.saveChanges(conn);
+        context.saveChanges();
         
         System.out.println(group1.toString());
         
@@ -113,7 +117,7 @@ public class TypeStatementTest {
         AuthGroup group1 = new AuthGroup();
         group1.setId(8);
         group1.delete(context);
-        context.saveChanges(conn);
+        context.saveChanges();
         System.out.println(group1.toString());
         
     }

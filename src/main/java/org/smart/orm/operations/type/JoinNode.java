@@ -1,15 +1,17 @@
 package org.smart.orm.operations.type;
 
-import org.smart.orm.functions.Func;
 import org.smart.orm.Model;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
+import org.smart.orm.functions.Func;
+import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.Op;
-import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.reflect.LambdaParser;
-import org.smart.orm.functions.PropertyGetter;
+import org.smart.orm.reflect.PropertyInfo;
+
+import java.lang.reflect.Field;
 
 public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R>> extends AbstractSqlNode<T, JoinNode<T, L, R>> {
     
@@ -20,6 +22,10 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
     private PropertyGetter<L> leftAttr;
     
     private PropertyGetter<R> rightAttr;
+    
+    private PropertyInfo leftProp;
+    
+    private PropertyInfo rightProp;
     
     private Func<String> op;
     
@@ -32,14 +38,6 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
             , Func<String> op
             , PropertyGetter<R> rightAttr) {
         
-        Class<?> leftCls = LambdaParser.getGetter(leftAttr).getDeclaringClass();
-        Class<?> rightCls = LambdaParser.getGetter(rightAttr).getDeclaringClass();
-        
-        
-//        this.leftRel = statement.findFirst(NodeType.RELATION
-//                , t -> t.getName().equals(Model.getMeta(leftCls).getTable().getName()));
-//        this.rightRel = statement.findFirst(NodeType.RELATION
-//                , t -> t.getName().equals(Model.getMeta(rightCls).getTable().getName()));
         this.leftAttr = leftAttr;
         this.rightAttr = rightAttr;
         this.op = op;
@@ -49,7 +47,7 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
             , Func<String> op
             , PropertyGetter<R> rightAttr
             , JoinNode<T, ?, ?> parent) {
-        this( leftAttr, op, rightAttr);
+        this(leftAttr, op, rightAttr);
         if (parent != null)
             parent.child = this;
     }
@@ -72,7 +70,7 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
             , RelationNode<T, R> rightRel
             , PropertyGetter<R> rightAttr
             , JoinNode<T, ?, ?> parent) {
-        this( leftRel, leftAttr, op, rightRel, rightAttr);
+        this(leftRel, leftAttr, op, rightRel, rightAttr);
         if (parent != null)
             parent.child = this;
     }
@@ -83,7 +81,7 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
             , Func<String> op
             , RelationNode<T, NR> rightRel
             , PropertyGetter<NR> rightAttr) {
-        return new JoinNode<>( leftRel, leftAttr, op, rightRel, rightAttr, this)
+        return new JoinNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this)
                 .setLogicalType(LogicalType.AND)
                 .attach(statement());
     }
@@ -91,7 +89,7 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
     public <NL extends Model<NL>, NR extends Model<NR>> JoinNode<T, NL, NR> and(PropertyGetter<NL> leftAttr
             , Func<String> op
             , PropertyGetter<NR> rightAttr) {
-        return new JoinNode<>( leftAttr, op, rightAttr, this)
+        return new JoinNode<>(leftAttr, op, rightAttr, this)
                 .setLogicalType(LogicalType.AND)
                 .attach(statement());
     }
@@ -102,7 +100,7 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
             , Func<String> op
             , RelationNode<T, NR> rightRel
             , PropertyGetter<NR> rightAttr) {
-        return new JoinNode<>( leftRel, leftAttr, op, rightRel, rightAttr, this)
+        return new JoinNode<>(leftRel, leftAttr, op, rightRel, rightAttr, this)
                 .setLogicalType(LogicalType.OR)
                 .attach(statement());
     }
@@ -111,7 +109,7 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
     public <NL extends Model<NL>, NR extends Model<NR>> JoinNode<T, NL, NR> or(PropertyGetter<NL> leftAttr
             , Func<String> op
             , PropertyGetter<NR> rightAttr) {
-        return new JoinNode<>( leftAttr, op, rightAttr, this)
+        return new JoinNode<>(leftAttr, op, rightAttr, this)
                 .setLogicalType(LogicalType.OR)
                 .attach(statement());
     }
@@ -127,6 +125,37 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
     }
     
     @Override
+    public JoinNode<T, L, R> attach(T statement) {
+        
+        Field leftField = LambdaParser.getGetter(leftAttr);
+        Class<?> leftCls = leftField.getDeclaringClass();
+        
+        if (leftRel == null) {
+            leftRel = statement.findFirst(NodeType.RELATION
+                    , t -> t.getName().equals(Model.getMetaManager().findEntityInfo(leftCls).getTableName()));
+        }
+        leftProp = Model
+                .getMetaManager()
+                .findEntityInfo(leftCls)
+                .getProp(leftField.getName());
+        
+        Field rightField = LambdaParser.getGetter(rightAttr);
+        Class<?> rightCls = rightField.getDeclaringClass();
+        if (rightRel == null) {
+            rightRel = statement.findFirst(NodeType.RELATION
+                    , t -> t.getName().equals(Model.getMetaManager().findEntityInfo(rightCls).getTableName()));
+        }
+        
+        rightProp = Model
+                .getMetaManager()
+                .findEntityInfo(rightCls)
+                .getProp(rightField.getName());
+        
+        
+        return super.attach(statement);
+    }
+    
+    @Override
     public int getType() {
         return NodeType.CONDITION_JOIN;
     }
@@ -137,14 +166,10 @@ public class JoinNode<T extends Statement, L extends Model<L>, R extends Model<R
         
         sb.append(Op.LOGICAL.apply(logicalType));
         
-        String leftTextAttr = Model
-                .getMeta(leftRel.getEntityInfo().getEntityClass())
-                .getProp(leftAttr).getColumnName();
-        String rightTextAttr = Model
-                .getMeta(rightRel.getEntityInfo().getEntityClass())
-                .getProp(rightAttr).getColumnName();
-        
-        sb.append(op.apply(leftRel.getAlias(), leftTextAttr, rightRel.getAlias(), rightTextAttr));
+        sb.append(op.apply(leftRel.getAlias()
+                , leftProp.getColumnName()
+                , rightRel.getAlias()
+                , rightProp.getColumnName()));
         if (child != null)
             child.toString(sb);
     }

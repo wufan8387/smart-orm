@@ -1,12 +1,16 @@
-package org.smart.orm.operations.text;
+package org.smart.orm.operations.type;
 
 import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.Statement;
 
+import java.util.function.Supplier;
 
 public class ValuesNode<T extends Statement> extends AbstractSqlNode<T, ValuesNode<T>> {
     
+    public ValuesNode(Supplier<Object[]> params) {
+        setParams(params);
+    }
     
     public ValuesNode(Object[] params) {
         setParams(params);
@@ -36,4 +40,5 @@ public class ValuesNode<T extends Statement> extends AbstractSqlNode<T, ValuesNo
         
         
     }
+    
 }

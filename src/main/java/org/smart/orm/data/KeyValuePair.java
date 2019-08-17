@@ -1,7 +1,5 @@
 package org.smart.orm.data;
 
-import javax.swing.text.ParagraphView;
-
 public class KeyValuePair<K, V> {
     
     private K key;

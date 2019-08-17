@@ -7,8 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(value = ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Column {
-    
-    String value() default "";
-    
+public @interface Key {
+
 }

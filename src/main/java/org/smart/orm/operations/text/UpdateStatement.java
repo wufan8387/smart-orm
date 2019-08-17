@@ -1,17 +1,18 @@
 package org.smart.orm.operations.text;
 
 
+import org.smart.orm.data.LogicalType;
+import org.smart.orm.data.NodeType;
 import org.smart.orm.data.StatementType;
 import org.smart.orm.execution.Executor;
 import org.smart.orm.execution.ResultData;
 import org.smart.orm.functions.Func;
-import org.smart.orm.data.LogicalType;
-import org.smart.orm.data.NodeType;
 import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Token;
 
-import java.sql.Connection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UpdateStatement extends AbstractStatement {
     
@@ -25,9 +26,6 @@ public class UpdateStatement extends AbstractStatement {
     private OrderByNode<UpdateStatement> orderByRoot;
     
     private final RelationNode<UpdateStatement> relRoot;
-    
-    private AssignNode<UpdateStatement> setRoot;
-    
     
     public UpdateStatement(String rel) {
         relRoot = new RelationNode<UpdateStatement>(rel).attach(this);
@@ -65,6 +63,11 @@ public class UpdateStatement extends AbstractStatement {
                 break;
             
         }
+    }
+    
+    public UpdateStatement assign(String attr, Object value) {
+        new AssignNode<UpdateStatement>(attr, value).attach(this);
+        return this;
     }
     
     
@@ -149,18 +152,16 @@ public class UpdateStatement extends AbstractStatement {
     }
     
     
-    public AssignNode<UpdateStatement> set(String attr, Object value) {
-        if (setRoot == null)
-            setRoot = new AssignNode<UpdateStatement>().attach(this);
-        setRoot.assign(attr, value);
-        return setRoot;
-    }
-    
     @Override
-    public ResultData execute(Connection connection, Executor executor) {
-        return null;
+    public ResultData execute(Executor executor) {
+        String sql = this.toString();
+        System.out.println(sql);
+        List<Object> params = getParams();
+        int cnt = executor.update(sql, params.toArray());
+        return new ResultData<>(cnt);
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public String toString() {
         this.getParams().clear();
@@ -168,7 +169,18 @@ public class UpdateStatement extends AbstractStatement {
         
         sb.append(Token.UPDATE_AS_SET.apply(relRoot.getName(), relRoot.getAlias()));
         
-        setRoot.toString(sb);
+        List<AssignNode<UpdateStatement>> assignList = getNodes()
+                .stream().filter(t -> t.getType() == NodeType.ASSIGN)
+                .map(t -> (AssignNode<UpdateStatement>) t)
+                .collect(Collectors.toList());
+        
+        int assignLen = assignList.size();
+        for (int i = 0; i < assignLen; i++) {
+            AssignNode<UpdateStatement> assignNode = assignList.get(i);
+            assignNode.toString(sb);
+            if (i < assignLen - 1)
+                sb.append(" , ");
+        }
         
         
         if (whereRoot != null) {
