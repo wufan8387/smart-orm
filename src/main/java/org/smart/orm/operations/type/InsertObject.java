@@ -6,7 +6,6 @@ import org.smart.orm.data.StatementType;
 import org.smart.orm.execution.Executor;
 import org.smart.orm.execution.KeyMapHandler;
 import org.smart.orm.execution.ResultData;
-import org.smart.orm.functions.ParameterGetter;
 import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractStatement;
 import org.smart.orm.operations.SqlNode;
@@ -20,8 +19,9 @@ import java.util.stream.Collectors;
 
 public class InsertObject<T extends Model<T>> extends AbstractStatement {
     
-    private RelationNode<InsertObject<T>, T> relRoot;
+    private boolean autoGenerateKeys = false;
     
+    private RelationNode<InsertObject<T>, T> relRoot;
     
     public InsertObject(Class<T> cls) {
         relRoot = new RelationNode<InsertObject<T>, T>(cls).attach(this);
@@ -32,15 +32,23 @@ public class InsertObject<T extends Model<T>> extends AbstractStatement {
         return StatementType.DML;
     }
     
+    public boolean isAutoGenerateKeys() {
+        return autoGenerateKeys;
+    }
+    
+    public void setAutoGenerateKeys(boolean autoGenerateKeys) {
+        this.autoGenerateKeys = autoGenerateKeys;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     protected <K extends SqlNode<?, ?>> void doAttach(K node) {
     }
-
+    
     public InsertObject<T> attributes(PropertyGetter<T>... attributes) {
         for (int i = 0; i < attributes.length; i++) {
             PropertyGetter<T> attr = attributes[i];
-            new AttributeNode<>(attr).attach(this);
+            new AttributeNode<>(this, attr).from(relRoot);
         }
         
         return this;
@@ -55,22 +63,18 @@ public class InsertObject<T extends Model<T>> extends AbstractStatement {
         return this;
     }
     
-    
     public InsertObject<T> values(Object... value) {
         new ValuesNode<InsertObject<T>>(value).attach(this);
         return this;
     }
-    
-    
     
     public InsertObject<T> values(Supplier<Object[]> value) {
         new ValuesNode<InsertObject<T>>(value).attach(this);
         return this;
     }
     
-    
     @Override
-    public ResultData execute(Executor executor) {
+    public void execute(Executor executor) {
         
         String sql = toString();
         System.out.println(sql);
@@ -79,9 +83,19 @@ public class InsertObject<T extends Model<T>> extends AbstractStatement {
         
         List<Object> params = getParams();
         
-        int cnt = executor.insert(sql, handler, Statement.RETURN_GENERATED_KEYS, params.toArray());
+        int keyFlag = autoGenerateKeys
+                ? Statement.RETURN_GENERATED_KEYS
+                : Statement.NO_GENERATED_KEYS;
         
-        return new ResultData<>(cnt, handler.getAll());
+        int cnt = executor.insert(sql, handler, keyFlag, params.toArray());
+        
+        
+        if (autoGenerateKeys) {
+            setResult(new ResultData<>(cnt, handler.getAll()));
+        } else {
+            setResult(new ResultData<>(cnt));
+        }
+        
         
     }
     

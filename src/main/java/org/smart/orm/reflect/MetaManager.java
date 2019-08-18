@@ -51,21 +51,35 @@ public class MetaManager {
         }
     }
     
+    public AssociationInfo findAssoc(Class<?> cls, Field prop) {
+        
+        List<AssociationInfo> assocList = findAssoc(cls);
+        return assocList.stream()
+                .filter(t -> t.getField().equals(prop))
+                .findFirst()
+                .orElse(null);
+        
+    }
     
+    
+    public <T extends Model<T>> AssociationInfo findAssoc(Class<T> cls, PropertyGetter<T> getter) {
+        
+        Field field = LambdaParser.getGetter(getter);
+        return findAssoc(cls, field);
+    }
+    
+    @SuppressWarnings("unchecked")
     public void fillAutoGenerateKeys(Model<?> obj, Object[] keysData) {
-        Class<?> cls = obj.getClass();
         
-        EntityInfo entityInfo = entityMap.get(cls.getName());
-        
-        Map<String, PropertyGetter<?> changeMap = obj.getChangeMap();
+        EntityInfo entityInfo = obj.getMeta();
         
         List<PropertyInfo> keyList = entityInfo.getKeys();
         for (int i = 0; i < keyList.size(); i++) {
             PropertyInfo key = keyList.get(i);
-            if (changeMap.containsKey(key.getPropName())) {
+            if (obj.getChangeMap().containsKey(key.getPropName())) {
                 continue;
             }
-            key.set(obj, keysData[i]);
+            entityInfo.setValue(obj, key, keysData[i]);
             fillAssocKeys(obj, key, keysData[i]);
         }
         
@@ -79,32 +93,30 @@ public class MetaManager {
                 .filter(t -> t.getThisKeyProp() == prop)
                 .findFirst()
                 .ifPresent(assoc -> {
-                    PropertyInfo assocProp = assoc.getProp();
+                    Field assocProp = assoc.getField();
                     PropertyInfo otherKeyProp = assoc.getOtherKeyProp();
                     
                     switch (assoc.getAssocType()) {
                         case HAS_ONE: {
-                            Model<?> otherEntity = assocProp.get(model);
+                            Model<?> otherEntity = assoc.get(model);
                             if (otherEntity == null) {
                                 break;
                             }
-                            otherKeyProp.set(otherEntity, keyData);
+                            otherEntity.getMeta().setValue(otherEntity, otherKeyProp, keyData);
                         }
                         break;
                         case HAS_MANY: {
-                            Class<?> propType = assocProp.getField().getType();
+                            Class<?> propType = assocProp.getType();
                             
-                            if (propType.isAssignableFrom(Iterable.class)) {
-                                Iterable<Model<?>> data = assoc.getProp().get(model);
+                            if (Iterable.class.isAssignableFrom(propType)) {
+                                Iterable<Model<?>> data = assoc.get(model);
                                 for (Model<?> item : data) {
-                                    otherKeyProp.set(item, keyData);
-                                    item.getChangeMap().put(otherKeyProp.getPropName(), () -> otherKeyProp.get(item))
+                                    item.getMeta().setValue(item, otherKeyProp, keyData);
                                 }
                             } else if (propType.isArray()) {
-                                Model<?>[] data = assoc.getProp().get(model);
+                                Model<?>[] data = assoc.get(model);
                                 for (Model<?> item : data) {
-                                    otherKeyProp.set(item, keyData);
-                                    item.getChangeMap().put(otherKeyProp.getPropName(), () -> otherKeyProp.get(item))
+                                    item.getMeta().setValue(item, otherKeyProp, keyData);
                                 }
                             }
                         }
@@ -148,6 +160,7 @@ public class MetaManager {
             Association association = field.getAnnotation(Association.class);
             if (association == null)
                 continue;
+            
             assocList.add(new AssociationInfo(cls, field, association));
         }
         return assocList;

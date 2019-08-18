@@ -81,6 +81,9 @@ public class Op {
     
     
     public final static Func<String> EXISTS = t -> {
+        if (t.length == 2) {
+            return StringUtils.EMPTY;
+        }
         StringBuilder sb = new StringBuilder(String.format(TEXT_EXISTS, t));
         buildArrayParams(sb, ((Object[]) t[2]).length);
         return sb.toString();
@@ -88,24 +91,32 @@ public class Op {
     
     
     public final static Func<String> IN = t -> {
+        if (t.length == 2) {
+            return StringUtils.EMPTY;
+        }
         StringBuilder sb = new StringBuilder(String.format(TEXT_IN, t));
         buildArrayParams(sb, ((Object[]) t[2]).length);
         return sb.toString();
     };
     
-    public final static Func<String> NOT_EXISTS = t ->{
+    public final static Func<String> NOT_EXISTS = t -> {
+        if (t.length == 2) {
+            return StringUtils.EMPTY;
+        }
         StringBuilder sb = new StringBuilder(String.format(TEXT_NOT_EXISTS, t));
         buildArrayParams(sb, ((Object[]) t[2]).length);
         return sb.toString();
         
     };
     
-    public final static Func<String> NOT_IN = t ->{
+    public final static Func<String> NOT_IN = t -> {
+        if (t.length == 2) {
+            return StringUtils.EMPTY;
+        }
         StringBuilder sb = new StringBuilder(String.format(TEXT_NOT_IN, t));
         buildArrayParams(sb, ((Object[]) t[2]).length);
         return sb.toString();
     };
-    
     
     
     private static void buildArrayParams(StringBuilder sb, int len) {
@@ -125,7 +136,6 @@ public class Op {
     public final static Func<String> LIKE = t -> String.format(TEXT_LIKE, t);
     
     
-
     public final static Func<String> NOT_nULL = t -> String.format(TEXT_NOT_nULL, t);
     
     public final static Func<String> LOGICAL = t -> {

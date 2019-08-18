@@ -48,7 +48,8 @@ public abstract class Model<T extends Model<T>> {
     
     public void insert(Executor executor) {
         InsertObject<T> statement = buildInsertStatement();
-        ResultData<Map<String, Object>> resultData = statement.execute(executor);
+        statement.execute(executor);
+        ResultData<Map<String, Object>> resultData = statement.getResult();
         if (resultData.getCount() > 0) {
             Object[] keyData = resultData.all().get(0).values().toArray();
             metaManager.fillAutoGenerateKeys(this, keyData);
@@ -154,28 +155,6 @@ public abstract class Model<T extends Model<T>> {
         return statement;
     }
 
-
-//    public void loadForeignKey(Model<T> model) {
-//
-//        List<AssociationInfo> assocList = model.getMeta().getAssociationList();
-//        for (AssociationInfo assoc : assocList) {
-//            if (assoc.getAssocType() != AssociationType.BELONGS_TO) {
-//                continue;
-//            }
-//
-//            Object propObj = assoc.getProp().get(model);
-//
-//            Object otherKeyObj = assoc.getOtherKeyProp().get(propObj);
-//            if (otherKeyObj == null)
-//                continue;
-//            PropertyInfo thisKeyProp = assoc.getThisKeyProp();
-//            thisKeyProp.set(model, otherKeyObj);
-//
-//            PropertyGetter<T> getter = t -> thisKeyProp.get(model);
-//
-//            propertyChange(thisKeyProp.getField().getName(), getter);
-//        }
-//    }
     
     
 }

@@ -20,6 +20,8 @@ public interface Statement {
     
     StatementType getType();
     
+    <T> ResultData<T> getResult();
+    
     <T extends SqlNode<?, ?>> T attach(T node);
     
     <T extends SqlNode<?, ?>> List<T> find(int nodeType, Predicate<T> predicate);
@@ -28,6 +30,6 @@ public interface Statement {
     
     <T extends SqlNode<?, ?>> T findFirst(int nodeType, Predicate<T> predicate, Supplier<T> other);
     
-    ResultData execute(Executor executor);
+    void execute(Executor executor);
     
 }

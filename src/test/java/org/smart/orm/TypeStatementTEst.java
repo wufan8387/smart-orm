@@ -33,25 +33,24 @@ public class TypeStatementTest {
     }
     
     @Test
-    public void buildTest() {
+    public void includeTest() {
         QueryObject<AuthGroup> statement = new QueryObject<>(AuthGroup.class);
         statement
                 .select(AuthGroup::getId)
+                .from(AuthGroup.class)
                 .statement()
-                .join(AuthGroupAccess.class)
-                .on(AuthGroup::getId, Op.EQUAL, AuthGroupAccess::getUid)
-                .statement()
-                .where(AuthGroupAccess::getUid, Op.EQUAL, 100);
+                .where(AuthGroup::getId, Op.EQUAL, 1);
         
-        QueryObject<AuthGroupAccess> orderStatement = statement
-                .include(AuthGroup.class, AuthGroupAccess.class, AuthGroup::getAccessList);
+        statement
+                .include(context, AuthGroup.class, AuthGroupAccess.class, AuthGroup::getAccessList);
         
-        System.out.print(statement.toString());
-        System.out.print(statement.getParams());
+        statement.load();
         
-        System.out.print(orderStatement.toString());
-        System.out.print(orderStatement.getParams());
         
+        statement.<AuthGroup>getResult().all().forEach(t -> {
+            System.out.println(t);
+            t.getAccessList().forEach(System.out::println);
+        });
     }
     
     @SuppressWarnings("unchecked")
@@ -64,8 +63,8 @@ public class TypeStatementTest {
                 .statement();
         
         
-        ResultData<AuthGroup> result = statement.execute(context.getExecutor());
-        
+        statement.execute(context.getExecutor());
+        ResultData<AuthGroup> result = statement.getResult();
         System.out.println(result.all());
         
     }
@@ -97,17 +96,18 @@ public class TypeStatementTest {
                 .where(AuthGroup::getId, Op.EQUAL, 8)
                 .statement();
         
-        AuthGroup group1 = queryObject.execute(context.getExecutor()).first().get();
+        queryObject.execute(context.getExecutor());
+        queryObject.<AuthGroup>getResult().first().ifPresent(group1 -> {
+            group1.setTitle("VIP4");
+            
+            
+            group1.update(context);
+            
+            context.saveChanges();
+            
+            System.out.println(group1.toString());
+        });
         
-        
-        group1.setTitle("VIP4");
-        
-        
-        group1.update(context);
-        
-        context.saveChanges();
-        
-        System.out.println(group1.toString());
         
     }
     

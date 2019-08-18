@@ -11,7 +11,6 @@ public class ResultData<T> {
     
     private List<T> list = new ArrayList<>();
     
-    
     public ResultData(int count) {
         this.count = count;
     }
@@ -24,6 +23,8 @@ public class ResultData<T> {
         this.count = count;
         this.list.addAll(list);
     }
+    
+    
     
     public int getCount() {
         return count;

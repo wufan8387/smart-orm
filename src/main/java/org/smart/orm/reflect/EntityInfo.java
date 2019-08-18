@@ -5,7 +5,9 @@ import org.smart.orm.SmartORMException;
 import org.smart.orm.annotations.Table;
 import org.smart.orm.functions.PropertyGetter;
 
+import javax.xml.soap.SAAJResult;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class EntityInfo {
@@ -71,4 +73,16 @@ public class EntityInfo {
         
     }
     
+    public void setValue(Model<?> obj, PropertyInfo prop, Object value) {
+        Arrays.stream(this.type.getDeclaredMethods())
+                .filter(t -> t.getName().toUpperCase().equals("SET" + prop.getPropName()))
+                .findFirst()
+                .ifPresent(t -> {
+                    try {
+                        t.invoke(obj, value);
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        throw new SmartORMException(e);
+                    }
+                });
+    }
 }

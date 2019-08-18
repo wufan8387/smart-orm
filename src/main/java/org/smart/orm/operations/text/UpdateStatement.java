@@ -153,12 +153,12 @@ public class UpdateStatement extends AbstractStatement {
     
     
     @Override
-    public ResultData execute(Executor executor) {
+    public void execute(Executor executor) {
         String sql = this.toString();
         System.out.println(sql);
         List<Object> params = getParams();
         int cnt = executor.update(sql, params.toArray());
-        return new ResultData<>(cnt);
+        setResult(new ResultData<>(cnt));
     }
     
     @SuppressWarnings("unchecked")

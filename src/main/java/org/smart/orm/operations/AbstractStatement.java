@@ -1,5 +1,7 @@
 package org.smart.orm.operations;
 
+import org.smart.orm.execution.ResultData;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,10 +17,32 @@ public abstract class AbstractStatement implements Statement {
     
     private List<Object> paramList = new ArrayList<>();
     
+    private ResultData<?> resultData;
     
     @Override
     public UUID getId() {
         return id;
+    }
+    
+    @Override
+    public List<Object> getParams() {
+        return paramList;
+    }
+    
+    @Override
+    public List<SqlNode<?, ?>> getNodes() {
+        return nodeList;
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> ResultData<T> getResult() {
+        return (ResultData<T>)resultData;
+    }
+    
+    
+    protected void setResult(ResultData<?> resultData) {
+        this.resultData = resultData;
     }
     
     @SuppressWarnings("unchecked")
@@ -57,13 +81,4 @@ public abstract class AbstractStatement implements Statement {
         return node;
     }
     
-    @Override
-    public List<Object> getParams() {
-        return paramList;
-    }
-    
-    @Override
-    public List<SqlNode<?, ?>> getNodes() {
-        return nodeList;
-    }
 }

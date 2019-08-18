@@ -9,6 +9,7 @@ import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.SqlNode;
 import org.smart.orm.operations.Statement;
 import org.smart.orm.operations.Token;
+import org.smart.orm.reflect.LambdaParser;
 import org.smart.orm.reflect.PropertyInfo;
 
 public class AttributeNode<T extends Statement, K extends Model<K>> extends AbstractSqlNode<T, AttributeNode<T, K>> {
@@ -30,13 +31,15 @@ public class AttributeNode<T extends Statement, K extends Model<K>> extends Abst
         this.prop = prop;
     }
     
-    public AttributeNode(PropertyGetter<K> name) {
+    public AttributeNode(T statement, PropertyGetter<K> name) {
         this.name = name;
+        this.stat = statement;
     }
     
-    public AttributeNode(PropertyGetter<K> name, String alias) {
+    public AttributeNode(T statement, PropertyGetter<K> name, String alias) {
         this.name = name;
         this.alias = alias;
+        this.stat = statement;
     }
     
     public AttributeNode(SqlNode<T, ?> expNode, String alias) {

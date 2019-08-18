@@ -9,7 +9,6 @@ import org.smart.orm.data.AssociationType;
 
 import java.util.List;
 
-@javax.persistence.Table(name = "ocenter_auth_group")
 @Table("ocenter_auth_group")
 public class AuthGroup extends Model<AuthGroup> {
     

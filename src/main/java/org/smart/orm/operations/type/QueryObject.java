@@ -1,7 +1,7 @@
 package org.smart.orm.operations.type;
 
 import org.smart.orm.Model;
-import org.smart.orm.SmartORMException;
+import org.smart.orm.OperationContext;
 import org.smart.orm.data.JoinType;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
@@ -10,25 +10,20 @@ import org.smart.orm.execution.Executor;
 import org.smart.orm.execution.ObjectHandler;
 import org.smart.orm.execution.ResultData;
 import org.smart.orm.functions.Func;
-import org.smart.orm.functions.ParameterGetter;
 import org.smart.orm.functions.PropertyGetter;
-import org.smart.orm.operations.*;
+import org.smart.orm.operations.AbstractStatement;
+import org.smart.orm.operations.SqlNode;
+import org.smart.orm.operations.Token;
 import org.smart.orm.operations.text.LimitNode;
-import org.smart.orm.reflect.AssociationInfo;
-import org.smart.orm.reflect.EntityInfo;
 import org.smart.orm.reflect.PropertyInfo;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class QueryObject<T extends Model<T>> extends AbstractStatement {
     
-    private QueryObject<?> parent;
-    
-    private ResultData<T> resultData;
-    
-    private List<QueryObject<?>> subStatementList;
+    private OperationContext context;
     
     private final RelationNode<QueryObject<T>, T> relRoot;
     
@@ -42,22 +37,10 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
     
     private GroupByNode<QueryObject<T>> groupByRoot;
     
-    
     private LimitNode<QueryObject<T>> limitRoot;
     
     public QueryObject(Class<T> cls) {
         relRoot = new RelationNode<>(cls, relLast).attach(this);
-        subStatementList = new ArrayList<>();
-        subStatementList.add(this);
-    }
-    
-    public QueryObject(Class<T> cls, QueryObject<?> parent) {
-        relRoot = new RelationNode<>(cls, relLast).attach(this);
-        this.parent = parent;
-        this.subStatementList = parent.subStatementList;
-        this.subStatementList.add(this);
-        
-        
     }
     
     
@@ -66,35 +49,8 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
         return StatementType.DQL;
     }
     
-    @SuppressWarnings("unchecked")
-    @Override
-    protected <K extends SqlNode<?, ?>> void doAttach(K node) {
-        switch (node.getType()) {
-            case NodeType.RELATION:
-                relLast = (RelationNode<QueryObject<T>, ?>) node;
-                break;
-            case NodeType.CONDITION:
-                ConditionNode<QueryObject<T>, ?, ?> whereNode = (ConditionNode<QueryObject<T>, ?, ?>) node;
-                whereRoot = whereRoot == null ? whereNode : whereRoot;
-                whereLast = whereNode;
-                break;
-            case NodeType.GROUP_BY:
-                GroupByNode<QueryObject<T>> groupByNode = (GroupByNode<QueryObject<T>>) node;
-                groupByRoot = groupByRoot == null ? groupByNode : groupByRoot;
-                break;
-            case NodeType.ORDER_BY:
-                OrderByNode<QueryObject<T>> orderByNode = (OrderByNode<QueryObject<T>>) node;
-                orderByRoot = orderByRoot == null ? orderByNode : orderByRoot;
-                break;
-            case NodeType.LIMIT:
-                LimitNode<QueryObject<T>> limitNode = (LimitNode<QueryObject<T>>) node;
-                limitRoot = limitRoot == null ? limitNode : limitRoot;
-                break;
-        }
-    }
-    
-    public ResultData<T> getResultData() {
-        return resultData;
+    public RelationNode<QueryObject<T>, T> getRelRoot() {
+        return relRoot;
     }
     
     public <K extends Model<K>> RelationNode<QueryObject<T>, K> join(Class<K> cls) {
@@ -111,7 +67,7 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
     }
     
     public <K extends Model<K>> AttributeNode<QueryObject<T>, K> select(PropertyGetter<K> attr) {
-        return new AttributeNode<QueryObject<T>, K>(attr).attach(this);
+        return new AttributeNode<>(this, attr);
     }
     
     public <L extends Model<L>, R extends Model<R>> ConditionNode<QueryObject<T>, L, R> where(PropertyGetter<L> leftAttr, Func<String> op, PropertyGetter<R> rightAttr) {
@@ -140,7 +96,7 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
     
     public ConditionNode<QueryObject<T>, T, ?> where(PropertyInfo attr
             , Func<String> op
-            , ParameterGetter params) {
+            , Supplier<Object[]> params) {
         
         if (whereRoot == null) {
             return new ConditionNode<>(relRoot, attr, op, whereLast, params).attach(this);
@@ -226,29 +182,21 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
     }
     
     
-    public <K extends Model<K>, V extends Model<V>> QueryObject<V> include(Class<K> thisEntity
-            , Class<V> otherEntity
+    public <K extends Model<K>, V extends Model<V>> QueryObject<T> include(OperationContext context
+            , Class<K> thisCls
+            , Class<V> includeCls
             , PropertyGetter<K> prop) {
         
-        QueryObject<?> parent = subStatementList
-                .stream()
-                .filter(t -> t.relRoot.getEntityInfo().getType() == thisEntity)
-                .findFirst()
-                .orElseThrow(SmartORMException::new);
+        this.context = context;
+        context.include(this, thisCls, includeCls, prop);
         
-        QueryObject<V> child = new QueryObject<>(otherEntity, parent);
-        
-//        EntityInfo entityInfo = child.relRoot.getEntityInfo();
-
-//        AssociationInfo assoc = entityInfo.getAssoc(prop);
-        
-        
-        return child;
+        return this;
     }
     
     @SuppressWarnings("unchecked")
     @Override
-    public ResultData<T> execute(Executor executor) {
+    public void execute(Executor executor) {
+        
         
         String sql = toString();
         System.out.println(sql);
@@ -264,10 +212,14 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
         
         executor.executeQuery(sql, handler, getParams().toArray());
         
-        resultData = new ResultData<>(handler.getAll());
-        return resultData;
+        setResult(new ResultData<>(handler.getAll()));
         
         
+    }
+    
+    
+    public void load() {
+        context.load(this.getId());
     }
     
     @SuppressWarnings("unchecked")
@@ -333,6 +285,33 @@ public class QueryObject<T extends Model<T>> extends AbstractStatement {
         }
         
         return sb.toString();
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    protected <K extends SqlNode<?, ?>> void doAttach(K node) {
+        switch (node.getType()) {
+            case NodeType.RELATION:
+                relLast = (RelationNode<QueryObject<T>, ?>) node;
+                break;
+            case NodeType.CONDITION:
+                ConditionNode<QueryObject<T>, ?, ?> whereNode = (ConditionNode<QueryObject<T>, ?, ?>) node;
+                whereRoot = whereRoot == null ? whereNode : whereRoot;
+                whereLast = whereNode;
+                break;
+            case NodeType.GROUP_BY:
+                GroupByNode<QueryObject<T>> groupByNode = (GroupByNode<QueryObject<T>>) node;
+                groupByRoot = groupByRoot == null ? groupByNode : groupByRoot;
+                break;
+            case NodeType.ORDER_BY:
+                OrderByNode<QueryObject<T>> orderByNode = (OrderByNode<QueryObject<T>>) node;
+                orderByRoot = orderByRoot == null ? orderByNode : orderByRoot;
+                break;
+            case NodeType.LIMIT:
+                LimitNode<QueryObject<T>> limitNode = (LimitNode<QueryObject<T>>) node;
+                limitRoot = limitRoot == null ? limitNode : limitRoot;
+                break;
+        }
     }
     
     

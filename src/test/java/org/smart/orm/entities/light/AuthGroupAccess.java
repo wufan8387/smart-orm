@@ -4,9 +4,8 @@ import org.smart.orm.Model;
 import org.smart.orm.annotations.Column;
 import org.smart.orm.annotations.Table;
 
-@javax.persistence.Table(name = "ocenter_auth_group_access")
 @Table("ocenter_auth_group_access")
-public class AuthGroupAccess  extends Model<AuthGroupAccess> {
+public class AuthGroupAccess extends Model<AuthGroupAccess> {
     
     @Column("uid")
     private int uid;
@@ -48,5 +47,10 @@ public class AuthGroupAccess  extends Model<AuthGroupAccess> {
     
     public void setMember(UCenterMember member) {
         this.member = member;
+    }
+    
+    @Override
+    public String toString() {
+        return uid + "-" + groupId;
     }
 }

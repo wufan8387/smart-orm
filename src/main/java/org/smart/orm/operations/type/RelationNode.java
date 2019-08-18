@@ -84,11 +84,11 @@ public class RelationNode<T extends Statement, K extends Model<K>> extends Abstr
     
     
     public RelationNode<T, K> select(PropertyGetter<K> attr) {
-        return new AttributeNode<T, K>(attr).attach(statement()).from(this);
+        return new AttributeNode<>(statement(), attr).from(this);
     }
     
     public RelationNode<T, K> select(PropertyGetter<K> attr, String alias) {
-        return new AttributeNode<T, K>(attr, alias).attach(statement()).from(this);
+        return new AttributeNode<>(statement(), attr, alias).from(this);
     }
     
     @SuppressWarnings("unchecked")

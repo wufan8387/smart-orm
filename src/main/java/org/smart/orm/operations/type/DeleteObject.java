@@ -169,12 +169,12 @@ public class DeleteObject<T extends Model<T>> extends AbstractStatement {
     
     
     @Override
-    public ResultData execute(Executor executor) {
+    public void execute(Executor executor) {
         String sql = toString();
         List<Object> params = getParams();
         System.out.println(sql);
         int cnt = executor.delete(sql, params.toArray());
-        return new ResultData<>(cnt);
+        setResult(new ResultData<>(cnt));
     }
     
     @Override

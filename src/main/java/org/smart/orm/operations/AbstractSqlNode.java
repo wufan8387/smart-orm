@@ -8,7 +8,7 @@ public abstract class AbstractSqlNode<T extends Statement, K extends SqlNode<T, 
     
     private Supplier<Object[]> params;
     
-    private T stat;
+    protected T stat;
     
     @SuppressWarnings("unchecked")
     @Override

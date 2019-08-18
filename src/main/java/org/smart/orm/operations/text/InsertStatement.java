@@ -49,7 +49,7 @@ public class InsertStatement extends AbstractStatement {
     }
     
     @Override
-    public ResultData<Map<String, Object>> execute(Executor executor) {
+    public void execute(Executor executor) {
         String sql = toString();
         System.out.println(sql);
         
@@ -63,7 +63,7 @@ public class InsertStatement extends AbstractStatement {
                 : Statement.NO_GENERATED_KEYS;
         executor.insert(sql, handler, autoGenKeys, params.toArray());
         
-        return new ResultData<>(handler.getAll());
+        setResult(new ResultData<>(handler.getAll()));
     }
     
     @SuppressWarnings("unchecked")

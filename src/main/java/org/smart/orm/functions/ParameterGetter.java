@@ -1,9 +1,9 @@
-package org.smart.orm.functions;
-
-
-@FunctionalInterface
-public interface ParameterGetter {
-    
-    Object[] get();
-    
-}
+//package org.smart.orm.functions;
+//
+//
+//@FunctionalInterface
+//public interface ParameterGetter {
+//
+//    Object[] get();
+//
+//}

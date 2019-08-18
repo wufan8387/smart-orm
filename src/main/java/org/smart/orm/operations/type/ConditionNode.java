@@ -4,7 +4,6 @@ import org.smart.orm.Model;
 import org.smart.orm.data.LogicalType;
 import org.smart.orm.data.NodeType;
 import org.smart.orm.functions.Func;
-import org.smart.orm.functions.ParameterGetter;
 import org.smart.orm.functions.PropertyGetter;
 import org.smart.orm.operations.AbstractSqlNode;
 import org.smart.orm.operations.Op;
@@ -36,7 +35,7 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
     private LogicalType logicalType = null;
     
     
-    private ParameterGetter parameterGetter;
+    private Supplier<Object[]> parameterGetter;
     
     public ConditionNode(PropertyGetter<L> leftAttr, Func<String> op, PropertyGetter<R> rightAttr) {
         this.leftAttr = leftAttr;
@@ -109,7 +108,7 @@ public class ConditionNode<T extends Statement, L extends Model<L>, R extends Mo
             , PropertyInfo attr
             , Func<String> op
             , ConditionNode<T, ?, ?> parent
-            , ParameterGetter params) {
+            , Supplier<Object[]> params) {
         this(rel, attr, op, params);
         if (parent != null)
             parent.child = this;

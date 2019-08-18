@@ -203,7 +203,7 @@ public class QueryStatement extends AbstractStatement {
     }
     
     @Override
-    public ResultData execute(Executor executor) {
+    public void execute(Executor executor) {
         String sql = toString();
         System.out.println(sql);
         
@@ -212,7 +212,7 @@ public class QueryStatement extends AbstractStatement {
         
         executor.executeQuery(sql, handler, getParams().toArray());
         
-        return new ResultData<>(handler.getAll());
+        setResult(new ResultData<>(handler.getAll()));
     }
     
     @SuppressWarnings("unchecked")

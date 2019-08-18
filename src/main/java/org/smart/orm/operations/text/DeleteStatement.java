@@ -140,12 +140,12 @@ public class DeleteStatement extends AbstractStatement {
     }
     
     @Override
-    public ResultData execute(Executor executor) {
+    public void execute(Executor executor) {
         String sql = toString();
         List<Object> params = this.getParams();
         System.out.println(sql);
         int cnt = executor.delete(sql, params.toArray());
-        return new ResultData<>(cnt);
+        setResult(new ResultData<>(cnt));
     }
     
     @Override
